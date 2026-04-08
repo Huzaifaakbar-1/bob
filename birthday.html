@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday bauni Doremon Laddu! 🎉</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Lilita+One&family=Bubblegum+Sans&family=Righteous&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --blue: #1a9be6;
+      --yellow: #FFE135;
+      --pink: #FF6B9D;
+      --green: #00D084;
+      --purple: #a855f7;
+      --orange: #FF8C42;
+      --red: #FF4757;
+      --dark: #07071a;
+      --neon: #39ff14;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Boogaloo', cursive;
+      background: var(--dark);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    #cursor {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      font-size: 26px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+
+    /* THREE.JS */
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    section {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    /* ══════════════════════════════
+       JUMPSCARE OVERLAY
+    ══════════════════════════════ */
+    #jumpscare {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: #1a9be6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #jumpscare.active {
+      pointer-events: all;
+    }
+
+    .js-dora {
+      font-size: clamp(8rem, 25vw, 20rem);
+      line-height: 1;
+      animation: jsDora .08s infinite;
+    }
+
+    @keyframes jsDora {
+      0% {
+        transform: scale(1) rotate(-5deg)
+      }
+
+      50% {
+        transform: scale(1.08) rotate(5deg)
+      }
+
+      100% {
+        transform: scale(1) rotate(-5deg)
+      }
+    }
+
+    .js-text {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(2rem, 7vw, 6rem);
+      color: #FFE135;
+      text-align: center;
+      animation: jsShake .06s infinite;
+      text-shadow: 4px 4px 0 #FF4757;
+    }
+
+    @keyframes jsShake {
+      0% {
+        transform: translateX(-8px)
+      }
+
+      50% {
+        transform: translateX(8px)
+      }
+
+      100% {
+        transform: translateX(-8px)
+      }
+    }
+
+    .js-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(1rem, 3vw, 2rem);
+      color: #fff;
+      margin-top: .8rem;
+      text-align: center;
+    }
+
+    /* MUSIC BTN */
+    .music-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 9999;
+      background: var(--pink);
+      border: none;
+      border-radius: 50px;
+      padding: .5rem 1.1rem;
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: .95rem;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 5px 22px rgba(255, 107, 157, .5);
+      animation: mPulse 1.5s infinite;
+    }
+
+    @keyframes mPulse {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.07)
+      }
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      overflow: hidden;
+      width: 100%;
+      padding: .55rem 0;
+      background: rgba(26, 155, 230, .12);
+      border-top: 2px solid rgba(26, 155, 230, .28);
+      border-bottom: 2px solid rgba(26, 155, 230, .28);
+    }
+
+    .marquee-inner {
+      display: flex;
+      animation: marqScroll 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-inner span {
+      font-family: 'Lilita One', cursive;
+      font-size: 1rem;
+      color: var(--blue);
+      padding: 0 2.5rem;
+      flex-shrink: 0;
+    }
+
+    @keyframes marqScroll {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    /* ══ S1 HERO ══ */
+    #s1 {
+      background: radial-gradient(ellipse at 30% 50%, #1a0a3e 0%, #07071a 70%);
+    }
+
+    .star-field,
+    .float-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .float-bg {
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle var(--d, 2s) infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% {
+        opacity: .1;
+        transform: scale(.6)
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.5)
+      }
+    }
+
+    .fbg-em {
+      position: absolute;
+      opacity: 0;
+      animation: floatRise var(--spd, 7s) linear var(--delay, 0s) infinite;
+    }
+
+    @keyframes floatRise {
+      0% {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: .9
+      }
+
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0
+      }
+    }
+
+    .hero-wrap {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(.8rem, 2vw, 1.2rem);
+      color: var(--yellow);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 225, 53, .3);
+      padding: .4rem 1.4rem;
+      border-radius: 50px;
+      margin-bottom: 1.4rem;
+      background: rgba(255, 225, 53, .05);
+    }
+
+    .hero-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(2.8rem, 10vw, 9rem);
+      line-height: .92;
+      background: linear-gradient(135deg, #FFE135 0%, #FF6B9D 35%, #1a9be6 65%, #00D084 100%);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: hueShift 4s linear infinite;
+      filter: drop-shadow(0 0 50px rgba(255, 107, 157, .5));
+    }
+
+    @keyframes hueShift {
+      0% {
+        background-position: 0%
+      }
+
+      100% {
+        background-position: 300%
+      }
+    }
+
+    .hero-name {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.4rem, 4vw, 3.2rem);
+      color: var(--yellow);
+      text-shadow: 0 0 40px var(--yellow);
+      animation: namePulse 1.5s ease-in-out infinite;
+      margin-top: .4rem;
+    }
+
+    @keyframes namePulse {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 12px var(--yellow))
+      }
+
+      50% {
+        filter: drop-shadow(0 0 45px var(--yellow)) drop-shadow(0 0 90px #ff6b9d)
+      }
+    }
+
+    .hero-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(.95rem, 2.5vw, 1.6rem);
+      color: rgba(255, 255, 255, .78);
+      margin-top: 1rem;
+      line-height: 1.7;
+    }
+
+    .hero-date {
+      display: inline-block;
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: #00D084;
+      border: 2px solid rgba(0, 208, 132, .35);
+      padding: .3rem 1.2rem;
+      border-radius: 50px;
+      margin-top: .8rem;
+      text-shadow: 0 0 20px #00D084;
+    }
+
+    .hero-emojis {
+      display: flex;
+      justify-content: center;
+      gap: .9rem;
+      font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      margin-top: 1.4rem;
+    }
+
+    .hero-emojis span {
+      display: inline-block;
+    }
+
+    .scroll-pill {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      color: rgba(255, 255, 255, .4);
+      font-size: .82rem;
+      font-family: 'Bubblegum Sans', cursive;
+    }
+
+    .pill-dot {
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, .25);
+      border-radius: 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .pill-dot::after {
+      content: '';
+      width: 6px;
+      height: 10px;
+      background: var(--pink);
+      border-radius: 10px;
+      animation: scrollBob 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollBob {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(12px)
+      }
+    }
+
+    /* ══ S1.5 COINCIDENCE ══ */
+    #s1b {
+      background: linear-gradient(160deg, #0a0020, #1a004a, #00020a);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .coinc-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.4rem);
+      color: var(--yellow);
+      text-align: center;
+      margin-bottom: .5rem;
+      text-shadow: 0 0 30px var(--yellow);
+    }
+
+    .coinc-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .5);
+      text-align: center;
+      font-size: .95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .coinc-cards {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .coinc-card {
+      flex: 1;
+      min-width: 230px;
+      border-radius: 22px;
+      padding: 1.8rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coinc-card.mine {
+      background: linear-gradient(135deg, rgba(255, 107, 157, .15), rgba(255, 71, 87, .12));
+      border: 2px solid rgba(255, 107, 157, .35);
+    }
+
+    .coinc-card.hers {
+      background: linear-gradient(135deg, rgba(26, 155, 230, .15), rgba(0, 208, 132, .12));
+      border: 2px solid rgba(26, 155, 230, .4);
+    }
+
+    .cc-big {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: .5rem;
+    }
+
+    .cc-name {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.4rem;
+      margin-bottom: .3rem;
+    }
+
+    .cc-date {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: 1.1rem;
+      color: var(--yellow);
+      margin-bottom: .6rem;
+    }
+
+    .cc-note {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: .9rem;
+      color: rgba(255, 255, 255, .8);
+      line-height: 1.5;
+    }
+
+    .coinc-vs {
+      font-family: 'Lilita One', cursive;
+      font-size: 3rem;
+      color: var(--pink);
+      text-shadow: 0 0 20px var(--pink);
+      align-self: center;
+    }
+
+    .coinc-bottom {
+      max-width: 680px;
+      margin-top: 2rem;
+      background: rgba(255, 225, 53, .06);
+      border: 2px solid rgba(255, 225, 53, .2);
+      border-radius: 18px;
+      padding: 1.4rem 1.8rem;
+      text-align: center;
+      font-family: 'Bubblegum Sans', cursive;
+      color: #fff;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .coinc-bottom strong {
+      color: var(--yellow);
+    }
+
+    /* ══ S2 DOREMON SCENE ══ */
+    #s2 {
+      background: linear-gradient(160deg, #87CEEB 0%, #c8f0ff 55%, #b0e4ff 100%);
+      flex-direction: column;
+      padding: 4rem 2rem 3rem;
+    }
+
+    .s2-label {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.7rem, 4.5vw, 3rem);
+      color: #0a4a7a;
+      text-align: center;
+      text-shadow: 2px 3px 0 rgba(0, 0, 0, .1);
+      margin-bottom: .5rem;
+    }
+
+    .s2-slabel {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      color: #1a6aa0;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 60px;
+      opacity: .82;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 55%;
+      height: 160%;
+      top: -80%;
+      left: 20%;
+    }
+
+    .cloud::after {
+      width: 38%;
+      height: 130%;
+      top: -65%;
+      left: 50%;
+    }
+
+    @keyframes cf1 {
+
+      0%,
+      100% {
+        transform: translateX(0)
+      }
+
+      50% {
+        transform: translateX(25px)
+      }
+    }
+
+    .scene {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dora-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dora-svg {
+      width: min(280px, 65vw);
+      filter: drop-shadow(0 22px 45px rgba(0, 0, 0, .22));
+    }
+
+    .bubble {
+      position: absolute;
+      top: -105px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: 18px;
+      padding: .75rem 1.1rem;
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(.8rem, 1.8vw, .96rem);
+      color: #222;
+      max-width: 240px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+      line-height: 1.4;
+      min-width: 175px;
+    }
+
+    .bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 9px solid transparent;
+      border-top-color: #fff;
+    }
+
+    .dora-label {
+      font-family: 'Lilita One', cursive;
+      color: #0a4a7a;
+      font-size: 1rem;
+      margin-top: .5rem;
+      text-align: center;
+    }
+
+    /* gadget bar */
+    .gadget-bar {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 2rem;
+      background: rgba(26, 155, 230, .14);
+      border: 2px solid rgba(26, 155, 230, .38);
+      border-radius: 22px;
+      padding: 1.4rem 1.8rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .gadget-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.25rem;
+      color: #0a4a7a;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .gadget-row {
+      display: flex;
+      gap: .9rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .gadget-item {
+      background: white;
+      border-radius: 14px;
+      padding: .75rem 1rem;
+      text-align: center;
+      flex: 1;
+      min-width: 110px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .gadget-item:hover {
+      transform: translateY(-8px) rotate(-3deg);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, .18);
+    }
+
+    .gadget-emoji {
+      font-size: 1.9rem;
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .gadget-name {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: .78rem;
+      color: #333;
+      line-height: 1.3;
+    }
+
+    /* height chart */
+    .height-chart {
+      width: 100%;
+      max-width: 680px;
+      margin-top: 2.5rem;
+      background: rgba(255, 255, 255, .4);
+      border-radius: 22px;
+      padding: 1.4rem 1.8rem;
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, .6);
+    }
+
+    .hc-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.25rem;
+      color: #0a4a7a;
+      margin-bottom: 1.1rem;
+      text-align: center;
+    }
+
+    .hc-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .hc-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .hc-bar {
+      width: 50px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .hc-icon {
+      font-size: 2rem;
+    }
+
+    .hc-name {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: .78rem;
+      color: #333;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .hc-note {
+      text-align: center;
+      font-family: 'Bubblegum Sans', cursive;
+      color: #555;
+      font-size: .85rem;
+      margin-top: .9rem;
+    }
+
+    /* ══ S2B DOREMON THEORY ══ */
+    #s2b {
+      background: linear-gradient(160deg, #001f5b, #003d9e, #0055cc);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s2b-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 30px rgba(26, 155, 230, .8);
+    }
+
+    .dora-facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      max-width: 980px;
+      width: 100%;
+    }
+
+    .dora-fact-card {
+      background: rgba(255, 255, 255, .08);
+      border: 2px solid rgba(26, 155, 230, .3);
+      border-radius: 18px;
+      padding: 1.3rem;
+      text-align: center;
+      transition: all .3s;
+      backdrop-filter: blur(8px);
+    }
+
+    .dora-fact-card:hover {
+      transform: scale(1.05) rotate(-1deg);
+      border-color: var(--yellow);
+      background: rgba(255, 225, 53, .1);
+    }
+
+    .dfc-icon {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: .6rem;
+    }
+
+    .dfc-title {
+      font-family: 'Lilita One', cursive;
+      color: var(--yellow);
+      font-size: 1.05rem;
+      margin-bottom: .35rem;
+    }
+
+    .dfc-text {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .88);
+      font-size: .92rem;
+      line-height: 1.55;
+    }
+
+    /* ══ S3 ROAST ══ */
+    #s3 {
+      background: linear-gradient(135deg, #0a0525, #1f0760, #08102e);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s3-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--yellow);
+      text-align: center;
+      margin-bottom: .4rem;
+      text-shadow: 0 0 40px rgba(255, 225, 53, .5);
+    }
+
+    .s3-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .45);
+      text-align: center;
+      font-size: .95rem;
+      margin-bottom: 2.6rem;
+    }
+
+    .roast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      max-width: 780px;
+      width: 100%;
+    }
+
+    .roast-card {
+      background: rgba(255, 255, 255, .055);
+      border: 1.5px solid rgba(255, 255, 255, .1);
+      border-radius: 17px;
+      padding: 1.05rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #fff;
+      font-size: clamp(.92rem, 2vw, 1.1rem);
+      font-family: 'Bubblegum Sans', cursive;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+      transition: transform .25s, border-color .25s, background .25s;
+    }
+
+    .roast-card:hover {
+      transform: translateX(10px) rotate(.5deg);
+      border-color: var(--pink);
+      background: rgba(255, 107, 157, .1);
+    }
+
+    .ri {
+      font-size: 1.9rem;
+      flex-shrink: 0;
+    }
+
+    /* ══ S3B DOREMON MSG SCROLL ══ */
+    #s3b {
+      background: linear-gradient(135deg, #1a0030, #3d0060, #1a0030);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s3b-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.7rem, 4.5vw, 3rem);
+      color: #00CFFF;
+      text-align: center;
+      margin-bottom: .4rem;
+      text-shadow: 0 0 30px #00CFFF;
+    }
+
+    .s3b-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .5);
+      text-align: center;
+      font-size: .9rem;
+      margin-bottom: 2.2rem;
+    }
+
+    .dora-scroll {
+      display: flex;
+      gap: 1.1rem;
+      overflow-x: auto;
+      padding: 1rem .5rem 1.5rem;
+      max-width: 900px;
+      width: 100%;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .dora-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .dora-scroll::-webkit-scrollbar-thumb {
+      background: var(--pink);
+      border-radius: 10px;
+    }
+
+    .drc {
+      flex: 0 0 255px;
+      scroll-snap-align: start;
+      background: rgba(0, 207, 255, .07);
+      border: 1.5px solid rgba(0, 207, 255, .22);
+      border-radius: 18px;
+      padding: 1.2rem;
+      font-family: 'Bubblegum Sans', cursive;
+      color: #fff;
+      font-size: .92rem;
+      line-height: 1.65;
+      text-align: center;
+      transition: transform .25s;
+    }
+
+    .drc:hover {
+      transform: translateY(-10px) rotate(-2deg);
+      border-color: #00CFFF;
+    }
+
+    .drc-icon {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: .6rem;
+    }
+
+    /* ══ S4 WISHES ══ */
+    #s4 {
+      background: linear-gradient(160deg, #ff4757 0%, #c0392b 100%);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s4-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2.6rem;
+      text-shadow: 3px 4px 0 rgba(0, 0, 0, .22);
+    }
+
+    .wish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.3rem;
+      max-width: 1060px;
+      width: 100%;
+    }
+
+    .wish-card {
+      background: rgba(255, 255, 255, .11);
+      border: 2px solid rgba(255, 255, 255, .18);
+      border-radius: 20px;
+      padding: 1.6rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .wish-card:hover {
+      transform: translateY(-10px) rotate(-1.5deg);
+      box-shadow: 0 28px 65px rgba(0, 0, 0, .35);
+    }
+
+    .wish-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .07), transparent);
+      pointer-events: none;
+    }
+
+    .wc-emoji {
+      font-size: 2.6rem;
+      display: block;
+      margin-bottom: .65rem;
+    }
+
+    .wc-text {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: .98rem;
+      color: rgba(255, 255, 255, .92);
+      line-height: 1.65;
+    }
+
+    .wc-from {
+      font-family: 'Lilita One', cursive;
+      font-size: .85rem;
+      color: var(--yellow);
+      margin-top: .7rem;
+      opacity: .9;
+    }
+
+    /* ══ S4B TIMELINE ══ */
+    #s4b {
+      background: linear-gradient(160deg, #0a1628, #0d2b4e, #071420);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s4b-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--yellow);
+      text-align: center;
+      margin-bottom: 3rem;
+      text-shadow: 0 0 30px var(--yellow);
+    }
+
+    .timeline {
+      max-width: 700px;
+      width: 100%;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 34px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--pink), var(--blue), var(--green));
+      border-radius: 4px;
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 1.4rem;
+      margin-bottom: 1.9rem;
+      align-items: flex-start;
+    }
+
+    .tl-dot {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      border: 3px solid rgba(255, 255, 255, .2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tl-content {
+      flex: 1;
+      background: rgba(255, 255, 255, .06);
+      border: 1.5px solid rgba(255, 255, 255, .12);
+      border-radius: 16px;
+      padding: .95rem 1.2rem;
+    }
+
+    .tl-year {
+      font-family: 'Lilita One', cursive;
+      color: var(--yellow);
+      font-size: 1.05rem;
+      margin-bottom: .25rem;
+    }
+
+    .tl-text {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .85);
+      font-size: .95rem;
+      line-height: 1.55;
+    }
+
+    /* ══ S5 BLESSINGS ══ */
+    #s5 {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s5-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2.6rem;
+      text-shadow: 0 0 30px rgba(0, 208, 132, .4);
+    }
+
+    .bless-list {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .bless-row {
+      background: rgba(255, 255, 255, .065);
+      border: 1.5px solid rgba(0, 208, 132, .22);
+      border-radius: 14px;
+      padding: .95rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      color: #fff;
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: 1.05rem;
+      transition: border-color .3s, background .3s;
+    }
+
+    .bless-row:hover {
+      background: rgba(0, 208, 132, .1);
+      border-color: var(--green);
+    }
+
+    .bi {
+      font-size: 1.65rem;
+      flex-shrink: 0;
+    }
+
+    /* ══ S6 INPUT ══ */
+    #s6 {
+      background: linear-gradient(135deg, #6f00ff, #0072ff);
+      flex-direction: column;
+      padding: 5rem 2rem;
+    }
+
+    .s6-title {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      color: #fff;
+      text-align: center;
+      margin-bottom: .4rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, .2);
+    }
+
+    .s6-sub {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .7);
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 2.2rem;
+    }
+
+    .inp-box {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.1rem;
+    }
+
+    .inp {
+      width: 100%;
+      padding: 1rem 1.6rem;
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 50px;
+      background: #fff;
+      color: #4400cc;
+      text-align: center;
+      outline: none;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .22);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .inp:focus {
+      transform: scale(1.03);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, .32);
+    }
+
+    .inp::placeholder {
+      color: rgba(0, 0, 200, .3);
+    }
+
+    .btn {
+      padding: .9rem 2.6rem;
+      font-family: 'Lilita One', cursive;
+      font-size: 1.35rem;
+      background: var(--yellow);
+      color: #5500cc;
+      border: none;
+      border-radius: 50px;
+      cursor: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+      transition: transform .2s, box-shadow .2s;
+      letter-spacing: .5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .32);
+    }
+
+    .btn:active {
+      transform: scale(.97);
+    }
+
+    .warn {
+      font-family: 'Bubblegum Sans', cursive;
+      color: rgba(255, 255, 255, .45);
+      font-size: .88rem;
+      text-align: center;
+      margin-top: .7rem;
+    }
+
+    /* ══ S7 CHAOS ══ */
+    #s7 {
+      background: #000;
+      position: relative;
+    }
+
+    .spam-field {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .sw {
+      position: absolute;
+      font-family: 'Lilita One', cursive;
+      white-space: nowrap;
+      user-select: none;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, .6);
+      opacity: 0;
+    }
+
+    .bday-big {
+      position: relative;
+      z-index: 50;
+      text-align: center;
+      display: none;
+      opacity: 0;
+      padding: 2rem;
+    }
+
+    .bday-hb {
+      font-family: 'Lilita One', cursive;
+      font-size: clamp(2.8rem, 10vw, 8.5rem);
+      background: linear-gradient(90deg, #FFE135, #FF6B9D, #00D084, #1a9be6, #FF8C42, #a855f7);
+      background-size: 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: hueShift 2s linear infinite;
+      line-height: 1;
+      filter: drop-shadow(0 0 50px rgba(255, 107, 157, .7));
+    }
+
+    .bday-nm {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(1.1rem, 3vw, 2.2rem);
+      color: #fff;
+      margin-top: .7rem;
+      text-shadow: 0 0 20px rgba(255, 255, 255, .3);
+    }
+
+    .bday-line {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(.88rem, 2vw, 1.15rem);
+      color: rgba(255, 255, 255, .6);
+      margin-top: .5rem;
+    }
+
+    .bday-emjs {
+      font-size: clamp(1.7rem, 4.5vw, 3.5rem);
+      margin-top: .9rem;
+      display: flex;
+      justify-content: center;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .cf {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #07071a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--pink);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- THREE.JS BACKGROUND -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- CURSOR -->
+  <div id="cursor">🎉</div>
+
+  <!-- ════ DOREMON JUMPSCARE OVERLAY ════ -->
+  <div id="jumpscare">
+    <div class="js-dora">🔵</div>
+    <!-- Big Doremon SVG jumpscare -->
+    <svg width="220" height="260" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"
+      style="filter:drop-shadow(0 0 60px #1a9be6);animation:jsDora .08s infinite;">
+      <circle cx="150" cy="148" r="108" fill="#1a9be6" />
+      <ellipse cx="150" cy="162" rx="82" ry="72" fill="white" />
+      <circle cx="118" cy="130" r="25" fill="white" />
+      <circle cx="182" cy="130" r="25" fill="white" />
+      <circle cx="122" cy="133" r="15" fill="#111" />
+      <circle cx="186" cy="133" r="15" fill="#111" />
+      <circle cx="127" cy="127" r="6" fill="white" />
+      <circle cx="191" cy="127" r="6" fill="white" />
+      <circle cx="150" cy="154" r="13" fill="#FF4757" />
+      <line x1="162" y1="161" x2="230" y2="148" stroke="#555" stroke-width="2.5" />
+      <line x1="162" y1="168" x2="232" y2="168" stroke="#555" stroke-width="2.5" />
+      <line x1="162" y1="175" x2="230" y2="188" stroke="#555" stroke-width="2.5" />
+      <line x1="138" y1="161" x2="70" y2="148" stroke="#555" stroke-width="2.5" />
+      <line x1="138" y1="168" x2="68" y2="168" stroke="#555" stroke-width="2.5" />
+      <line x1="138" y1="175" x2="70" y2="188" stroke="#555" stroke-width="2.5" />
+      <path d="M 116 192 Q 150 220 184 192" stroke="#555" stroke-width="3" fill="none" stroke-linecap="round" />
+      <rect x="87" y="225" width="126" height="20" rx="10" fill="#FF4757" />
+      <circle cx="150" cy="239" r="10" fill="#FFE135" />
+      <ellipse cx="150" cy="312" rx="100" ry="80" fill="#1a9be6" />
+      <ellipse cx="150" cy="320" rx="70" ry="58" fill="white" />
+      <ellipse cx="150" cy="330" rx="44" ry="24" fill="none" stroke="#ddd" stroke-width="2" />
+      <ellipse cx="55" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(-16 55 296)" />
+      <ellipse cx="245" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(16 245 296)" />
+      <circle cx="46" cy="344" r="22" fill="white" />
+      <circle cx="254" cy="344" r="22" fill="white" />
+      <ellipse cx="116" cy="387" rx="40" ry="17" fill="white" />
+      <ellipse cx="184" cy="387" rx="40" ry="17" fill="white" />
+    </svg>
+    <div class="js-text">BOO! MAIN DOREMON HOON! 🔵</div>
+    <div class="js-sub">
+      <!-- ★ Humema: Replace [Humema] below ★ -->
+      [Humema] ko birthday mubarak! 🎂<br>
+      <small style="color:rgba(255,255,255,.6);font-size:.85rem;">Darr gayi? Shukar hai tujhse lamba hoon! 😂</small>
+    </div>
+  </div>
+
+  <!-- MUSIC BUTTON -->
+  <!--
+  ╔═══════════════════════════════════════════════════╗
+  ║  🎵 SONG SETUP — READ THIS!                       ║
+  ║  Song: youtube.com/watch?v=BXbw2joR5j8            ║
+  ║  1. Download as MP3 (any yt-to-mp3 site)          ║
+  ║  2. Save as "birthday_song.mp3" — same folder     ║
+  ║  3. Remove the comment markers around audio tag   ║
+  ╚═══════════════════════════════════════════════════╝
+-->
+  <audio id="bgMusic" loop>
+  <source src="birthday_song.mp3" type="audio/mpeg">
+</audio> 
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵 Gaana Chalao!</button>
+
+  <!-- ═══ S1: HERO ═══ -->
+  <section id="s1">
+    <div class="star-field" id="starField"></div>
+    <div class="float-bg" id="floatBg"></div>
+    <div class="hero-wrap">
+      <div class="hero-tag" id="heroTag">⚠️ KHABARDAR — BIRTHDAY EMERGENCY HAI ⚠️</div>
+      <h1 class="hero-title" id="heroTitle">ARE YAAR!<br>PHIR SE<br>BADI HO<br>GAYI?!</h1>
+      <!-- ★ Replace [Humema] below with her real name ★ -->
+      <div class="hero-name" id="heroName">✨ [Humema] ✨<br><span
+          style="font-size:clamp(.9rem,2vw,1.3rem);color:var(--pink);font-family:'Bubblegum Sans',cursive;">aka Doremon
+          Laddu 🔵</span></div>
+      <p class="hero-sub" id="heroSub">
+        Doremon Laddu &nbsp;•&nbsp; Bauni &nbsp;•&nbsp; Pagal &nbsp;•&nbsp; Legend 💀<br>
+        Duniya ki sabse choti aur sabse zor se bolne wali 😂
+      </p>
+      <div class="hero-date" id="heroDate">🎂 18 January 2007 — Official Bauni Day 🎂</div>
+      <div class="hero-emojis" id="heroEmj">
+        <span>🎂</span><span>🎉</span><span>🥳</span><span>🔵</span><span>🎊</span><span>💀</span><span>🎈</span>
+      </div>
+    </div>
+    <div class="scroll-pill">
+      <div class="pill-dot"></div>
+      <span>neeche scroll kar bestie 👇</span>
+    </div>
+  </section>
+
+  <!-- ═══ S1B: 16 vs 18 COINCIDENCE ═══ -->
+  <section id="s1b">
+    <div class="coinc-title" id="coinc-title">😱 Yeh Coincidence Hai Ya Conspiracy? 😱</div>
+    <div class="coinc-sub" id="coinc-sub">(scientific research ke baad yeh facts saamne aaye hain)</div>
+    <div class="coinc-cards" id="coincCards">
+      <div class="coinc-card mine">
+        <span class="cc-big">😎</span>
+        <div class="cc-name" style="color:var(--pink);">Chikoo / Huzaifa<br><small
+            style="font-size:.75rem;opacity:.7;"></small></div>
+        <div class="cc-date">📅 16 January 2007</div>
+        <div class="cc-note">Normal insaan. Seedha seedha paida hua. Koi drama nahi. Bus 16 tarikh ko. Quietly.
+          Professionally. 😌</div>
+      </div>
+      <div class="coinc-vs">VS</div>
+      <!-- ★ Replace [Humema] below ★ -->
+      <div class="coinc-card hers">
+        <span class="cc-big">🔵</span>
+        <div class="cc-name" style="color:var(--blue);">[Humema]<br><small
+            style="font-size:.75rem;opacity:.7;">(Doremon Laddu)</small></div>
+        <div class="cc-date">📅 18 January 2007</div>
+        <div class="cc-note">Duniya ko prepare karne ke liye 2 din ka time chahiye tha. Isliye 18 ko aayi. Kam se kam
+          dramatic entrance toh tha. 💀</div>
+      </div>
+    </div>
+    <div class="coinc-bottom" id="coincBottom">
+      <strong>USSSI SAAL. USSSI MAHEENE. 2 DIN KE FARQ SE.</strong><br><br>
+      Matlab? Hum dono January 2007 ke products hain 😂<br>
+      Main 16 ko launch hua — <strong>beta version.</strong><br>
+      <!-- ★ Replace [Humema] below ★ -->
+      Woh 2 din baad aayi — <strong>full chaos edition with extra bugs. 🔵</strong><br><br>
+      <span style="color:var(--green);">Theory yeh hai ke Allah ne mujhe pehle banaya,<br>
+        phir socha "yeh toh boring hai" aur [Humema] ko bheja. 💀😭</span><br><br>
+      <span style="font-size:.88rem;color:rgba(255,255,255,.55);">P.S. Doremon bhi January mein paida hua tha. Yeh sab
+        planned tha.</span>
+    </div>
+  </section>
+
+  <!-- ═══ S2: DOREMON SCENE ═══ -->
+  <section id="s2">
+    <div class="cloud" style="width:175px;height:53px;top:8%;left:3%;animation:cf1 9s ease-in-out infinite;"></div>
+    <div class="cloud" style="width:135px;height:42px;top:13%;right:6%;animation:cf1 13s ease-in-out infinite reverse;">
+    </div>
+    <div class="cloud" style="width:105px;height:33px;top:4%;right:26%;animation:cf1 7s ease-in-out infinite;"></div>
+
+    <div class="s2-label" id="s2label">🔵 Teri Spirit Animal — Doremon 🔵</div>
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s2-slabel">(aur nickname — Doremon Laddu — because [Humema] = Doremon + Gol = Laddu 💀)</div>
+
+    <div class="marquee-wrap">
+      <div class="marquee-inner">
+        <span>🔵 DOREMON KI POCKET SE KYA NIKLEGA?</span><span>📏 Height Gadget?</span><span>🎂 Birthday
+          Cake?</span><span>😂 Ek Aur Roast?</span><span>💀 Bauni Certificate?</span><span>🔵 ANYWHERE
+          DOOR?</span><span>🎉 Laddu ka Birthday?</span><span>🔵 DOREMON KI POCKET SE KYA NIKLEGA?</span><span>📏 Height
+          Gadget?</span><span>🎂 Birthday Cake?</span><span>😂 Ek Aur Roast?</span><span>💀 Bauni
+          Certificate?</span><span>🔵 ANYWHERE DOOR?</span><span>🎉 Laddu ka Birthday?</span>
+      </div>
+    </div>
+
+    <div class="scene">
+      <!-- DOREMON -->
+      <div class="dora-wrap" id="doraWrap">
+        <div class="bubble" id="bubble">Yaar phir badi ho gayi? 😩</div>
+        <svg class="dora-svg" id="doraSvg" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+          <!-- party hat -->
+          <polygon points="150,0 110,70 190,70" fill="#FF6B9D" />
+          <ellipse cx="150" cy="70" rx="40" ry="13" fill="#FF4757" />
+          <circle cx="150" cy="0" r="9" fill="#FFE135" />
+          <line x1="127" y1="32" x2="136" y2="44" stroke="white" stroke-width="2.5" />
+          <line x1="170" y1="26" x2="174" y2="38" stroke="white" stroke-width="2.5" />
+          <line x1="152" y1="50" x2="147" y2="38" stroke="white" stroke-width="2.5" />
+          <!-- head -->
+          <circle cx="150" cy="148" r="108" fill="#1a9be6" />
+          <ellipse cx="150" cy="162" rx="82" ry="72" fill="white" />
+          <!-- eyes -->
+          <circle cx="118" cy="130" r="25" fill="white" />
+          <circle cx="182" cy="130" r="25" fill="white" />
+          <circle cx="122" cy="133" r="15" fill="#222" />
+          <circle cx="186" cy="133" r="15" fill="#222" />
+          <circle cx="127" cy="127" r="6" fill="white" />
+          <circle cx="191" cy="127" r="6" fill="white" />
+          <!-- nose -->
+          <circle cx="150" cy="154" r="13" fill="#FF4757" />
+          <!-- whiskers -->
+          <line x1="162" y1="161" x2="230" y2="148" stroke="#555" stroke-width="2.5" />
+          <line x1="162" y1="168" x2="232" y2="168" stroke="#555" stroke-width="2.5" />
+          <line x1="162" y1="175" x2="230" y2="188" stroke="#555" stroke-width="2.5" />
+          <line x1="138" y1="161" x2="70" y2="148" stroke="#555" stroke-width="2.5" />
+          <line x1="138" y1="168" x2="68" y2="168" stroke="#555" stroke-width="2.5" />
+          <line x1="138" y1="175" x2="70" y2="188" stroke="#555" stroke-width="2.5" />
+          <!-- smile -->
+          <path d="M 116 192 Q 150 222 184 192" stroke="#555" stroke-width="3" fill="none" stroke-linecap="round" />
+          <!-- birthday balloon held -->
+          <line x1="242" y1="244" x2="258" y2="182" stroke="#FF6B9D" stroke-width="2" />
+          <ellipse cx="258" cy="172" rx="14" ry="18" fill="#FF6B9D" />
+          <!-- collar -->
+          <rect x="87" y="225" width="126" height="20" rx="10" fill="#FF4757" />
+          <circle cx="150" cy="239" r="10" fill="#FFE135" />
+          <!-- body -->
+          <ellipse cx="150" cy="316" rx="100" ry="82" fill="#1a9be6" />
+          <ellipse cx="150" cy="324" rx="70" ry="60" fill="white" />
+          <!-- pocket with dorayaki -->
+          <ellipse cx="150" cy="336" rx="46" ry="27" fill="none" stroke="#ddd" stroke-width="2" />
+          <circle cx="140" cy="334" r="10" fill="#e6a817" opacity=".9" />
+          <circle cx="158" cy="332" r="8" fill="#e6a817" opacity=".75" />
+          <!-- arms -->
+          <ellipse cx="55" cy="300" rx="20" ry="54" fill="#1a9be6" transform="rotate(-16 55 300)" />
+          <ellipse cx="245" cy="300" rx="20" ry="54" fill="#1a9be6" transform="rotate(16 245 300)" />
+          <circle cx="46" cy="348" r="22" fill="white" />
+          <circle cx="254" cy="348" r="22" fill="white" />
+          <!-- feet -->
+          <ellipse cx="116" cy="396" rx="40" ry="17" fill="white" />
+          <ellipse cx="184" cy="396" rx="40" ry="17" fill="white" />
+          <!-- "18" birthday sign held by left hand -->
+          <rect x="10" y="330" width="52" height="30" rx="8" fill="white" opacity=".92" />
+          <text x="36" y="352" font-family="Arial" font-weight="bold" font-size="18" fill="#FF4757"
+            text-anchor="middle">18! 🎂</text>
+        </svg>
+        <!-- ★ Replace [Humema] below ★ -->
+        <div class="dora-label">Doremon Laddu = [Humema] 🔵</div>
+      </div>
+    </div>
+
+    <!-- GADGET BAR -->
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="gadget-bar" id="gadgetBar">
+      <div class="gadget-title">🎩 Doremon Ki Pocket — [Humema] Ke Birthday Gifts</div>
+      <div class="gadget-row">
+        <div class="gadget-item"><span class="gadget-emoji">📏</span>
+          <div class="gadget-name">Height +15cm<br><small style="color:#999;">(urgent case hai 💀)</small></div>
+        </div>
+        <div class="gadget-item"><span class="gadget-emoji">🌀</span>
+          <div class="gadget-name">Anywhere Door<br><small style="color:#999;">(roast se bhaagna)</small></div>
+        </div>
+        <div class="gadget-item"><span class="gadget-emoji">🔔</span>
+          <div class="gadget-name">Small Light<br><small style="color:#999;">(woh bhi choti hai)</small></div>
+        </div>
+        <div class="gadget-item"><span class="gadget-emoji">🍩</span>
+          <div class="gadget-name">Dorayaki Infinite<br><small style="color:#999;">(khao, moti mati)</small></div>
+        </div>
+        <div class="gadget-item"><span class="gadget-emoji">💊</span>
+          <div class="gadget-name">Anti-Pagal Pill<br><small style="color:#999;">(nahi legi woh 😂)</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEIGHT CHART -->
+    <div class="height-chart" id="heightChart">
+      <div class="hc-title">📏 Aik Scientific Study — By Doremon Research Lab 2007</div>
+      <div class="hc-row">
+        <div class="hc-item">
+          <div class="hc-icon">🦒</div>
+          <div class="hc-bar" id="hbA" style="height:0;background:linear-gradient(180deg,#f5c842,#e6a817);"></div>
+          <div class="hc-name">Normal<br>Insaan</div>
+        </div>
+        <div class="hc-item">
+          <div class="hc-icon">🔵</div>
+          <div class="hc-bar" id="hbB" style="height:0;background:linear-gradient(180deg,#1a9be6,#0e6faa);"></div>
+          <div class="hc-name">Doremon<br>🤖</div>
+        </div>
+        <div class="hc-item">
+          <div class="hc-icon">📱</div>
+          <div class="hc-bar" id="hbBB" style="height:0;background:linear-gradient(180deg,#aaa,#666);"></div>
+          <div class="hc-name">Door ka<br>Handle</div>
+        </div>
+        <!-- ★ Replace [Humema] below ★ -->
+        <div class="hc-item">
+          <div class="hc-icon">😂</div>
+          <div class="hc-bar" id="hbC" style="height:0;background:linear-gradient(180deg,#FF6B9D,#d6006b);"></div>
+          <div class="hc-name">[Humema]<br>Laddu 💀</div>
+        </div>
+        <div class="hc-item">
+          <div class="hc-icon">🍬</div>
+          <div class="hc-bar" id="hbD" style="height:0;background:linear-gradient(180deg,#FFE135,#e6a817);"></div>
+          <div class="hc-name">Actual<br>Laddu 😭</div>
+        </div>
+      </div>
+      <div class="hc-note">* Doremon ne khud measure kiya. Phir pocket mein chala gaya. Woh bhi ro raha tha. 💀</div>
+    </div>
+  </section>
+
+  <!-- ═══ S2B: DOREMON BAUNI THEORY ═══ -->
+  <section id="s2b">
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s2b-title" id="s2bt">🔵 [Humema] = Doremon Laddu — Proof 🔵</div>
+    <div class="dora-facts-grid" id="doraFactsGrid">
+      <!-- ★ Replace [Humema] in all cards below ★ -->
+      <div class="dora-fact-card"><span class="dfc-icon">📏</span>
+        <div class="dfc-title">HEIGHT THEORY</div>
+        <div class="dfc-text">Doremon chhota hai. [Humema] chhhoti hai. Science kehta hai yeh "bauni twins phenomena"
+          hai. Journal mein chhap chuka hai. 💀</div>
+      </div>
+      <div class="dora-fact-card"><span class="dfc-icon">🔵</span>
+        <div class="dfc-title">NEEL RANG ENERGY</div>
+        <div class="dfc-text">Doremon neela hai. [Humema] ki energy pure electric chaos hai. Dono same vibe — neela +
+          dhamaka = Doremon Laddu. 🌀</div>
+      </div>
+      <div class="dora-fact-card"><span class="dfc-icon">🎩</span>
+        <div class="dfc-title">POCKET THEORY</div>
+        <div class="dfc-text">Doremon ki pocket mein sab kuch hai. [Humema] ke dimaag mein sab kuch hai — mostly
+          roasts aur drama. Same same. 😂</div>
+      </div>
+      <div class="dora-fact-card"><span class="dfc-icon">😍</span>
+        <div class="dfc-title">CUTE BUT KHATARNAK</div>
+        <div class="dfc-text">Doremon cute lagta hai magar ek baar shuru ho toh ruktaa nahi. [Humema] bilkul wahi hai.
+          Darr ke raho. 💀</div>
+      </div>
+      <div class="dora-fact-card"><span class="dfc-icon">🍩</span>
+        <div class="dfc-title">DORAYAKI RULE</div>
+        <div class="dfc-text">Doremon ko dorayaki se rokna namumkin hai. [Humema] ko khaane se rokna namumkin hai. Ek
+          hi cheez hai bas alag naam se. 😭</div>
+      </div>
+      <div class="dora-fact-card"><span class="dfc-icon">👑</span>
+        <div class="dfc-title">FINAL VERDICT</div>
+        <div class="dfc-text">[Humema] IS Doremon. Gol hai toh Laddu bhi. Dono mein cheez wahi hai — choti size, badi
+          personality, aur zero height. 👑</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S3: ROAST ═══ -->
+  <section id="s3">
+    <div class="s3-title" id="s3t">🔥 Roast Files — Approved by Doremon 🔥</div>
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s3-sub" id="s3sub">(Doremon ne pocket se nikaala, [Humema] ne permission di — so here we go 🌚)</div>
+    <div class="roast-list" id="roastList">
+      <div class="roast-card"><span class="ri">📏</span><span>Woh itni chhhoti hai ke seedhi khadi hoti hai toh bhi log
+          poochte hain "baith kya rahi ho?" 😭</span></div>
+      <div class="roast-card"><span class="ri">🪑</span><span>Chair pe baithe toh paon zameen tak nahi pohonchte.
+          Jhoolti rehti hai. Doremon ne iske liye step stool banaya — woh bhi chhota nikla. 💀</span></div>
+      <div class="roast-card"><span class="ri">🌧️</span><span>Barish mein bina chhata ke bhar jaati hai — paani uske
+          sar ke oopar se guzar jaata hai seedha. Clouds bhi respect karte hain is bauni ko. 😂</span></div>
+      <!-- ★ Replace [Humema] below ★ -->
+      <div class="roast-card"><span class="ri">🔵</span><span>Doremon ne pehli baar [Humema] ko dekha toh socha "yaar
+          yeh meri relative hai kya?" — itna resemblance tha. Woh ab bhi deny kar raha hai. 😭</span></div>
+      <div class="roast-card"><span class="ri">🎢</span><span>Roller coaster ride pe sign likha tha "is se lamba hona
+          zaroori hai." Usne sign khincha aur bola "Doremon! Koi gadget?" 😤</span></div>
+      <div class="roast-card"><span class="ri">👀</span><span>Bheed mein ghoom jaati hai. Search party banti hai. Teez
+          awaaz aati hai. Woh wahan se hi bol rahi thi. Sab ke saamne. Seedhe saamne. Kissi ko dikhi nahi. 💀</span>
+      </div>
+      <div class="roast-card"><span class="ri">🧠</span><span>IQ level zabardast hai. 90% dimaag height defend karne
+          mein lagta hai. Baaki 10% se poori personality chalti hai. Honestly impressive. 👑</span></div>
+      <div class="roast-card"><span class="ri">🌀</span><span>Iska pagal energy level Doremon ki pocket ki capacity se
+          bada hai. Scientists confuse hain. Physics ke laws nahi lagte. 😱</span></div>
+      <div class="roast-card"><span class="ri">🍬</span><span>Naam "Laddu" kyun? Kyunki Laddu bhi gol hota hai, meetha
+          hota hai, aur ek baar uthao toh chhhota lage magar andar se bhara hua hota hai. Ekdum sahi compare hai.
+          😂</span></div>
+      <div class="roast-card"><span class="ri">🎂</span><span>18 jan ko paida hui — 2 din baad Chikoo ke baad. Allah ne
+          socha "yaar beta version thora boring tha, full chaos edition laao." Toh [Humema] aayi. 💀</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ S3B: DOREMON KI BAATEIN ═══ -->
+  <section id="s3b">
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s3b-title" id="s3bt">🔵 Agar Doremon [Humema] Se Milta... 🔵</div>
+    <div class="s3b-sub">(sideways scroll karo — haan waise hi jaise tum life mein karti ho 😂)</div>
+    <div class="dora-scroll" id="doraScroll">
+      <!-- ★ Replace [Humema] in all cards ★ -->
+      <div class="drc"><span class="drc-icon">🔵</span>"[Humema]! Tujhe height gadget chahiye ya attitude wala? Kyunki
+        attitude toh already record todne wala hai." 😩</div>
+      <div class="drc"><span class="drc-icon">🎩</span>"Maine poori pocket khaali kar di. Height gadget nahi mila.
+        Shayad tujhe bina gadget ke hi jeena hai. Be strong Laddu." 😭</div>
+      <div class="drc"><span class="drc-icon">🍩</span>"Dorayaki khayegi? Teri height nahi badhegi but doono khush
+        honge. Deal pakki. Deal PAKKI." 🤝</div>
+      <div class="drc"><span class="drc-icon">🌀</span>"Anywhere Door se kahan jaayegi? Woh jagah bhi teri height nahi
+        badhayegi. GPS check kiya. Trust me." 💀</div>
+      <div class="drc"><span class="drc-icon">😂</span>"Tu aur main dono chhote hain. But main robot hoon, mera excuse
+        hai. Tera? Kya excuse hai? Bata." 😤</div>
+      <div class="drc"><span class="drc-icon">💙</span>"Happy Birthday Laddu! 18 saal ki ho gayi. Pocket mein sari
+        duayein hain. Sab poori hongi. Height wali bhi try karunga." 🎉</div>
+      <div class="drc"><span class="drc-icon">🎂</span>"10 layer ka cake order kiya — teri height se lamba. Is saal ke
+        liye kaam chal sakta hai. Agli saal dekhenge." 😌</div>
+    </div>
+  </section>
+
+  <!-- ═══ S4: BIRTHDAY WISHES ═══ -->
+  <section id="s4">
+    <div class="s4-title" id="s4t">🌟 Birthday Wishes — Dosto Ki Taraf Se 🌟</div>
+    <div class="s1-title mb-4" id="s4t">Sab me Hee ho hehe</div>
+    <div class="wish-grid" id="wishGrid">
+      <!-- ★ Replace [Humema] throughout ★ -->
+      <div class="wish-card"><span class="wc-emoji">🎂</span>
+        <p class="wc-text">Teri cake utni lamba ho jitna tujhe apni height chahiye thi. 10 floor ka cake. Doremon ne
+          order kiya. Enjoy Laddu! 🎉</p>
+        <div class="wc-from">— Chikoo Pathan Pgl 🤙</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">🤑</span>
+        <p class="wc-text">Bank balance tumhari height se zyada bade — jo ke honestly mushkil nahi hai but hum dil se
+          dua kar rahe hain 💅</p>
+        <div class="wc-from">— Huzaifa 😂</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">🔵</span>
+        <p class="wc-text">Doremon ki pocket se tujhe woh cheez mile jo tune sab se zyada maangi hai. Aur nahi toh
+          dorayaki toh milega hi. 🔮</p>
+        <div class="wc-from">— Pathan 😭</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">😂</span>
+        <p class="wc-text">Har saal utna hi pagal, utna hi loud, utna hi Laddu wali energy — yaar kabhi mat badalna.
+          Bilkul mat. Seriously. 🔥</p>
+        <div class="wc-from">— Chikoo 💀</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">💕</span>
+        <p class="wc-text">Height mein chhoti, dil mein ZABARDAST badi — kisi ke paas itni jagah nahi dil mein jitni
+          teri hai 🥺</p>
+        <div class="wc-from">— Huzaifa & Pathan 💙</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">👑</span>
+        <p class="wc-text">Legend. Icon. Sab se gol. Sab se pagal. Sab se pyaari. Doremon Laddu Supreme. Eid Mubarak
+          nahi — BIRTHDAY MUBARAK! 👸</p>
+        <div class="wc-from">— Chikoo Pathan Pgl Huzaifa 🎊</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">🎊</span>
+        <p class="wc-text">Tujhse 2 din pehle paida hua — aur abhi tak tujhse zyada sama nahi aya. Tu hi full update hai
+          yaar. Respect. 💯</p>
+        <div class="wc-from">— Chikoo (the beta version) 😂</div>
+      </div>
+      <div class="wish-card"><span class="wc-emoji">🌟</span>
+        <p class="wc-text">18 saal ki ho gayi Laddu! Ab legally badi ho. Practically... hum sab ki tarf se — NEVER
+          CHANGE. Never. 💙</p>
+        <div class="wc-from">— Sab dost mila ke 🥳</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S4B: TIMELINE ═══ -->
+  <section id="s4b">
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s4b-title" id="s4bt">📅 [Humema] Ki Epic Zindagi — Timeline 📅</div>
+    <div class="timeline" id="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#FFE135,#ff9800);">🍼</div>
+        <div class="tl-content">
+          <div class="tl-year">18 January 2007 — Shuruaat</div>
+          <div class="tl-text">Paida hui. Chhoti thi. Docter ne chart dekha — "height thodi kam hai." Nurse ne calendar
+            dekha — "2 din pehle Chikoo aya tha. January 2007 hectic month tha." 👶</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#1a9be6,#0055ff);">🔵</div>
+        <div class="tl-content">
+          <div class="tl-year">Bachpan — Doremon Discovery</div>
+          <div class="tl-text">Doremon dekha TV pe. Seedha bol diya "yeh main hoon." Kisi ne argue nahi kiya. Sab jaante
+            the sach kya tha. Research confirms: Doremon Laddu era begin. 🔵</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#FF6B9D,#FF4757);">📏</div>
+        <div class="tl-content">
+          <div class="tl-year">School ke Din — Height Controversy</div>
+          <div class="tl-text">Height chart pe naam dekhna — pehle column hamesha uska hota tha. Physics teacher ne bola
+            "gravity zyada laga rahi hai tumpe." Woh agree kar gayi. 😭</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#a855f7,#6f00ff);">🌀</div>
+        <div class="tl-content">
+          <div class="tl-year">Pagal Era — Full Activated</div>
+          <div class="tl-text">Officially "Pagal" designation mili. Bauni + Pagal = deadliest combo. Scientists abhi tak
+            samajh nahi paaye. Doremon ne ek report likhi aur pocket mein chhupayi. 😂</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#00D084,#008050);">👑</div>
+        <div class="tl-content">
+          <div class="tl-year">18 January 2025 — AAJKA DIN!</div>
+          <div class="tl-text">18 saal. Still bauni. Still pagal. Still Doremon Laddu. Still the most iconic person in
+            the room — bhale hi woh room mein sab se chhhoti ho. HAPPY BIRTHDAY [Humema]! 🎉🎉🎉</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S5: BLESSINGS ═══ -->
+  <section id="s5">
+    <!-- ★ Replace [Humema] below ★ -->
+    <div class="s5-title" id="s5t">🙏 Sachchi Duayein — Thori Serious, Thori Nahi 🙏</div>
+    <div class="bless-list" id="blessList">
+      <div class="bless-row"><span class="bi">💰</span>Rizq aur rizz — dono aayein. Ek hi saal mein. Please Allah. Hum
+        sab mil ke maang rahe hain. 😌</div>
+      <div class="bless-row"><span class="bi">❤️</span>Mohabbat milni chahiye — bilkul waise jaise Doremon ko Nobita
+        milta hai. Unconditionally. Hamesha. 🔵</div>
+      <div class="bless-row"><span class="bi">🛡️</span>Allah tumhein sehat, khushi aur lambi zindagi de — aur height
+        bhi de thori. Ameen. Ameen. AMEEN. 🤲</div>
+      <div class="bless-row"><span class="bi">✨</span>Teri chamak itni ho ke logon ko sunglasses chahiye — including
+        Doremon. Woh already ready hai. ☀️</div>
+      <!-- ★ Replace [Humema] below ★ -->
+      <div class="bless-row"><span class="bi">🧠</span>Sab goals poore hon is saal — career, life, sab. Sirf height wala
+        goal... thori extra dua lagegi. 😭</div>
+      <div class="bless-row"><span class="bi">🔵</span>Doremon ki pocket ki tarah tere liye hamesha kuch na kuch
+        available rahe. Mushkil mein gadget mile. 💙</div>
+      <div class="bless-row"><span class="bi">🚀</span>Yeh saal tera sab se unhinged, sab se successful, sab se pagal,
+        sab se legendary saal ho. Doremon guarantee kar raha hai. 🔥</div>
+      <div class="bless-row"><span class="bi">💙</span>Chikoo Pathan Huzaifa😂 ki taraf se tujhe
+        sab se pyaari duayein. Dil se. Seriously. 🤲</div>
+      <div class="bless-row"><span class="bi">🤲</span>Jitni chhhoti ho, utni hi badi dua hai. Allah kare teri zindagi
+        mein khushiyan itni ho ke pocket mein na samayein. 💙</div>
+    </div>
+  </section>
+
+  <!-- ═══ S6: INPUT ═══ -->
+  <section id="s6">
+    <div class="s6-title" id="s6t">🎤 Apna Naam Daal!</div>
+    <div class="s6-sub" id="s6sub">Doremon ready hai. Chaos ready hai. Tu ready hai? 👀</div>
+    <div class="inp-box">
+      <input class="inp" id="nameInp" type="text" placeholder="Apna naam yahan likho..." />
+      <button class="btn" id="goBtn">DOREMON CHAOS UNLEASH KAR! 🔵🌀</button>
+      <p class="warn">⚠️ Warning: hassi, aansoo, dorayaki craving aur full birthday spam ho sakti hai</p>
+    </div>
+  </section>
+
+  <!-- ═══ S7: CHAOS + BIRTHDAY ═══ -->
+  <section id="s7">
+    <div class="spam-field" id="spamField"></div>
+    <div class="bday-big" id="bdayBig">
+      <div class="bday-emjs">🎉🎊🥳🎈🎂💫🔵</div>
+      <div class="bday-hb">HAPPY<br>BIRTHDAY!</div>
+      <!-- ★ Replace [Humema] below ★ -->
+      <div class="bday-nm" id="bdayNm">[Humema] — DOREMON LADDU BAUNI! 💙🔵</div>
+      <div class="bday-line">
+        Sab se chhhoti. Sab se loud. Sab se pagal.<br>
+        Sab se pyaari Doremon Laddu — Jan 18, 2007 🎂<br>
+        Hum tujhe waise hi chahte hain jaise hai. 💙
+      </div>
+      <div class="bday-emjs" style="margin-top:1rem;">🌟💥✨🔥👑😂🔵🎊</div>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ═══════════ THREE.JS PARTICLES ═══════════ */
+    (function () {
+      const canvas = document.getElementById('three-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
+      const count = 1600;
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(count * 3);
+      const cols = new Float32Array(count * 3);
+      const PCOLS = [[1, .42, .62], [.10, .61, .90], [1, .88, .21], [0, .82, .52], [.66, .33, .97]];
+      for (let i = 0; i < count; i++) {
+        pos[i * 3] = (Math.random() - .5) * 28;
+        pos[i * 3 + 1] = (Math.random() - .5) * 28;
+        pos[i * 3 + 2] = (Math.random() - .5) * 28;
+        const c = PCOLS[Math.floor(Math.random() * PCOLS.length)];
+        cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+      const mat = new THREE.PointsMaterial({ size: .06, vertexColors: true, transparent: true, opacity: .8 });
+      const points = new THREE.Points(geo, mat);
+      scene.add(points);
+      let scrollY = 0, mx = 0, my = 0;
+      window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+      document.addEventListener('mousemove', e => { mx = (e.clientX / window.innerWidth - .5) * 2; my = -(e.clientY / window.innerHeight - .5) * 2; });
+      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+      (function animate() {
+        requestAnimationFrame(animate);
+        const t = Date.now() * .0004;
+        points.rotation.y = t * .18 + mx * .08;
+        points.rotation.x = t * .09 + my * .05;
+        points.position.y = -scrollY * .003;
+        renderer.render(scene, camera);
+      })();
+    })();
+
+    /* ═══════════ DOREMON JUMPSCARE ═══════════ */
+    /* Fires after 1.5s on page load — Doremon JUMPS at you! */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const js = document.getElementById('jumpscare');
+        js.classList.add('active');
+        // BIG entrance
+        gsap.to(js, {
+          opacity: 1, duration: .05, ease: 'none', onComplete: () => {
+            // shake screen
+            gsap.to('body', { x: 12, duration: .05, yoyo: true, repeat: 8, ease: 'none' });
+            // hold for 2.2s then fade out
+            setTimeout(() => {
+              gsap.to(js, {
+                opacity: 0, scale: 1.3, duration: .4, ease: 'power2.in', onComplete: () => {
+                  js.classList.remove('active');
+                  js.style.pointerEvents = 'none';
+                }
+              });
+            }, 2200);
+          }
+        });
+      }, 1500);
+    });
+
+
+
+    //music
+
+let musicOn = false;
+const songs = [
+  "birthday_song.mp3",   // 1st song
+  "second_song.mp3",     // 2nd song
+  "third_song.mp3"       // 3rd song
+];
+let currentSong = 0;
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicBtn');
+
+audio.addEventListener('ended', () => {
+  if (!musicOn) return; // if paused, do nothing
+
+  if (currentSong < songs.length - 1) {
+    currentSong++;
+    audio.src = songs[currentSong];
+    audio.play();
+  } else {
+    // loop the last song only
+    audio.src = songs[currentSong];
+    audio.play();
+  }
+});
+
+function toggleMusic() {
+  if (!audio) {
+    btn.textContent = '🎵 Pehle MP3 daalo!';
+    btn.style.background = '#FF4757';
+    setTimeout(() => { 
+      btn.textContent = '🎵 Gaana Chalao!'; 
+      btn.style.background = ''; 
+    }, 2500);
+    return;
+  }
+
+  if (musicOn) {
+    audio.pause();
+    btn.textContent = '🎵 Gaana Chalao!';
+    musicOn = false;
+  } else {
+    audio.src = songs[currentSong];
+    audio.play();
+    btn.textContent = '⏸ Rokna Hai?';
+    musicOn = true;
+  }
+}
+    /* ═══════════ CURSOR ═══════════ */
+    const cur = document.getElementById('cursor');
+    const CEMJ = ['🎉', '🎊', '🥳', '🎈', '💫', '✨', '🔥', '💀', '😂', '🔵', '👑', '🌀', '🎂', '😭', '😤'];
+    document.addEventListener('mousemove', e => { gsap.to(cur, { x: e.clientX, y: e.clientY, duration: .12, ease: 'power2.out' }); });
+    setInterval(() => { cur.textContent = CEMJ[Math.floor(Math.random() * CEMJ.length)]; }, 750);
+
+    /* ═══════════ STARS ═══════════ */
+    const sf = document.getElementById('starField');
+    for (let i = 0; i < 160; i++) {
+      const s = document.createElement('div'); s.className = 'star';
+      s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${2 + Math.random() * 4}px;height:${2 + Math.random() * 4}px;--d:${1.5 + Math.random() * 3}s;animation-delay:${Math.random() * 4}s;`;
+      sf.appendChild(s);
+    }
+
+    /* ═══════════ FLOAT EMOJIS ═══════════ */
+    const EMJS = ['🎉', '🎈', '🎊', '✨', '🌟', '💫', '🥳', '🎂', '🎁', '💥', '🔥', '⭐', '💀', '😂', '🔵', '🌀', '😭'];
+    const fb = document.getElementById('floatBg');
+    function spawnFb() {
+      const el = document.createElement('div'); el.className = 'fbg-em';
+      el.textContent = EMJS[Math.floor(Math.random() * EMJS.length)];
+      el.style.cssText = `left:${Math.random() * 100}%;--spd:${5 + Math.random() * 7}s;--delay:0s;font-size:${1.4 + Math.random() * 2.2}rem;`;
+      fb.appendChild(el); setTimeout(() => el.remove(), 13000);
+    }
+    setInterval(spawnFb, 420);
+
+    /* ═══════════ GSAP S1 ═══════════ */
+    const htl = gsap.timeline({ delay: .3 });
+    htl.from('#heroTag', { y: -60, opacity: 0, scale: .7, duration: .75, ease: 'back.out(2.5)' })
+      .from('#heroTitle', { y: 100, opacity: 0, duration: 1, ease: 'back.out(1.4)' }, '-=.3')
+      .from('#heroName', { scale: 0, opacity: 0, rotation: -15, duration: .85, ease: 'back.out(2.5)' }, '-=.2')
+      .from('#heroSub', { y: 50, opacity: 0, duration: .75, ease: 'power2.out' }, '-=.4')
+      .from('#heroDate', { y: 30, opacity: 0, scale: .8, duration: .65, ease: 'back.out(2)' }, '-=.3')
+      .from('#heroEmj span', { y: 70, opacity: 0, scale: 0, duration: .55, stagger: .08, ease: 'back.out(2.5)' }, '-=.3');
+
+    document.querySelectorAll('#heroEmj span').forEach((s, i) => {
+      gsap.to(s, { y: -18, rotation: i % 2 === 0 ? 16 : -16, duration: .9 + i * .12, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * .18 });
+    });
+    gsap.to('#heroTitle', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1.2 }, y: -140, opacity: 0, scale: .85 });
+    gsap.to('#heroName', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1 }, y: -90, opacity: 0 });
+    gsap.to('#heroSub', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1 }, y: -70, opacity: 0 });
+    gsap.to('#heroTag', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: .8 }, y: -50, opacity: 0 });
+    gsap.to('#heroEmj', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: .9 }, y: -40, opacity: 0 });
+
+    /* ═══════════ GSAP S1B COINCIDENCE ═══════════ */
+    gsap.from('#coinc-title', { scrollTrigger: { trigger: '#s1b', start: 'top 76%' }, y: 80, opacity: 0, duration: .9, ease: 'back.out(2)' });
+    gsap.from('.coinc-card.mine', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, x: -200, opacity: 0, rotation: -12, duration: 1, ease: 'back.out(1.5)' });
+    gsap.from('.coinc-vs', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, scale: 0, opacity: 0, duration: .8, delay: .3, ease: 'back.out(3)' });
+    gsap.from('.coinc-card.hers', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, x: 200, opacity: 0, rotation: 12, duration: 1, ease: 'back.out(1.5)' });
+    gsap.from('#coincBottom', { scrollTrigger: { trigger: '#coincBottom', start: 'top 85%' }, y: 60, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
+
+    /* ═══════════ GSAP S2 ═══════════ */
+    gsap.from('#s2label', { scrollTrigger: { trigger: '#s2', start: 'top 72%' }, y: 90, opacity: 0, duration: .9, ease: 'back.out(1.7)' });
+    gsap.from('#doraWrap', { scrollTrigger: { trigger: '#s2', start: 'top 62%' }, x: -350, opacity: 0, rotation: -30, duration: 1.2, ease: 'back.out(1.3)' });
+    gsap.from('#bubble', { scrollTrigger: { trigger: '#s2', start: 'top 58%' }, scale: 0, opacity: 0, duration: .65, delay: .9, ease: 'back.out(3)' });
+    gsap.from('#gadgetBar', { scrollTrigger: { trigger: '#gadgetBar', start: 'top 82%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
+    gsap.from('#heightChart', { scrollTrigger: { trigger: '#heightChart', start: 'top 82%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
+
+    gsap.to('#doraSvg', { y: -22, rotation: -4, duration: 1.9, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    const BUBBLES = [
+      'Yaar phir badi ho gayi? 😩',
+      'Mujhe pata tha bauni rahogi 💀',
+      'Pocket khaali — height gadget nahi mila 😭',
+      'HAPPY BIRTHDAY LADDU!! 🎉',
+      '"Pagal" ek lifestyle hai — tujhe pata hai 🌀',
+      'Tujhse chhhota koi nahi — be proud 😂',
+      'Dorayaki share karein? 🍩',
+      'Jan 18 — Doremon bauni day! 🔵',
+      'Short + Pagal = Legend 👑',
+    ];
+    let bIdx = 0;
+    setInterval(() => {
+      bIdx = (bIdx + 1) % BUBBLES.length;
+      const b = document.getElementById('bubble');
+      gsap.to(b, {
+        scale: 0, duration: .18, onComplete: () => {
+          b.textContent = BUBBLES[bIdx];
+          gsap.to(b, { scale: 1, duration: .35, ease: 'back.out(2.8)' });
+        }
+      });
+    }, 2500);
+
+    ScrollTrigger.create({
+      trigger: '#heightChart', start: 'top 70%', onEnter: () => {
+        gsap.to('#hbA', { height: 160, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .1 });
+        gsap.to('#hbB', { height: 138, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .2 });
+        gsap.to('#hbBB', { height: 110, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .3 });
+        gsap.to('#hbC', { height: 68, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .45 });
+        gsap.to('#hbD', { height: 22, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .6 });
+      }
+    });
+
+    /* ═══════════ GSAP S2B ═══════════ */
+    gsap.from('#s2bt', { scrollTrigger: { trigger: '#s2b', start: 'top 76%' }, y: 80, opacity: 0, duration: .9, ease: 'back.out(2)' });
+    document.querySelectorAll('.dora-fact-card').forEach((c, i) => {
+      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, y: 100, opacity: 0, scale: .7, rotation: i % 2 === 0 ? 10 : -10, duration: .7, delay: i * .07, ease: 'back.out(1.8)' });
+    });
+
+    /* ═══════════ GSAP S3 ═══════════ */
+    gsap.from('#s3t', { scrollTrigger: { trigger: '#s3', start: 'top 76%' }, y: 80, opacity: 0, scale: .8, duration: .85, ease: 'back.out(2)' });
+    gsap.from('#s3sub', { scrollTrigger: { trigger: '#s3', start: 'top 72%' }, y: 40, opacity: 0, duration: .65, delay: .2 });
+    document.querySelectorAll('.roast-card').forEach((c, i) => {
+      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, x: i % 2 === 0 ? -160 : 160, opacity: 0, rotation: i % 2 === 0 ? -10 : 10, duration: .7, delay: i * .04, ease: 'back.out(1.7)' });
+    });
+
+    /* ═══════════ GSAP S3B ═══════════ */
+    gsap.from('#s3bt', { scrollTrigger: { trigger: '#s3b', start: 'top 76%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.8)' });
+    document.querySelectorAll('.drc').forEach((c, i) => {
+      gsap.from(c, { scrollTrigger: { trigger: '#s3b', start: 'top 72%' }, x: 100 + i * 40, opacity: 0, duration: .6, delay: i * .1, ease: 'back.out(1.5)' });
+    });
+
+    /* ═══════════ GSAP S4 ═══════════ */
+    gsap.from('#s4t', { scrollTrigger: { trigger: '#s4', start: 'top 76%' }, scale: 0, rotation: -18, opacity: 0, duration: .85, ease: 'back.out(2.2)' });
+    document.querySelectorAll('.wish-card').forEach((c, i) => {
+      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, y: 110, opacity: 0, scale: .65, rotation: i % 2 === 0 ? 12 : -12, duration: .75, delay: i * .06, ease: 'back.out(1.8)' });
+    });
+
+    /* ═══════════ GSAP S4B TIMELINE ═══════════ */
+    gsap.from('#s4bt', { scrollTrigger: { trigger: '#s4b', start: 'top 76%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
+    document.querySelectorAll('.tl-item').forEach((item, i) => {
+      gsap.from(item, { scrollTrigger: { trigger: item, start: 'top 88%', toggleActions: 'play none none reverse' }, x: -200, opacity: 0, duration: .75, delay: i * .1, ease: 'back.out(1.5)' });
+      gsap.from(item.querySelector('.tl-dot'), { scrollTrigger: { trigger: item, start: 'top 88%' }, scale: 0, rotation: -360, duration: .85, delay: i * .1 + .18, ease: 'back.out(2)' });
+    });
+
+    /* ═══════════ GSAP S5 ═══════════ */
+    gsap.from('#s5t', { scrollTrigger: { trigger: '#s5', start: 'top 76%' }, y: 90, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
+    document.querySelectorAll('.bless-row').forEach((r, i) => {
+      gsap.from(r, { scrollTrigger: { trigger: r, start: 'top 92%', toggleActions: 'play none none reverse' }, x: -180, opacity: 0, duration: .65, delay: i * .055, ease: 'power3.out' });
+    });
+
+    /* ═══════════ GSAP S6 ═══════════ */
+    gsap.from('#s6t', { scrollTrigger: { trigger: '#s6', start: 'top 76%' }, y: 90, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
+    gsap.from('#s6sub', { scrollTrigger: { trigger: '#s6', start: 'top 72%' }, y: 55, opacity: 0, duration: .65, delay: .2 });
+    gsap.from('.inp-box > *', { scrollTrigger: { trigger: '#s6', start: 'top 65%' }, y: 80, opacity: 0, stagger: .14, duration: .72, delay: .3, ease: 'back.out(1.8)' });
+    gsap.to('#goBtn', { rotation: 2.5, scale: 1.05, duration: .55, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8 });
+
+    /* ═══════════ SUBMIT ═══════════ */
+    document.getElementById('goBtn').addEventListener('click', kickChaos);
+    document.getElementById('nameInp').addEventListener('keypress', e => { if (e.key === 'Enter') kickChaos(); });
+
+    function kickChaos() {
+      const nm = document.getElementById('nameInp').value.trim() || 'Mystery Pagal';
+      document.getElementById('s7').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => runSpam(nm), 700);
+    }
+
+    const SPAM = ['Doremon!', 'Bauni!', 'Pagal!', '😂', '💀', '🌀', 'LADDU!', 'omg', 'PAGAL', 'Doremon~', 'haaye', 'chhoti!', '😭', 'DOREMON!!', 'LADDU 💀', 'yaar suno', '🔵', 'haha', '😤', 'ayyy', 'DORAYAKI!', 'Jan 18!', 'HEIGHT??', '😱', 'Bauni Queen', '🎉', '💀💀', 'HAAYE', 'Coincidence!', 'Jan 2007!'];
+    const COLS = ['#FF6B9D', '#FFE135', '#00D084', '#1a9be6', '#FF8C42', '#a855f7', '#FF4757', '#00CEC9', 'white', '#39ff14'];
+    let chaosLock = false;
+
+    function runSpam(nm) {
+      if (chaosLock) return; chaosLock = true;
+      const spf = document.getElementById('spamField'); spf.innerHTML = '';
+      const bb = document.getElementById('bdayBig'); bb.style.display = 'none'; bb.style.opacity = 0;
+      const pool = [nm, ...SPAM, nm.toUpperCase(), 'DOREMON LADDU!!', nm, ...SPAM, 'PAGAL QUEEN!', nm, '🔵', 'Jan 18!', 'BAUNI!'];
+      let cnt = 0, MAX = 92;
+      const iv = setInterval(() => {
+        if (cnt >= MAX) { clearInterval(iv); setTimeout(() => showBday(nm), 320); return; }
+        const el = document.createElement('div'); el.className = 'sw';
+        el.textContent = pool[Math.floor(Math.random() * pool.length)];
+        el.style.cssText = `left:${Math.random() * 88}%;top:${Math.random() * 88}%;color:${COLS[Math.floor(Math.random() * COLS.length)]};font-size:${1 + Math.random() * 3.6}rem;transform:rotate(${-38 + Math.random() * 76}deg);`;
+        spf.appendChild(el);
+        gsap.fromTo(el, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .26, ease: 'back.out(2.5)' });
+        cnt++;
+      }, 56);
+    }
+
+    function showBday(nm) {
+      const spf = document.getElementById('spamField');
+      spf.querySelectorAll('.sw').forEach((w, i) => {
+        gsap.to(w, { x: (Math.random() - .5) * 900, y: (Math.random() - .5) * 700, scale: 0, opacity: 0, rotation: (Math.random() - .5) * 720, duration: .9, ease: 'power3.in', delay: i * .01, onComplete: () => w.remove() });
+      });
+      const bb = document.getElementById('bdayBig');
+      document.getElementById('bdayNm').textContent = nm.toUpperCase() + ' — DOREMON LADDU BAUNI! 💙🔵';
+      bb.style.display = 'block';
+      gsap.fromTo(bb, { opacity: 0, scale: .15, rotation: -18 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.3, delay: .55, ease: 'elastic.out(1,.45)' });
+      for (let i = 0; i < 130; i++)setTimeout(dropCf, i * 17);
+      setTimeout(() => { chaosLock = false; }, 3500);
+    }
+
+    function dropCf() {
+      const el = document.createElement('div'); el.className = 'cf';
+      const shapes = ['50%', '2px', '0'];
+      el.style.cssText = `left:${8 + Math.random() * 84}vw;top:-18px;width:${6 + Math.random() * 11}px;height:${6 + Math.random() * 11}px;background:${COLS[Math.floor(Math.random() * COLS.length)]};border-radius:${shapes[Math.floor(Math.random() * shapes.length)]};`;
+      document.body.appendChild(el);
+      gsap.to(el, { y: '106vh', x: (-130 + Math.random() * 260), rotation: Math.random() * 760, duration: 2.5 + Math.random() * 2.5, ease: 'power1.in', onComplete: () => el.remove() });
+    }
+  </script>
+</body>
+
+</html>
