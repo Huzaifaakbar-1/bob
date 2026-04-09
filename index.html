@@ -1,2139 +1,1495 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday bauni Doremon Laddu! 🎉</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Lilita+One&family=Bubblegum+Sans&family=Righteous&display=swap"
-    rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <style>
-    :root {
-      --blue: #1a9be6;
-      --yellow: #FFE135;
-      --pink: #FF6B9D;
-      --green: #00D084;
-      --purple: #a855f7;
-      --orange: #FF8C42;
-      --red: #FF4757;
-      --dark: #07071a;
-      --neon: #39ff14;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Boogaloo', cursive;
-      background: var(--dark);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* CURSOR */
-    #cursor {
-      position: fixed;
-      width: 36px;
-      height: 36px;
-      font-size: 26px;
-      pointer-events: none;
-      z-index: 99999;
-      transform: translate(-50%, -50%);
-      will-change: transform;
-    }
-
-    /* THREE.JS */
-    #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.3;
-    }
-
-    section {
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-    }
-
-    /* ══════════════════════════════
-       JUMPSCARE OVERLAY
-    ══════════════════════════════ */
-    #jumpscare {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      background: #1a9be6;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #jumpscare.active {
-      pointer-events: all;
-    }
-
-    .js-dora {
-      font-size: clamp(8rem, 25vw, 20rem);
-      line-height: 1;
-      animation: jsDora .08s infinite;
-    }
-
-    @keyframes jsDora {
-      0% {
-        transform: scale(1) rotate(-5deg)
-      }
-
-      50% {
-        transform: scale(1.08) rotate(5deg)
-      }
-
-      100% {
-        transform: scale(1) rotate(-5deg)
-      }
-    }
-
-    .js-text {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(2rem, 7vw, 6rem);
-      color: #FFE135;
-      text-align: center;
-      animation: jsShake .06s infinite;
-      text-shadow: 4px 4px 0 #FF4757;
-    }
-
-    @keyframes jsShake {
-      0% {
-        transform: translateX(-8px)
-      }
-
-      50% {
-        transform: translateX(8px)
-      }
-
-      100% {
-        transform: translateX(-8px)
-      }
-    }
-
-    .js-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(1rem, 3vw, 2rem);
-      color: #fff;
-      margin-top: .8rem;
-      text-align: center;
-    }
-
-    /* MUSIC BTN */
-    .music-btn {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 9999;
-      background: var(--pink);
-      border: none;
-      border-radius: 50px;
-      padding: .5rem 1.1rem;
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: .95rem;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 5px 22px rgba(255, 107, 157, .5);
-      animation: mPulse 1.5s infinite;
-    }
-
-    @keyframes mPulse {
-
-      0%,
-      100% {
-        transform: scale(1)
-      }
-
-      50% {
-        transform: scale(1.07)
-      }
-    }
-
-    /* MARQUEE */
-    .marquee-wrap {
-      overflow: hidden;
-      width: 100%;
-      padding: .55rem 0;
-      background: rgba(26, 155, 230, .12);
-      border-top: 2px solid rgba(26, 155, 230, .28);
-      border-bottom: 2px solid rgba(26, 155, 230, .28);
-    }
-
-    .marquee-inner {
-      display: flex;
-      animation: marqScroll 20s linear infinite;
-      white-space: nowrap;
-    }
-
-    .marquee-inner span {
-      font-family: 'Lilita One', cursive;
-      font-size: 1rem;
-      color: var(--blue);
-      padding: 0 2.5rem;
-      flex-shrink: 0;
-    }
-
-    @keyframes marqScroll {
-      0% {
-        transform: translateX(0)
-      }
-
-      100% {
-        transform: translateX(-50%)
-      }
-    }
-
-    /* ══ S1 HERO ══ */
-    #s1 {
-      background: radial-gradient(ellipse at 30% 50%, #1a0a3e 0%, #07071a 70%);
-    }
-
-    .star-field,
-    .float-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .float-bg {
-      overflow: hidden;
-    }
-
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: #fff;
-      animation: twinkle var(--d, 2s) infinite alternate;
-    }
-
-    @keyframes twinkle {
-      0% {
-        opacity: .1;
-        transform: scale(.6)
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1.5)
-      }
-    }
-
-    .fbg-em {
-      position: absolute;
-      opacity: 0;
-      animation: floatRise var(--spd, 7s) linear var(--delay, 0s) infinite;
-    }
-
-    @keyframes floatRise {
-      0% {
-        transform: translateY(110vh) rotate(0deg);
-        opacity: .9
-      }
-
-      100% {
-        transform: translateY(-10vh) rotate(360deg);
-        opacity: 0
-      }
-    }
-
-    .hero-wrap {
-      position: relative;
-      z-index: 5;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(.8rem, 2vw, 1.2rem);
-      color: var(--yellow);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      border: 2px solid rgba(255, 225, 53, .3);
-      padding: .4rem 1.4rem;
-      border-radius: 50px;
-      margin-bottom: 1.4rem;
-      background: rgba(255, 225, 53, .05);
-    }
-
-    .hero-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(2.8rem, 10vw, 9rem);
-      line-height: .92;
-      background: linear-gradient(135deg, #FFE135 0%, #FF6B9D 35%, #1a9be6 65%, #00D084 100%);
-      background-size: 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: hueShift 4s linear infinite;
-      filter: drop-shadow(0 0 50px rgba(255, 107, 157, .5));
-    }
-
-    @keyframes hueShift {
-      0% {
-        background-position: 0%
-      }
-
-      100% {
-        background-position: 300%
-      }
-    }
-
-    .hero-name {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.4rem, 4vw, 3.2rem);
-      color: var(--yellow);
-      text-shadow: 0 0 40px var(--yellow);
-      animation: namePulse 1.5s ease-in-out infinite;
-      margin-top: .4rem;
-    }
-
-    @keyframes namePulse {
-
-      0%,
-      100% {
-        filter: drop-shadow(0 0 12px var(--yellow))
-      }
-
-      50% {
-        filter: drop-shadow(0 0 45px var(--yellow)) drop-shadow(0 0 90px #ff6b9d)
-      }
-    }
-
-    .hero-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(.95rem, 2.5vw, 1.6rem);
-      color: rgba(255, 255, 255, .78);
-      margin-top: 1rem;
-      line-height: 1.7;
-    }
-
-    .hero-date {
-      display: inline-block;
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      color: #00D084;
-      border: 2px solid rgba(0, 208, 132, .35);
-      padding: .3rem 1.2rem;
-      border-radius: 50px;
-      margin-top: .8rem;
-      text-shadow: 0 0 20px #00D084;
-    }
-
-    .hero-emojis {
-      display: flex;
-      justify-content: center;
-      gap: .9rem;
-      font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-      margin-top: 1.4rem;
-    }
-
-    .hero-emojis span {
-      display: inline-block;
-    }
-
-    .scroll-pill {
-      position: absolute;
-      bottom: 2.2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .4rem;
-      color: rgba(255, 255, 255, .4);
-      font-size: .82rem;
-      font-family: 'Bubblegum Sans', cursive;
-    }
-
-    .pill-dot {
-      width: 24px;
-      height: 40px;
-      border: 2px solid rgba(255, 255, 255, .25);
-      border-radius: 20px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 4px;
-    }
-
-    .pill-dot::after {
-      content: '';
-      width: 6px;
-      height: 10px;
-      background: var(--pink);
-      border-radius: 10px;
-      animation: scrollBob 1.5s ease-in-out infinite;
-    }
-
-    @keyframes scrollBob {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(12px)
-      }
-    }
-
-    /* ══ S1.5 COINCIDENCE ══ */
-    #s1b {
-      background: linear-gradient(160deg, #0a0020, #1a004a, #00020a);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .coinc-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.8rem, 5vw, 3.4rem);
-      color: var(--yellow);
-      text-align: center;
-      margin-bottom: .5rem;
-      text-shadow: 0 0 30px var(--yellow);
-    }
-
-    .coinc-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .5);
-      text-align: center;
-      font-size: .95rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .coinc-cards {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 800px;
-      width: 100%;
-    }
-
-    .coinc-card {
-      flex: 1;
-      min-width: 230px;
-      border-radius: 22px;
-      padding: 1.8rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .coinc-card.mine {
-      background: linear-gradient(135deg, rgba(255, 107, 157, .15), rgba(255, 71, 87, .12));
-      border: 2px solid rgba(255, 107, 157, .35);
-    }
-
-    .coinc-card.hers {
-      background: linear-gradient(135deg, rgba(26, 155, 230, .15), rgba(0, 208, 132, .12));
-      border: 2px solid rgba(26, 155, 230, .4);
-    }
-
-    .cc-big {
-      font-size: 4rem;
-      display: block;
-      margin-bottom: .5rem;
-    }
-
-    .cc-name {
-      font-family: 'Lilita One', cursive;
-      font-size: 1.4rem;
-      margin-bottom: .3rem;
-    }
-
-    .cc-date {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: 1.1rem;
-      color: var(--yellow);
-      margin-bottom: .6rem;
-    }
-
-    .cc-note {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: .9rem;
-      color: rgba(255, 255, 255, .8);
-      line-height: 1.5;
-    }
-
-    .coinc-vs {
-      font-family: 'Lilita One', cursive;
-      font-size: 3rem;
-      color: var(--pink);
-      text-shadow: 0 0 20px var(--pink);
-      align-self: center;
-    }
-
-    .coinc-bottom {
-      max-width: 680px;
-      margin-top: 2rem;
-      background: rgba(255, 225, 53, .06);
-      border: 2px solid rgba(255, 225, 53, .2);
-      border-radius: 18px;
-      padding: 1.4rem 1.8rem;
-      text-align: center;
-      font-family: 'Bubblegum Sans', cursive;
-      color: #fff;
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .coinc-bottom strong {
-      color: var(--yellow);
-    }
-
-    /* ══ S2 DOREMON SCENE ══ */
-    #s2 {
-      background: linear-gradient(160deg, #87CEEB 0%, #c8f0ff 55%, #b0e4ff 100%);
-      flex-direction: column;
-      padding: 4rem 2rem 3rem;
-    }
-
-    .s2-label {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.7rem, 4.5vw, 3rem);
-      color: #0a4a7a;
-      text-align: center;
-      text-shadow: 2px 3px 0 rgba(0, 0, 0, .1);
-      margin-bottom: .5rem;
-    }
-
-    .s2-slabel {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(.9rem, 2vw, 1.1rem);
-      color: #1a6aa0;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .cloud {
-      position: absolute;
-      background: #fff;
-      border-radius: 60px;
-      opacity: .82;
-    }
-
-    .cloud::before,
-    .cloud::after {
-      content: '';
-      position: absolute;
-      background: #fff;
-      border-radius: 50%;
-    }
-
-    .cloud::before {
-      width: 55%;
-      height: 160%;
-      top: -80%;
-      left: 20%;
-    }
-
-    .cloud::after {
-      width: 38%;
-      height: 130%;
-      top: -65%;
-      left: 50%;
-    }
-
-    @keyframes cf1 {
-
-      0%,
-      100% {
-        transform: translateX(0)
-      }
-
-      50% {
-        transform: translateX(25px)
-      }
-    }
-
-    .scene {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 3rem;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 2;
-    }
-
-    .dora-wrap {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .dora-svg {
-      width: min(280px, 65vw);
-      filter: drop-shadow(0 22px 45px rgba(0, 0, 0, .22));
-    }
-
-    .bubble {
-      position: absolute;
-      top: -105px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border-radius: 18px;
-      padding: .75rem 1.1rem;
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(.8rem, 1.8vw, .96rem);
-      color: #222;
-      max-width: 240px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
-      line-height: 1.4;
-      min-width: 175px;
-    }
-
-    .bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 9px solid transparent;
-      border-top-color: #fff;
-    }
-
-    .dora-label {
-      font-family: 'Lilita One', cursive;
-      color: #0a4a7a;
-      font-size: 1rem;
-      margin-top: .5rem;
-      text-align: center;
-    }
-
-    /* gadget bar */
-    .gadget-bar {
-      width: 100%;
-      max-width: 720px;
-      margin-top: 2rem;
-      background: rgba(26, 155, 230, .14);
-      border: 2px solid rgba(26, 155, 230, .38);
-      border-radius: 22px;
-      padding: 1.4rem 1.8rem;
-      backdrop-filter: blur(8px);
-    }
-
-    .gadget-title {
-      font-family: 'Lilita One', cursive;
-      font-size: 1.25rem;
-      color: #0a4a7a;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .gadget-row {
-      display: flex;
-      gap: .9rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .gadget-item {
-      background: white;
-      border-radius: 14px;
-      padding: .75rem 1rem;
-      text-align: center;
-      flex: 1;
-      min-width: 110px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
-      transition: transform .25s, box-shadow .25s;
-    }
-
-    .gadget-item:hover {
-      transform: translateY(-8px) rotate(-3deg);
-      box-shadow: 0 14px 35px rgba(0, 0, 0, .18);
-    }
-
-    .gadget-emoji {
-      font-size: 1.9rem;
-      display: block;
-      margin-bottom: .25rem;
-    }
-
-    .gadget-name {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: .78rem;
-      color: #333;
-      line-height: 1.3;
-    }
-
-    /* height chart */
-    .height-chart {
-      width: 100%;
-      max-width: 680px;
-      margin-top: 2.5rem;
-      background: rgba(255, 255, 255, .4);
-      border-radius: 22px;
-      padding: 1.4rem 1.8rem;
-      backdrop-filter: blur(8px);
-      border: 2px solid rgba(255, 255, 255, .6);
-    }
-
-    .hc-title {
-      font-family: 'Lilita One', cursive;
-      font-size: 1.25rem;
-      color: #0a4a7a;
-      margin-bottom: 1.1rem;
-      text-align: center;
-    }
-
-    .hc-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 2rem;
-    }
-
-    .hc-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .35rem;
-    }
-
-    .hc-bar {
-      width: 50px;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .hc-icon {
-      font-size: 2rem;
-    }
-
-    .hc-name {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: .78rem;
-      color: #333;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .hc-note {
-      text-align: center;
-      font-family: 'Bubblegum Sans', cursive;
-      color: #555;
-      font-size: .85rem;
-      margin-top: .9rem;
-    }
-
-    /* ══ S2B DOREMON THEORY ══ */
-    #s2b {
-      background: linear-gradient(160deg, #001f5b, #003d9e, #0055cc);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s2b-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
-      color: #fff;
-      text-align: center;
-      margin-bottom: 2rem;
-      text-shadow: 0 0 30px rgba(26, 155, 230, .8);
-    }
-
-    .dora-facts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.2rem;
-      max-width: 980px;
-      width: 100%;
-    }
-
-    .dora-fact-card {
-      background: rgba(255, 255, 255, .08);
-      border: 2px solid rgba(26, 155, 230, .3);
-      border-radius: 18px;
-      padding: 1.3rem;
-      text-align: center;
-      transition: all .3s;
-      backdrop-filter: blur(8px);
-    }
-
-    .dora-fact-card:hover {
-      transform: scale(1.05) rotate(-1deg);
-      border-color: var(--yellow);
-      background: rgba(255, 225, 53, .1);
-    }
-
-    .dfc-icon {
-      font-size: 2.8rem;
-      display: block;
-      margin-bottom: .6rem;
-    }
-
-    .dfc-title {
-      font-family: 'Lilita One', cursive;
-      color: var(--yellow);
-      font-size: 1.05rem;
-      margin-bottom: .35rem;
-    }
-
-    .dfc-text {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .88);
-      font-size: .92rem;
-      line-height: 1.55;
-    }
-
-    /* ══ S3 ROAST ══ */
-    #s3 {
-      background: linear-gradient(135deg, #0a0525, #1f0760, #08102e);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s3-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      color: var(--yellow);
-      text-align: center;
-      margin-bottom: .4rem;
-      text-shadow: 0 0 40px rgba(255, 225, 53, .5);
-    }
-
-    .s3-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .45);
-      text-align: center;
-      font-size: .95rem;
-      margin-bottom: 2.6rem;
-    }
-
-    .roast-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-      max-width: 780px;
-      width: 100%;
-    }
-
-    .roast-card {
-      background: rgba(255, 255, 255, .055);
-      border: 1.5px solid rgba(255, 255, 255, .1);
-      border-radius: 17px;
-      padding: 1.05rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: #fff;
-      font-size: clamp(.92rem, 2vw, 1.1rem);
-      font-family: 'Bubblegum Sans', cursive;
-      line-height: 1.55;
-      backdrop-filter: blur(6px);
-      transition: transform .25s, border-color .25s, background .25s;
-    }
-
-    .roast-card:hover {
-      transform: translateX(10px) rotate(.5deg);
-      border-color: var(--pink);
-      background: rgba(255, 107, 157, .1);
-    }
-
-    .ri {
-      font-size: 1.9rem;
-      flex-shrink: 0;
-    }
-
-    /* ══ S3B DOREMON MSG SCROLL ══ */
-    #s3b {
-      background: linear-gradient(135deg, #1a0030, #3d0060, #1a0030);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s3b-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.7rem, 4.5vw, 3rem);
-      color: #00CFFF;
-      text-align: center;
-      margin-bottom: .4rem;
-      text-shadow: 0 0 30px #00CFFF;
-    }
-
-    .s3b-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .5);
-      text-align: center;
-      font-size: .9rem;
-      margin-bottom: 2.2rem;
-    }
-
-    .dora-scroll {
-      display: flex;
-      gap: 1.1rem;
-      overflow-x: auto;
-      padding: 1rem .5rem 1.5rem;
-      max-width: 900px;
-      width: 100%;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .dora-scroll::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .dora-scroll::-webkit-scrollbar-thumb {
-      background: var(--pink);
-      border-radius: 10px;
-    }
-
-    .drc {
-      flex: 0 0 255px;
-      scroll-snap-align: start;
-      background: rgba(0, 207, 255, .07);
-      border: 1.5px solid rgba(0, 207, 255, .22);
-      border-radius: 18px;
-      padding: 1.2rem;
-      font-family: 'Bubblegum Sans', cursive;
-      color: #fff;
-      font-size: .92rem;
-      line-height: 1.65;
-      text-align: center;
-      transition: transform .25s;
-    }
-
-    .drc:hover {
-      transform: translateY(-10px) rotate(-2deg);
-      border-color: #00CFFF;
-    }
-
-    .drc-icon {
-      font-size: 2.4rem;
-      display: block;
-      margin-bottom: .6rem;
-    }
-
-    /* ══ S4 WISHES ══ */
-    #s4 {
-      background: linear-gradient(160deg, #ff4757 0%, #c0392b 100%);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s4-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      color: #fff;
-      text-align: center;
-      margin-bottom: 2.6rem;
-      text-shadow: 3px 4px 0 rgba(0, 0, 0, .22);
-    }
-
-    .wish-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.3rem;
-      max-width: 1060px;
-      width: 100%;
-    }
-
-    .wish-card {
-      background: rgba(255, 255, 255, .11);
-      border: 2px solid rgba(255, 255, 255, .18);
-      border-radius: 20px;
-      padding: 1.6rem;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-      transition: transform .3s, box-shadow .3s;
-    }
-
-    .wish-card:hover {
-      transform: translateY(-10px) rotate(-1.5deg);
-      box-shadow: 0 28px 65px rgba(0, 0, 0, .35);
-    }
-
-    .wish-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, .07), transparent);
-      pointer-events: none;
-    }
-
-    .wc-emoji {
-      font-size: 2.6rem;
-      display: block;
-      margin-bottom: .65rem;
-    }
-
-    .wc-text {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: .98rem;
-      color: rgba(255, 255, 255, .92);
-      line-height: 1.65;
-    }
-
-    .wc-from {
-      font-family: 'Lilita One', cursive;
-      font-size: .85rem;
-      color: var(--yellow);
-      margin-top: .7rem;
-      opacity: .9;
-    }
-
-    /* ══ S4B TIMELINE ══ */
-    #s4b {
-      background: linear-gradient(160deg, #0a1628, #0d2b4e, #071420);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s4b-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      color: var(--yellow);
-      text-align: center;
-      margin-bottom: 3rem;
-      text-shadow: 0 0 30px var(--yellow);
-    }
-
-    .timeline {
-      max-width: 700px;
-      width: 100%;
-      position: relative;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 34px;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--pink), var(--blue), var(--green));
-      border-radius: 4px;
-    }
-
-    .tl-item {
-      display: flex;
-      gap: 1.4rem;
-      margin-bottom: 1.9rem;
-      align-items: flex-start;
-    }
-
-    .tl-dot {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.7rem;
-      border: 3px solid rgba(255, 255, 255, .2);
-      position: relative;
-      z-index: 1;
-    }
-
-    .tl-content {
-      flex: 1;
-      background: rgba(255, 255, 255, .06);
-      border: 1.5px solid rgba(255, 255, 255, .12);
-      border-radius: 16px;
-      padding: .95rem 1.2rem;
-    }
-
-    .tl-year {
-      font-family: 'Lilita One', cursive;
-      color: var(--yellow);
-      font-size: 1.05rem;
-      margin-bottom: .25rem;
-    }
-
-    .tl-text {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .85);
-      font-size: .95rem;
-      line-height: 1.55;
-    }
-
-    /* ══ S5 BLESSINGS ══ */
-    #s5 {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s5-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
-      color: #fff;
-      text-align: center;
-      margin-bottom: 2.6rem;
-      text-shadow: 0 0 30px rgba(0, 208, 132, .4);
-    }
-
-    .bless-list {
-      display: flex;
-      flex-direction: column;
-      gap: .9rem;
-      max-width: 700px;
-      width: 100%;
-    }
-
-    .bless-row {
-      background: rgba(255, 255, 255, .065);
-      border: 1.5px solid rgba(0, 208, 132, .22);
-      border-radius: 14px;
-      padding: .95rem 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: .85rem;
-      color: #fff;
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: 1.05rem;
-      transition: border-color .3s, background .3s;
-    }
-
-    .bless-row:hover {
-      background: rgba(0, 208, 132, .1);
-      border-color: var(--green);
-    }
-
-    .bi {
-      font-size: 1.65rem;
-      flex-shrink: 0;
-    }
-
-    /* ══ S6 INPUT ══ */
-    #s6 {
-      background: linear-gradient(135deg, #6f00ff, #0072ff);
-      flex-direction: column;
-      padding: 5rem 2rem;
-    }
-
-    .s6-title {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
-      color: #fff;
-      text-align: center;
-      margin-bottom: .4rem;
-      text-shadow: 3px 3px 0 rgba(0, 0, 0, .2);
-    }
-
-    .s6-sub {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .7);
-      text-align: center;
-      font-size: 1.1rem;
-      margin-bottom: 2.2rem;
-    }
-
-    .inp-box {
-      width: 100%;
-      max-width: 460px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.1rem;
-    }
-
-    .inp {
-      width: 100%;
-      padding: 1rem 1.6rem;
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 50px;
-      background: #fff;
-      color: #4400cc;
-      text-align: center;
-      outline: none;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, .22);
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .inp:focus {
-      transform: scale(1.03);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, .32);
-    }
-
-    .inp::placeholder {
-      color: rgba(0, 0, 200, .3);
-    }
-
-    .btn {
-      padding: .9rem 2.6rem;
-      font-family: 'Lilita One', cursive;
-      font-size: 1.35rem;
-      background: var(--yellow);
-      color: #5500cc;
-      border: none;
-      border-radius: 50px;
-      cursor: none;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
-      transition: transform .2s, box-shadow .2s;
-      letter-spacing: .5px;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, .32);
-    }
-
-    .btn:active {
-      transform: scale(.97);
-    }
-
-    .warn {
-      font-family: 'Bubblegum Sans', cursive;
-      color: rgba(255, 255, 255, .45);
-      font-size: .88rem;
-      text-align: center;
-      margin-top: .7rem;
-    }
-
-    /* ══ S7 CHAOS ══ */
-    #s7 {
-      background: #000;
-      position: relative;
-    }
-
-    .spam-field {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .sw {
-      position: absolute;
-      font-family: 'Lilita One', cursive;
-      white-space: nowrap;
-      user-select: none;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, .6);
-      opacity: 0;
-    }
-
-    .bday-big {
-      position: relative;
-      z-index: 50;
-      text-align: center;
-      display: none;
-      opacity: 0;
-      padding: 2rem;
-    }
-
-    .bday-hb {
-      font-family: 'Lilita One', cursive;
-      font-size: clamp(2.8rem, 10vw, 8.5rem);
-      background: linear-gradient(90deg, #FFE135, #FF6B9D, #00D084, #1a9be6, #FF8C42, #a855f7);
-      background-size: 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: hueShift 2s linear infinite;
-      line-height: 1;
-      filter: drop-shadow(0 0 50px rgba(255, 107, 157, .7));
-    }
-
-    .bday-nm {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(1.1rem, 3vw, 2.2rem);
-      color: #fff;
-      margin-top: .7rem;
-      text-shadow: 0 0 20px rgba(255, 255, 255, .3);
-    }
-
-    .bday-line {
-      font-family: 'Bubblegum Sans', cursive;
-      font-size: clamp(.88rem, 2vw, 1.15rem);
-      color: rgba(255, 255, 255, .6);
-      margin-top: .5rem;
-    }
-
-    .bday-emjs {
-      font-size: clamp(1.7rem, 4.5vw, 3.5rem);
-      margin-top: .9rem;
-      display: flex;
-      justify-content: center;
-      gap: .6rem;
-      flex-wrap: wrap;
-    }
-
-    .cf {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #07071a;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--pink);
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌸 Happy Birthday — A Special Someone 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Quicksand:wght@400;600;700&family=Pacifico&family=Sacramento&family=Italiana&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --rose:#ff6b9d;--deeprose:#e0457a;
+  --gold:#f5c842;--softgold:#ffe8a1;
+  --lavender:#c77dff;--softlav:#e8d5ff;
+  --mint:#3ddbd9;--softmint:#b8f5f3;
+  --cream:#fff8f2;--offwhite:#fdf6ff;
+  --dark:#0d0820;--darkpurp:#1a0a2e;
+  --glass:rgba(255,255,255,0.07);
+  --glassborder:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Quicksand',sans-serif;
+  background:var(--dark);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── CURSOR ── */
+#cursor-dot{
+  position:fixed;width:14px;height:14px;
+  background:var(--rose);border-radius:50%;
+  pointer-events:none;z-index:999998;
+  transform:translate(-50%,-50%);
+  mix-blend-mode:screen;
+  transition:transform 0.08s;
+  box-shadow:0 0 18px var(--rose),0 0 40px rgba(255,107,157,0.5);
+}
+#cursor-ring{
+  position:fixed;width:40px;height:40px;
+  border:2px solid rgba(255,107,157,0.5);
+  border-radius:50%;
+  pointer-events:none;z-index:999997;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,border-color 0.2s;
+}
+#cursor-emoji{
+  position:fixed;font-size:22px;
+  pointer-events:none;z-index:999999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.08s;
+}
+a:hover ~ #cursor-ring,button:hover ~ #cursor-ring{
+  width:60px;height:60px;
+  border-color:var(--gold);
+}
+
+/* ── NAME ENTRY SCREEN ── */
+#name-entry{
+  position:fixed;inset:0;z-index:888888;
+  background:linear-gradient(135deg,#0d0820,#1a0a2e,#2d0050,#1a0a2e);
+  background-size:400% 400%;
+  animation:bgShift 8s ease infinite;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:2rem;
+  padding:2rem;
+}
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.ne-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;
+  font-size:clamp(2rem,6vw,4.5rem);
+  color:var(--gold);
+  text-align:center;
+  text-shadow:0 0 60px rgba(245,200,66,0.5);
+  animation:glow 2s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 20px rgba(245,200,66,0.4))}50%{filter:drop-shadow(0 0 60px rgba(245,200,66,0.9))}}
+.ne-sub{
+  font-family:'Sacramento',cursive;font-size:clamp(1.2rem,3vw,2rem);
+  color:rgba(255,255,255,0.7);text-align:center;
+}
+.ne-input-wrap{
+  position:relative;width:min(480px,90vw);
+}
+.ne-input{
+  width:100%;padding:1.2rem 2rem;
+  font-family:'Quicksand',sans-serif;font-size:1.3rem;font-weight:600;
+  background:rgba(255,255,255,0.08);
+  border:2px solid rgba(255,107,157,0.4);
+  border-radius:60px;color:#fff;
+  outline:none;text-align:center;
+  transition:all 0.3s;
+  backdrop-filter:blur(12px);
+}
+.ne-input:focus{
+  border-color:var(--rose);
+  background:rgba(255,107,157,0.1);
+  box-shadow:0 0 40px rgba(255,107,157,0.3);
+}
+.ne-input::placeholder{color:rgba(255,255,255,0.3);}
+.ne-btn{
+  padding:1.1rem 3rem;
+  font-family:'Pacifico',cursive;font-size:1.2rem;
+  background:linear-gradient(135deg,var(--rose),var(--lavender));
+  color:#fff;border:none;border-radius:60px;
+  cursor:none;
+  box-shadow:0 12px 40px rgba(255,107,157,0.4);
+  transition:transform 0.2s,box-shadow 0.2s;
+  letter-spacing:1px;
+}
+.ne-btn:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 20px 60px rgba(255,107,157,0.6);}
+.ne-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.ne-star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.05;transform:scale(0.5)}50%{opacity:1;transform:scale(1.5)}}
+.ne-floats{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.ne-float{position:absolute;font-size:var(--fs,1.5rem);opacity:0;animation:floatUp var(--spd,8s) ease-in var(--dl,0s) infinite;}
+@keyframes floatUp{0%{transform:translateY(110vh) rotate(0deg);opacity:0.8}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+
+/* ── JUMPSCARE ── */
+#jumpscare{
+  position:fixed;inset:0;z-index:999990;
+  background:radial-gradient(ellipse at 50% 50%, #000 0%, #000 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;gap:1rem;
+  overflow:hidden;
+}
+#jumpscare.active{pointer-events:all;}
+.js-bg-flash{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,#1a9be6,#001f5b);
+  opacity:0;
+}
+.js-strobe{position:absolute;inset:0;background:#fff;opacity:0;}
+.js-dora-container{
+  position:relative;z-index:5;
+  display:flex;flex-direction:column;align-items:center;
+  transform:scale(0);
+}
+.js-dora-svg{
+  width:min(350px,70vw);
+  filter:drop-shadow(0 0 80px #1a9be6) drop-shadow(0 0 160px rgba(26,155,230,0.8));
+  animation:jsWiggle 0.1s ease-in-out infinite;
+}
+@keyframes jsWiggle{0%{transform:scale(1) rotate(-5deg) translateY(-8px)}50%{transform:scale(1.08) rotate(5deg) translateY(8px)}100%{transform:scale(1) rotate(-5deg) translateY(-8px)}}
+.js-text{
+  position:relative;z-index:5;
+  font-family:'Pacifico',cursive;
+  font-size:clamp(2rem,7vw,5.5rem);
+  color:#fff;text-align:center;
+  text-shadow:0 0 30px #1a9be6,0 0 80px rgba(26,155,230,0.8);
+  padding:0 1rem;
+  animation:jsTextShake 0.08s ease-in-out infinite;
+}
+@keyframes jsTextShake{0%{transform:translateX(-8px) rotate(-1deg)}50%{transform:translateX(8px) rotate(1deg)}100%{transform:translateX(-8px) rotate(-1deg)}}
+.js-sub{
+  font-family:'Quicksand',sans-serif;font-weight:700;
+  font-size:clamp(1rem,3vw,1.8rem);
+  color:var(--gold);text-align:center;padding:0 2rem;
+  text-shadow:0 0 20px var(--gold);
+}
+.js-hint{color:rgba(255,255,255,0.3);font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;margin-top:0.5rem;}
+.js-scream-line{
+  position:absolute;top:0;left:50%;
+  width:4px;background:linear-gradient(180deg,#1a9be6,transparent);
+  transform:translateX(-50%);
+  transform-origin:top;
+}
+
+/* ── MAIN SITE (hidden until name entered) ── */
+#main-site{display:none;}
+
+/* ── FLOATING PETALS ── */
+.petal-layer{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+.petal{position:absolute;pointer-events:none;animation:petalDrift var(--pd,10s) ease-in var(--pdl,0s) infinite;}
+@keyframes petalDrift{
+  0%{transform:translate(0,-80px) rotate(0deg);opacity:0.9;}
+  100%{transform:translate(var(--px,40px),110vh) rotate(540deg);opacity:0;}
+}
+
+/* ── SECTION BASE ── */
+section{
+  min-height:100vh;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;z-index:1;
+  padding:5rem 2rem;
+}
+
+/* ── MARQUEE ── */
+.marquee-wrap{
+  width:100%;overflow:hidden;padding:0.8rem 0;
+  background:rgba(255,107,157,0.08);
+  border-top:1px solid rgba(255,107,157,0.2);
+  border-bottom:1px solid rgba(255,107,157,0.2);
+}
+.marquee-inner{display:flex;animation:marq 24s linear infinite;white-space:nowrap;}
+.marquee-inner span{font-family:'Pacifico',cursive;font-size:0.85rem;color:var(--rose);padding:0 2rem;flex-shrink:0;opacity:0.8;}
+
+@keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── HERO ── */
+#s-hero{
+  background:radial-gradient(ellipse at 30% 40%,#2d0050 0%,#0d0820 55%,#001a2e 100%);
+  padding:3rem 2rem 5rem;
+  text-align:center;
+}
+.hero-badge{
+  display:inline-block;
+  font-family:'Quicksand',sans-serif;font-weight:700;font-size:0.85rem;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);
+  border:1.5px solid rgba(245,200,66,0.3);
+  padding:0.4rem 1.6rem;border-radius:50px;
+  background:rgba(245,200,66,0.06);
+  margin-bottom:1.5rem;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;
+  font-size:clamp(3rem,13vw,10rem);
+  line-height:0.88;
+  background:linear-gradient(135deg,#f5c842,#ff6b9d,#c77dff,#3ddbd9,#f5c842);
+  background-size:300%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradFlow 6s linear infinite;
+  filter:drop-shadow(0 0 80px rgba(255,107,157,0.3));
+}
+@keyframes gradFlow{0%{background-position:0%}100%{background-position:300%}}
+.hero-name-display{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(2rem,6vw,5rem);
+  color:var(--gold);
+  text-shadow:0 0 50px rgba(245,200,66,0.6);
+  margin-top:0.8rem;
+  animation:nameGlow 2.5s ease-in-out infinite;
+}
+@keyframes nameGlow{0%,100%{filter:drop-shadow(0 0 20px var(--gold))}50%{filter:drop-shadow(0 0 60px var(--gold)) drop-shadow(0 0 120px var(--rose))}}
+.hero-tagline{
+  font-family:'Italiana',serif;font-size:clamp(1rem,2.5vw,1.6rem);
+  color:rgba(255,255,255,0.7);margin-top:1rem;line-height:1.9;
+}
+.hero-date-pill{
+  display:inline-block;margin-top:1.2rem;
+  font-family:'Quicksand',sans-serif;font-weight:700;
+  font-size:clamp(0.9rem,2vw,1.2rem);
+  color:var(--mint);
+  border:1.5px solid rgba(61,219,217,0.35);
+  padding:0.35rem 1.6rem;border-radius:50px;
+  background:rgba(61,219,217,0.07);
+  text-shadow:0 0 20px var(--mint);
+}
+.hero-emojis{display:flex;justify-content:center;gap:1rem;font-size:2.5rem;margin-top:1.6rem;flex-wrap:wrap;}
+.hero-emojis span{display:inline-block;}
+.scroll-arrow{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  color:rgba(255,255,255,0.3);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;
+}
+.arrow-bounce{font-size:1.5rem;animation:arrowBob 1.5s ease-in-out infinite;}
+@keyframes arrowBob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+/* stars */
+.starfield{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite;}
+
+/* ── SEC HEADING ── */
+.sec-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;
+  font-size:clamp(2rem,5vw,4rem);
+  text-align:center;margin-bottom:0.5rem;
+}
+.sec-sub{
+  font-family:'Sacramento',cursive;font-size:clamp(1rem,2.5vw,1.6rem);
+  color:rgba(255,255,255,0.4);text-align:center;margin-bottom:3rem;
+}
+
+/* ── COINCIDENCE ── */
+#s-coinc{background:linear-gradient(160deg,#0d0820,#1a0a2e,#001829);}
+.coinc-cards{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;max-width:860px;}
+.coinc-card{
+  flex:1;min-width:250px;
+  border-radius:28px;padding:2.2rem;text-align:center;
+  backdrop-filter:blur(16px);
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;
+  position:relative;overflow:hidden;
+}
+.coinc-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.05),transparent 60%);
+  pointer-events:none;
+}
+.coinc-card.pink{
+  background:linear-gradient(135deg,rgba(255,107,157,0.12),rgba(199,125,255,0.08));
+  border:1.5px solid rgba(255,107,157,0.35);
+  box-shadow:0 20px 60px rgba(255,107,157,0.1);
+}
+.coinc-card.blue{
+  background:linear-gradient(135deg,rgba(61,219,217,0.1),rgba(26,155,230,0.08));
+  border:1.5px solid rgba(61,219,217,0.3);
+  box-shadow:0 20px 60px rgba(61,219,217,0.08);
+}
+.coinc-card:hover{transform:translateY(-12px) rotate(-1.5deg);box-shadow:0 40px 80px rgba(255,107,157,0.2);}
+.cc-emoji{font-size:4rem;display:block;margin-bottom:0.8rem;}
+.cc-name{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.5rem;margin-bottom:0.4rem;color:#fff;}
+.cc-date{font-family:'Sacramento',cursive;font-size:1.3rem;color:var(--gold);margin-bottom:0.8rem;}
+.cc-note{font-family:'Quicksand',sans-serif;font-size:0.95rem;color:rgba(255,255,255,0.78);line-height:1.7;}
+.coinc-vs{
+  font-family:'Pacifico',cursive;font-size:2.5rem;
+  color:var(--rose);text-shadow:0 0 30px var(--rose);
+  align-self:center;
+}
+.coinc-verdict{
+  max-width:720px;margin-top:2rem;
+  background:rgba(245,200,66,0.05);
+  border:1.5px solid rgba(245,200,66,0.2);
+  border-radius:24px;padding:2rem 2.5rem;
+  text-align:center;font-family:'Quicksand',sans-serif;
+  font-size:1rem;color:rgba(255,255,255,0.85);line-height:2;
+  backdrop-filter:blur(12px);
+}
+.coinc-verdict strong{color:var(--gold);}
+
+/* ── DORAEMON SCENE ── */
+#s-dora{
+  background:linear-gradient(180deg,#87ceeb 0%,#b8e4f9 50%,#d4f1fe 100%);
+  padding:4rem 2rem 3rem;
+}
+.cloud{position:absolute;background:rgba(255,255,255,0.9);border-radius:60px;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.9);border-radius:50%;}
+.cloud::before{width:55%;height:160%;top:-80%;left:20%;}
+.cloud::after{width:38%;height:130%;top:-65%;left:50%;}
+@keyframes cloudDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(25px)}}
+.dora-section-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(1.8rem,4vw,3rem);color:#0a4a7a;text-align:center;margin-bottom:0.3rem;}
+.dora-section-sub{font-family:'Sacramento',cursive;font-size:1.3rem;color:#1a6aa0;text-align:center;margin-bottom:2rem;}
+.dora-scene{display:flex;align-items:flex-end;justify-content:center;gap:4rem;flex-wrap:wrap;position:relative;z-index:2;}
+.dora-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
+.dora-svg-main{width:min(300px,65vw);filter:drop-shadow(0 25px 60px rgba(0,0,0,0.2));}
+.speech-bubble{
+  position:absolute;top:-125px;left:50%;transform:translateX(-50%);
+  background:#fff;border-radius:20px;padding:1rem 1.4rem;
+  font-family:'Quicksand',sans-serif;font-weight:700;font-size:0.92rem;
+  color:#222;max-width:260px;min-width:200px;text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.12);line-height:1.5;
+  border:2px solid rgba(26,155,230,0.2);
+}
+.speech-bubble::after{content:'';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);border:10px solid transparent;border-top-color:#fff;}
+.dora-caption{font-family:'Sacramento',cursive;color:#0a4a7a;font-size:1.2rem;margin-top:0.8rem;}
+
+/* gadgets */
+.gadget-grid{
+  width:100%;max-width:780px;margin-top:2.5rem;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;
+}
+.gadget-card{
+  background:rgba(255,255,255,0.85);border-radius:20px;
+  padding:1.2rem;text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,0.1);
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;
+  border:2px solid rgba(255,255,255,0.9);
+}
+.gadget-card:hover{transform:translateY(-12px) rotate(-3deg);box-shadow:0 20px 50px rgba(0,0,0,0.15);}
+.gadget-icon{font-size:2.2rem;display:block;margin-bottom:0.5rem;}
+.gadget-name{font-family:'Quicksand',sans-serif;font-size:0.8rem;color:#444;line-height:1.4;font-weight:700;}
+
+/* height chart */
+.height-chart{
+  width:100%;max-width:720px;margin-top:2.5rem;
+  background:rgba(255,255,255,0.4);border-radius:28px;
+  padding:2rem;backdrop-filter:blur(12px);
+  border:2px solid rgba(255,255,255,0.6);
+}
+.hc-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.3rem;color:#0a4a7a;margin-bottom:1.5rem;text-align:center;}
+.hc-bars{display:flex;align-items:flex-end;justify-content:center;gap:2rem;}
+.hc-col{display:flex;flex-direction:column;align-items:center;gap:0.5rem;}
+.hc-bar{width:52px;border-radius:10px 10px 0 0;transition:height 1.5s cubic-bezier(0.34,1.56,0.64,1);}
+.hc-icon{font-size:2.2rem;}
+.hc-label{font-family:'Quicksand',sans-serif;font-size:0.78rem;color:#333;text-align:center;font-weight:600;line-height:1.3;}
+.hc-note{text-align:center;font-family:'Sacramento',cursive;color:#444;font-size:1.1rem;margin-top:1rem;}
+
+/* ── PROOF ── */
+#s-proof{background:linear-gradient(160deg,#0a1628,#001f5b,#0d0820);}
+.proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem;max-width:1020px;}
+.proof-card{
+  background:rgba(255,255,255,0.05);
+  border:1.5px solid rgba(61,219,217,0.2);
+  border-radius:24px;padding:1.8rem;text-align:center;
+  backdrop-filter:blur(12px);
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+}
+.proof-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top left,rgba(255,107,157,0.06),transparent 60%);
+  pointer-events:none;
+}
+.proof-card:hover{
+  transform:translateY(-10px) rotate(-1.5deg);
+  border-color:var(--gold);
+  background:rgba(245,200,66,0.07);
+  box-shadow:0 30px 70px rgba(245,200,66,0.12);
+}
+.pc-icon{font-size:3rem;display:block;margin-bottom:0.7rem;}
+.pc-title{font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);font-size:1.15rem;margin-bottom:0.5rem;}
+.pc-text{font-family:'Quicksand',sans-serif;color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7;}
+
+/* ── ROAST ── */
+#s-roast{background:linear-gradient(135deg,#0d0820,#1f0760,#0a0030);}
+.roast-stack{display:flex;flex-direction:column;gap:1.2rem;max-width:820px;}
+.roast-item{
+  background:rgba(255,255,255,0.04);
+  border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:1.3rem 1.8rem;
+  display:flex;align-items:flex-start;gap:1.2rem;
+  color:#fff;font-family:'Quicksand',sans-serif;
+  font-size:clamp(0.9rem,2vw,1.05rem);line-height:1.8;
+  backdrop-filter:blur(8px);
+  transition:transform 0.3s,border-color 0.3s,background 0.3s;
+  position:relative;overflow:hidden;
+}
+.roast-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--rose),var(--lavender));border-radius:3px;}
+.roast-item:hover{transform:translateX(14px);border-color:var(--rose);background:rgba(255,107,157,0.06);}
+.ri-icon{font-size:2rem;flex-shrink:0;margin-top:0.1rem;}
+
+/* ── LIFE WISDOM ── */
+#s-wisdom{background:linear-gradient(160deg,#0d0820,#1a003f,#000e2a);}
+.wisdom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1020px;}
+.wisdom-card{
+  border-radius:24px;padding:2rem;
+  position:relative;overflow:hidden;
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;
+}
+.wisdom-card:hover{transform:translateY(-12px) rotate(1deg);box-shadow:0 40px 80px rgba(0,0,0,0.4);}
+.wisdom-card.w1{background:linear-gradient(135deg,rgba(255,107,157,0.18),rgba(199,125,255,0.12));border:1.5px solid rgba(255,107,157,0.3);}
+.wisdom-card.w2{background:linear-gradient(135deg,rgba(245,200,66,0.15),rgba(255,107,157,0.1));border:1.5px solid rgba(245,200,66,0.3);}
+.wisdom-card.w3{background:linear-gradient(135deg,rgba(61,219,217,0.12),rgba(26,155,230,0.1));border:1.5px solid rgba(61,219,217,0.3);}
+.wisdom-card.w4{background:linear-gradient(135deg,rgba(199,125,255,0.15),rgba(61,219,217,0.08));border:1.5px solid rgba(199,125,255,0.3);}
+.wisdom-card.w5{background:linear-gradient(135deg,rgba(255,200,100,0.15),rgba(255,107,157,0.1));border:1.5px solid rgba(255,200,100,0.3);}
+.wisdom-card.w6{background:linear-gradient(135deg,rgba(61,219,217,0.12),rgba(199,125,255,0.1));border:1.5px solid rgba(61,219,217,0.25);}
+.wc-icon{font-size:3rem;display:block;margin-bottom:1rem;}
+.wc-quote{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+  font-size:1.25rem;color:var(--gold);margin-bottom:0.8rem;line-height:1.5;
+}
+.wc-body{font-family:'Quicksand',sans-serif;font-size:0.95rem;color:rgba(255,255,255,0.82);line-height:1.8;}
+.wc-dora{font-family:'Sacramento',cursive;font-size:1rem;color:var(--rose);margin-top:0.8rem;display:block;}
+
+/* ── MESSAGES ── */
+#s-msgs{background:linear-gradient(135deg,#1a0030,#2d005a,#0d0820);}
+.msg-scroll{
+  display:flex;gap:1.4rem;overflow-x:auto;
+  padding:1rem 0.5rem 2rem;max-width:940px;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+}
+.msg-scroll::-webkit-scrollbar{height:5px;}
+.msg-scroll::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--rose),var(--lavender));border-radius:10px;}
+.msg-card{
+  flex:0 0 280px;scroll-snap-align:start;
+  border-radius:24px;padding:1.8rem;
+  font-family:'Quicksand',sans-serif;color:#fff;font-size:0.95rem;line-height:1.8;
+  text-align:center;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+}
+.msg-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.06),transparent);pointer-events:none;}
+.msg-card.m1{background:linear-gradient(135deg,rgba(199,125,255,0.12),rgba(255,107,157,0.08));border:1.5px solid rgba(199,125,255,0.3);}
+.msg-card.m2{background:linear-gradient(135deg,rgba(26,155,230,0.12),rgba(61,219,217,0.08));border:1.5px solid rgba(26,155,230,0.3);}
+.msg-card.m3{background:linear-gradient(135deg,rgba(245,200,66,0.1),rgba(255,107,157,0.08));border:1.5px solid rgba(245,200,66,0.25);}
+.msg-card:hover{transform:translateY(-12px) rotate(-2deg);}
+.msg-icon{font-size:2.8rem;display:block;margin-bottom:0.8rem;}
+.msg-scroll-hint{font-family:'Quicksand',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.35);text-align:center;margin-top:0.5rem;letter-spacing:2px;}
+
+/* ── WISHES ── */
+#s-wishes{background:linear-gradient(160deg,#4a0020,#8b0042,#3d0060);}
+.wish-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.6rem;max-width:1100px;}
+.wish-card{
+  border-radius:26px;padding:2rem;text-align:center;
+  backdrop-filter:blur(14px);
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;
+  position:relative;overflow:hidden;
+}
+.wish-card::after{
+  content:'';position:absolute;top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle,rgba(255,255,255,0.04),transparent 60%);
+  pointer-events:none;
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{transform:translate(0,0)}50%{transform:translate(10%,10%)}}
+.wish-card.v1{background:rgba(255,107,157,0.1);border:1.5px solid rgba(255,107,157,0.25);}
+.wish-card.v2{background:rgba(199,125,255,0.1);border:1.5px solid rgba(199,125,255,0.25);}
+.wish-card.v3{background:rgba(245,200,66,0.08);border:1.5px solid rgba(245,200,66,0.2);}
+.wish-card.v4{background:rgba(61,219,217,0.08);border:1.5px solid rgba(61,219,217,0.2);}
+.wish-card:hover{transform:translateY(-14px) rotate(-2deg);box-shadow:0 40px 80px rgba(0,0,0,0.35);}
+.ww-emoji{font-size:3rem;display:block;margin-bottom:0.8rem;}
+.ww-text{font-family:'Quicksand',sans-serif;font-size:0.97rem;color:rgba(255,255,255,0.9);line-height:1.8;}
+.ww-from{font-family:'Sacramento',cursive;font-size:1.1rem;color:var(--gold);margin-top:1rem;display:block;}
+
+/* ── TIMELINE ── */
+#s-timeline{background:linear-gradient(160deg,#0a1628,#001f5b,#071420);}
+.timeline{max-width:740px;width:100%;position:relative;}
+.timeline::before{
+  content:'';position:absolute;left:36px;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--rose),var(--lavender),var(--mint));
+  border-radius:4px;
+}
+.tl-item{display:flex;gap:1.6rem;margin-bottom:2.2rem;align-items:flex-start;}
+.tl-dot{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+  border:2.5px solid rgba(255,255,255,0.15);position:relative;z-index:1;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+}
+.tl-content{
+  flex:1;background:rgba(255,255,255,0.05);
+  border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:1.2rem 1.5rem;
+  backdrop-filter:blur(8px);
+}
+.tl-year{font-family:'Sacramento',cursive;color:var(--gold);font-size:1.2rem;margin-bottom:0.4rem;}
+.tl-text{font-family:'Quicksand',sans-serif;color:rgba(255,255,255,0.85);font-size:0.95rem;line-height:1.7;}
+
+/* ── BLESSINGS ── */
+#s-bless{background:linear-gradient(135deg,#0f2027,#1a3a4a,#0d0820);}
+.bless-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem;max-width:900px;}
+.bless-item{
+  background:rgba(255,255,255,0.05);
+  border:1.5px solid rgba(61,219,217,0.2);
+  border-radius:18px;padding:1.2rem 1.6rem;
+  display:flex;align-items:center;gap:1rem;
+  color:#fff;font-family:'Quicksand',sans-serif;font-size:1rem;
+  line-height:1.7;font-weight:600;
+  transition:all 0.3s;
+}
+.bless-item:hover{background:rgba(61,219,217,0.08);border-color:var(--mint);transform:translateX(8px);}
+.bi-icon{font-size:1.8rem;flex-shrink:0;}
+
+/* ── LETTER ── */
+#s-letter{background:radial-gradient(ellipse at 50% 50%,#2d0050,#0d0820);}
+.letter-envelope{
+  max-width:700px;width:100%;
+  background:rgba(255,248,240,0.05);
+  border:1.5px solid rgba(245,200,66,0.2);
+  border-radius:28px;padding:3rem;
+  font-family:'Quicksand',sans-serif;
+  color:rgba(255,255,255,0.88);
+  font-size:1rem;line-height:2.1;
+  backdrop-filter:blur(14px);
+  position:relative;
+}
+.letter-envelope::before{
+  content:'"';position:absolute;top:-0.5rem;left:1.5rem;
+  font-family:'Cormorant Garamond',serif;font-size:8rem;
+  color:rgba(245,200,66,0.12);line-height:1;
+}
+.letter-greeting{font-family:'Sacramento',cursive;font-size:2.5rem;color:var(--gold);display:block;margin-bottom:1.5rem;}
+.letter-sig{font-family:'Sacramento',cursive;font-size:1.5rem;color:var(--rose);margin-top:1.5rem;display:block;}
+
+/* ── CHAOS / FINALE ── */
+#s-chaos{background:#000;position:relative;min-height:100vh;}
+.spam-canvas{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.spam-word{
+  position:absolute;white-space:nowrap;user-select:none;opacity:0;
+  font-family:'Pacifico',cursive;
+}
+.finale-display{
+  position:relative;z-index:50;text-align:center;
+  display:none;opacity:0;padding:2rem;
+}
+.finale-hb{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;
+  font-size:clamp(3rem,11vw,9rem);
+  background:linear-gradient(90deg,#f5c842,#ff6b9d,#c77dff,#3ddbd9,#f5c842);
+  background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradFlow 2s linear infinite;line-height:0.95;
+}
+.finale-name{
+  font-family:'Sacramento',cursive;font-size:clamp(1.5rem,4vw,3.5rem);
+  color:#fff;margin-top:1rem;
+}
+.finale-line{
+  font-family:'Quicksand',sans-serif;font-weight:600;
+  font-size:clamp(0.9rem,2vw,1.15rem);
+  color:rgba(255,255,255,0.6);margin-top:0.8rem;line-height:1.9;
+}
+.finale-emojis{font-size:2.8rem;margin-top:1.2rem;display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;}
+.confetti-piece{position:fixed;pointer-events:none;z-index:9999;border-radius:3px;}
+
+/* ── NAME INPUT SECTION ── */
+#s-input{background:linear-gradient(135deg,#4a0088,#1a0060,#0d0820);}
+.inp-box{width:100%;max-width:500px;display:flex;flex-direction:column;align-items:center;gap:1.4rem;}
+.main-inp{
+  width:100%;padding:1.1rem 2rem;
+  font-family:'Quicksand',sans-serif;font-size:1.2rem;font-weight:600;
+  border:none;border-radius:60px;
+  background:rgba(255,255,255,0.95);
+  color:#4400cc;text-align:center;
+  outline:none;
+  box-shadow:0 12px 50px rgba(0,0,0,0.3);
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.main-inp:focus{transform:scale(1.03);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.main-inp::placeholder{color:rgba(0,0,200,0.35);}
+.main-btn{
+  padding:1rem 2.8rem;font-family:'Pacifico',cursive;font-size:1.2rem;
+  background:linear-gradient(135deg,var(--gold),#ff9800);
+  color:#400080;border:none;border-radius:60px;cursor:none;
+  box-shadow:0 12px 40px rgba(245,200,66,0.4);
+  transition:transform 0.2s,box-shadow 0.2s;
+  letter-spacing:1px;
+}
+.main-btn:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 20px 60px rgba(245,200,66,0.6);}
+.warn-txt{font-family:'Quicksand',sans-serif;color:rgba(255,255,255,0.35);font-size:0.85rem;text-align:center;}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#0d0820;}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--rose),var(--lavender));border-radius:10px;}
+
+@media(max-width:600px){
+  .coinc-cards{flex-direction:column;align-items:center;}
+  .hc-bars{gap:0.8rem;}
+  .hc-bar{width:38px;}
+  .letter-envelope{padding:2rem 1.5rem;}
+  .tl-dot{width:56px;height:56px;font-size:1.5rem;}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- THREE.JS BACKGROUND -->
-  <canvas id="three-canvas"></canvas>
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-emoji">🌸</div>
 
-  <!-- CURSOR -->
-  <div id="cursor">🎉</div>
+<!-- PETAL LAYER -->
+<div class="petal-layer" id="petalLayer"></div>
 
-  <!-- ════ DOREMON JUMPSCARE OVERLAY ════ -->
-  <div id="jumpscare">
-    <div class="js-dora">🔵</div>
-    <!-- Big Doremon SVG jumpscare -->
-    <svg width="220" height="260" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"
-      style="filter:drop-shadow(0 0 60px #1a9be6);animation:jsDora .08s infinite;">
-      <circle cx="150" cy="148" r="108" fill="#1a9be6" />
-      <ellipse cx="150" cy="162" rx="82" ry="72" fill="white" />
-      <circle cx="118" cy="130" r="25" fill="white" />
-      <circle cx="182" cy="130" r="25" fill="white" />
-      <circle cx="122" cy="133" r="15" fill="#111" />
-      <circle cx="186" cy="133" r="15" fill="#111" />
-      <circle cx="127" cy="127" r="6" fill="white" />
-      <circle cx="191" cy="127" r="6" fill="white" />
-      <circle cx="150" cy="154" r="13" fill="#FF4757" />
-      <line x1="162" y1="161" x2="230" y2="148" stroke="#555" stroke-width="2.5" />
-      <line x1="162" y1="168" x2="232" y2="168" stroke="#555" stroke-width="2.5" />
-      <line x1="162" y1="175" x2="230" y2="188" stroke="#555" stroke-width="2.5" />
-      <line x1="138" y1="161" x2="70" y2="148" stroke="#555" stroke-width="2.5" />
-      <line x1="138" y1="168" x2="68" y2="168" stroke="#555" stroke-width="2.5" />
-      <line x1="138" y1="175" x2="70" y2="188" stroke="#555" stroke-width="2.5" />
-      <path d="M 116 192 Q 150 220 184 192" stroke="#555" stroke-width="3" fill="none" stroke-linecap="round" />
-      <rect x="87" y="225" width="126" height="20" rx="10" fill="#FF4757" />
-      <circle cx="150" cy="239" r="10" fill="#FFE135" />
-      <ellipse cx="150" cy="312" rx="100" ry="80" fill="#1a9be6" />
-      <ellipse cx="150" cy="320" rx="70" ry="58" fill="white" />
-      <ellipse cx="150" cy="330" rx="44" ry="24" fill="none" stroke="#ddd" stroke-width="2" />
-      <ellipse cx="55" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(-16 55 296)" />
-      <ellipse cx="245" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(16 245 296)" />
-      <circle cx="46" cy="344" r="22" fill="white" />
-      <circle cx="254" cy="344" r="22" fill="white" />
-      <ellipse cx="116" cy="387" rx="40" ry="17" fill="white" />
-      <ellipse cx="184" cy="387" rx="40" ry="17" fill="white" />
+<!-- ═══ NAME ENTRY ═══ -->
+<div id="name-entry">
+  <div class="ne-stars" id="neStars"></div>
+  <div class="ne-floats" id="neFloats"></div>
+  <div class="ne-title">🌸 Ruko ek second...</div>
+  <div class="ne-sub">Pehle apna naam batao toh sahi 👀</div>
+  <div class="ne-input-wrap">
+    <input class="ne-input" id="neInput" type="text" placeholder="Apna naam yahan likhna..." autocomplete="off"/>
+  </div>
+  <button class="ne-btn" id="neBtn">Birthday Party Shuru Karo! 🎊</button>
+  <p style="font-family:'Quicksand',sans-serif;color:rgba(255,255,255,0.3);font-size:0.8rem;text-align:center;">⚠️ Jo naam likha — wahi har jagah dikhega. Choose wisely. 😂</p>
+</div>
+
+<!-- ═══ JUMPSCARE ═══ -->
+<div id="jumpscare">
+  <div class="js-bg-flash" id="jsBgFlash"></div>
+  <div class="js-strobe" id="jsStrobe"></div>
+  <div class="js-dora-container" id="jsDoraContainer">
+    <svg class="js-dora-svg" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+      <!-- Bell -->
+      <polygon points="150,0 110,70 190,70" fill="#ff6b9d"/>
+      <ellipse cx="150" cy="70" rx="40" ry="13" fill="#FF4757"/>
+      <circle cx="150" cy="0" r="9" fill="#FFD166"/>
+      <!-- Head -->
+      <circle cx="150" cy="148" r="108" fill="#1a9be6"/>
+      <!-- Face white -->
+      <ellipse cx="150" cy="162" rx="82" ry="72" fill="white"/>
+      <!-- Eyes white -->
+      <circle cx="118" cy="130" r="28" fill="white"/>
+      <circle cx="182" cy="130" r="28" fill="white"/>
+      <!-- Eyes pupils -->
+      <circle cx="120" cy="133" r="16" fill="#111"/>
+      <circle cx="184" cy="133" r="16" fill="#111"/>
+      <!-- Eye shine -->
+      <circle cx="126" cy="127" r="7" fill="white"/>
+      <circle cx="190" cy="127" r="7" fill="white"/>
+      <!-- Nose -->
+      <circle cx="150" cy="154" r="14" fill="#FF4757"/>
+      <!-- Whiskers -->
+      <line x1="164" y1="161" x2="240" y2="146" stroke="#555" stroke-width="2.5"/>
+      <line x1="164" y1="169" x2="242" y2="169" stroke="#555" stroke-width="2.5"/>
+      <line x1="164" y1="177" x2="240" y2="192" stroke="#555" stroke-width="2.5"/>
+      <line x1="136" y1="161" x2="60" y2="146" stroke="#555" stroke-width="2.5"/>
+      <line x1="136" y1="169" x2="58" y2="169" stroke="#555" stroke-width="2.5"/>
+      <line x1="136" y1="177" x2="60" y2="192" stroke="#555" stroke-width="2.5"/>
+      <!-- Mouth open (screaming) -->
+      <path d="M 108 195 Q 150 240 192 195" stroke="#555" stroke-width="3" fill="#FF4757" stroke-linecap="round"/>
+      <!-- Teeth -->
+      <rect x="130" y="195" width="18" height="14" rx="3" fill="white"/>
+      <rect x="152" y="195" width="18" height="14" rx="3" fill="white"/>
+      <!-- Collar -->
+      <rect x="87" y="225" width="126" height="22" rx="11" fill="#FF4757"/>
+      <circle cx="150" cy="239" r="11" fill="#FFD166"/>
+      <!-- Body -->
+      <ellipse cx="150" cy="316" rx="100" ry="82" fill="#1a9be6"/>
+      <ellipse cx="150" cy="325" rx="70" ry="60" fill="white"/>
+      <!-- Pocket -->
+      <ellipse cx="150" cy="336" rx="46" ry="27" fill="none" stroke="#ddd" stroke-width="2.5"/>
+      <!-- Arms -->
+      <ellipse cx="55" cy="300" rx="22" ry="55" fill="#1a9be6" transform="rotate(-16 55 300)"/>
+      <ellipse cx="245" cy="300" rx="22" ry="55" fill="#1a9be6" transform="rotate(16 245 300)"/>
+      <!-- Hands -->
+      <circle cx="46" cy="350" r="24" fill="white"/>
+      <circle cx="254" cy="350" r="24" fill="white"/>
+      <!-- Feet -->
+      <ellipse cx="116" cy="396" rx="42" ry="18" fill="white"/>
+      <ellipse cx="184" cy="396" rx="42" ry="18" fill="white"/>
     </svg>
-    <div class="js-text">BOO! MAIN DOREMON HOON! 🔵</div>
-    <div class="js-sub">
-      <!-- ★ Name: Replace Name below ★ -->
-      Name ko birthday mubarak! 🎂<br>
-      <small style="color:rgba(255,255,255,.6);font-size:.85rem;">Darr gayi? Shukar hai tujhse lamba hoon! 😂</small>
+  </div>
+  <div class="js-text" id="jsText">BOO!! 👻</div>
+  <div class="js-sub" id="jsSub">Doremon aagaya! Darr gayi? 😂</div>
+  <div class="js-hint">Kahin bhi tap karo — band ho jaayega</div>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="birthday_song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ═══ MAIN SITE ═══ -->
+<div id="main-site">
+
+<!-- HERO -->
+<section id="s-hero">
+  <div class="starfield" id="starField"></div>
+  <div class="hero-badge">🌸 Ek Khaas Insaan — Ek Khaas Din — Bahut Zyaada Pyaar 🌸</div>
+  <h1 class="hero-title" id="heroTitle">ARE YAAR!<br>PHIR SE<br>BADI HO<br>GAYI?!</h1>
+  <div class="hero-name-display" id="heroNameDisplay">✨ <span class="user-name-here">Name</span> ✨</div>
+  <div class="hero-tagline" id="heroTagline">
+    Sab se chhhoti si jaan &nbsp;•&nbsp; Sab se bada dil &nbsp;•&nbsp; Height? 🤫<br>
+    Duniya ki sabse legendary Doremon Laddu — officially 18 saal ki! 🎊
+  </div>
+  <div class="hero-date-pill">🌸 18 January 2007 — Teri Saalgirah 🌸</div>
+  <div class="hero-emojis" id="heroEmj">
+    <span>🎂</span><span>🌸</span><span>🥳</span><span>🔵</span><span>🎊</span><span>💀</span><span>✨</span><span>💕</span>
+  </div>
+  <div class="scroll-arrow">
+    <span>neeche aao yaar</span>
+    <span class="arrow-bounce">👇</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>🌸 SAALGIRAH MUBARAK</span><span>🔵 DOREMON LADDU</span><span>💀 BAUNI QUEEN</span><span>🎂 18 SAAL</span><span>✨ JANUARY 2007</span><span>🥳 BIRTHDAY EMERGENCY</span><span>💕 KHUSH RAHO</span><span>👑 QUEEN ENERGY</span>
+    <span>🌸 SAALGIRAH MUBARAK</span><span>🔵 DOREMON LADDU</span><span>💀 BAUNI QUEEN</span><span>🎂 18 SAAL</span><span>✨ JANUARY 2007</span><span>🥳 BIRTHDAY EMERGENCY</span><span>💕 KHUSH RAHO</span><span>👑 QUEEN ENERGY</span>
+  </div>
+</div>
+
+<!-- COINCIDENCE -->
+<section id="s-coinc">
+  <div class="sec-title" style="color:var(--gold);">😱 Yeh Coincidence Hai Ya Taqdir? 😱</div>
+  <div class="sec-sub">Scientific research ke baad — Doremon bhi hairan hai</div>
+  <div class="coinc-cards" id="coincCards">
+    <div class="coinc-card pink">
+      <span class="cc-emoji">😎</span>
+      <div class="cc-name" style="color:var(--rose);">Chikoo / Secret</div>
+      <div class="cc-date">📅 16 January 2007</div>
+      <div class="cc-note">Seedha seedha paida hua. Beta version. Minimal features. Koi drama nahi. Professionally. Quietly. Robot mode on. 🤖</div>
+    </div>
+    <div class="coinc-vs">VS</div>
+    <div class="coinc-card blue">
+      <span class="cc-emoji">🔵</span>
+      <div class="cc-name" style="color:var(--mint);">
+        <span class="user-name-here">Name</span><br>
+        <small style="font-size:0.8rem;opacity:0.6;">(aka Doremon Laddu)</small>
+      </div>
+      <div class="cc-date">📅 18 January 2007</div>
+      <div class="cc-note">2 din extra lia — duniya ko prepare karne ka time chahiye tha. Koi chhoti cheez nahi aati bina preparation ke. 💅</div>
+    </div>
+  </div>
+  <div class="coinc-verdict" id="coincVerdict">
+    <strong>USSSI SAAL. USSSI MAHEENE. SIRF 2 DIN KA FARQ.</strong><br><br>
+    Hum dono January 2007 ke products hain 😂<br>
+    Main 16 ko aaya — <strong>beta version, minor bugs.</strong><br>
+    <span class="user-name-here">Name</span> 2 din baad aayi — <strong>Full HD, premium chaos edition. 🔵</strong><br><br>
+    <span style="color:var(--mint);">Theory hai ke Allah ne mujhe pehle banaya, phir socha<br>
+    "yeh toh thoda boring hai" — aur <span class="user-name-here">Name</span> ko bheja full drama ke saath. 💀😭</span><br><br>
+    <span style="font-size:0.88rem;color:rgba(255,255,255,0.4);">P.S. Doremon bhi January mein paida hua tha. January gang forever. 🔵</span>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee-wrap">
+  <div class="marquee-inner" style="animation-direction:reverse;">
+    <span>📏 HEIGHT GADGET?</span><span>🎂 BIRTHDAY CAKE?</span><span>🌀 ANYWHERE DOOR?</span><span>💀 BAUNI CERTIFICATE</span><span>🔵 DOREMON POCKET</span><span>👑 QUEEN CONFIRMED</span><span>🌸 18 SAAL</span><span>✨ LEGEND STATUS</span>
+    <span>📏 HEIGHT GADGET?</span><span>🎂 BIRTHDAY CAKE?</span><span>🌀 ANYWHERE DOOR?</span><span>💀 BAUNI CERTIFICATE</span><span>🔵 DOREMON POCKET</span><span>👑 QUEEN CONFIRMED</span><span>🌸 18 SAAL</span><span>✨ LEGEND STATUS</span>
+  </div>
+</div>
+
+<!-- DOREMON SCENE -->
+<section id="s-dora">
+  <div class="cloud" style="width:180px;height:56px;top:8%;left:3%;animation:cloudDrift 9s ease-in-out infinite;"></div>
+  <div class="cloud" style="width:140px;height:44px;top:14%;right:6%;animation:cloudDrift 13s ease-in-out infinite reverse;"></div>
+  <div class="cloud" style="width:110px;height:34px;top:4%;right:25%;animation:cloudDrift 7s ease-in-out infinite;"></div>
+
+  <div class="dora-section-title">🔵 <span class="user-name-here">Name</span> Ki Spirit Animal — Doremon 🔵</div>
+  <div class="dora-section-sub">Doremon Laddu = <span class="user-name-here">Name</span> + Gol = Laddu. Simple math hai janaab. 💀</div>
+
+  <div class="dora-scene">
+    <div class="dora-wrap" id="doraWrap">
+      <div class="speech-bubble" id="speechBubble">Yaar phir badi ho gayi? 😩</div>
+      <svg class="dora-svg-main" id="doraSvgMain" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bell + hat -->
+        <polygon points="150,0 110,70 190,70" fill="#ff6b9d"/>
+        <ellipse cx="150" cy="70" rx="40" ry="13" fill="#FF4757"/>
+        <circle cx="150" cy="0" r="9" fill="#FFD166"/>
+        <!-- Head -->
+        <circle cx="150" cy="148" r="108" fill="#1a9be6"/>
+        <!-- Face -->
+        <ellipse cx="150" cy="162" rx="82" ry="72" fill="white"/>
+        <!-- Eyes -->
+        <circle cx="118" cy="130" r="25" fill="white"/>
+        <circle cx="182" cy="130" r="25" fill="white"/>
+        <circle cx="122" cy="133" r="15" fill="#222"/>
+        <circle cx="186" cy="133" r="15" fill="#222"/>
+        <circle cx="127" cy="127" r="6" fill="white"/>
+        <circle cx="191" cy="127" r="6" fill="white"/>
+        <!-- Nose -->
+        <circle cx="150" cy="154" r="13" fill="#FF4757"/>
+        <!-- Whiskers -->
+        <line x1="162" y1="161" x2="230" y2="148" stroke="#555" stroke-width="2.5"/>
+        <line x1="162" y1="168" x2="232" y2="168" stroke="#555" stroke-width="2.5"/>
+        <line x1="162" y1="175" x2="230" y2="188" stroke="#555" stroke-width="2.5"/>
+        <line x1="138" y1="161" x2="70" y2="148" stroke="#555" stroke-width="2.5"/>
+        <line x1="138" y1="168" x2="68" y2="168" stroke="#555" stroke-width="2.5"/>
+        <line x1="138" y1="175" x2="70" y2="188" stroke="#555" stroke-width="2.5"/>
+        <!-- Smile -->
+        <path d="M 116 192 Q 150 222 184 192" stroke="#555" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Collar -->
+        <rect x="87" y="225" width="126" height="20" rx="10" fill="#FF4757"/>
+        <circle cx="150" cy="239" r="10" fill="#FFD166"/>
+        <!-- Gift sign -->
+        <rect x="8" y="325" width="62" height="34" rx="8" fill="white" opacity="0.92"/>
+        <text x="39" y="348" font-family="Arial" font-weight="bold" font-size="16" fill="#FF4757" text-anchor="middle">18! 🎂</text>
+        <!-- Body -->
+        <ellipse cx="150" cy="316" rx="100" ry="80" fill="#1a9be6"/>
+        <ellipse cx="150" cy="324" rx="70" ry="58" fill="white"/>
+        <!-- Pocket -->
+        <ellipse cx="150" cy="336" rx="46" ry="27" fill="none" stroke="#ddd" stroke-width="2"/>
+        <!-- Arms -->
+        <ellipse cx="55" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(-16 55 296)"/>
+        <ellipse cx="245" cy="296" rx="20" ry="54" fill="#1a9be6" transform="rotate(16 245 296)"/>
+        <!-- Hands -->
+        <circle cx="46" cy="344" r="22" fill="white"/>
+        <circle cx="254" cy="344" r="22" fill="white"/>
+        <!-- Feet -->
+        <ellipse cx="116" cy="387" rx="40" ry="17" fill="white"/>
+        <ellipse cx="184" cy="387" rx="40" ry="17" fill="white"/>
+      </svg>
+      <div class="dora-caption">Doremon Laddu = <span class="user-name-here">Name</span> 🔵💕</div>
     </div>
   </div>
 
-  <!-- MUSIC BUTTON -->
-  <!--
-  ╔═══════════════════════════════════════════════════╗
-  ║  🎵 SONG SETUP — READ THIS!                       ║
-  ║  Song: youtube.com/watch?v=BXbw2joR5j8            ║
-  ║  1. Download as MP3 (any yt-to-mp3 site)          ║
-  ║  2. Save as "birthday_song.mp3" — same folder     ║
-  ║  3. Remove the comment markers around audio tag   ║
-  ╚═══════════════════════════════════════════════════╝
--->
-  <audio id="bgMusic" loop>
-  <source src="birthday_song.mp3" type="audio/mpeg">
-</audio> 
-  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵 Gaana Chalao!</button>
+  <div class="gadget-grid" id="gadgetGrid">
+    <div class="gadget-card"><span class="gadget-icon">📏</span><div class="gadget-name">Height +15cm<br><small style="color:#999;">(urgent lagta hai 💀)</small></div></div>
+    <div class="gadget-card"><span class="gadget-icon">🌀</span><div class="gadget-name">Anywhere Door<br><small style="color:#999;">(problems se bhaago)</small></div></div>
+    <div class="gadget-card"><span class="gadget-icon">✨</span><div class="gadget-name">Glow Up Spray<br><small style="color:#999;">(already glowing 💕)</small></div></div>
+    <div class="gadget-card"><span class="gadget-icon">🍩</span><div class="gadget-name">Dorayaki ∞<br><small style="color:#999;">(unlimited supply)</small></div></div>
+    <div class="gadget-card"><span class="gadget-icon">👑</span><div class="gadget-name">Queen Crown<br><small style="color:#999;">(teri hi hai)</small></div></div>
+    <div class="gadget-card"><span class="gadget-icon">💪</span><div class="gadget-name">Confidence +100<br><small style="color:#999;">(already zyada hai 😂)</small></div></div>
+  </div>
 
-  <!-- ═══ S1: HERO ═══ -->
-  <section id="s1">
-    <div class="star-field" id="starField"></div>
-    <div class="float-bg" id="floatBg"></div>
-    <div class="hero-wrap">
-      <div class="hero-tag" id="heroTag">⚠️ KHABARDAR — BIRTHDAY EMERGENCY HAI ⚠️</div>
-      <h1 class="hero-title" id="heroTitle">ARE YAAR!<br>PHIR SE<br>BADI HO<br>GAYI?!</h1>
-      <!-- ★ Replace Name below with her real name ★ -->
-      <div class="hero-name" id="heroName">✨ Name ✨<br><span
-          style="font-size:clamp(.9rem,2vw,1.3rem);color:var(--pink);font-family:'Bubblegum Sans',cursive;">aka Doremon
-          Laddu 🔵</span></div>
-      <p class="hero-sub" id="heroSub">
-        Doremon Laddu &nbsp;•&nbsp; Bauni &nbsp;•&nbsp; Pagal &nbsp;•&nbsp; Legend 💀<br>
-        Duniya ki sabse choti aur sabse zor se bolne wali 😂
-      </p>
-      <div class="hero-date" id="heroDate">🎂 18 January 2007 — Official Bauni Day 🎂</div>
-      <div class="hero-emojis" id="heroEmj">
-        <span>🎂</span><span>🎉</span><span>🥳</span><span>🔵</span><span>🎊</span><span>💀</span><span>🎈</span>
-      </div>
+  <div class="height-chart" id="heightChart">
+    <div class="hc-title">📏 Scientific Height Study — Doremon Research Lab</div>
+    <div class="hc-bars">
+      <div class="hc-col"><div class="hc-icon">🦒</div><div class="hc-bar" id="hbA" style="height:0;background:linear-gradient(#f5c842,#e6a817);"></div><div class="hc-label">Normal<br>Insaan</div></div>
+      <div class="hc-col"><div class="hc-icon">🔵</div><div class="hc-bar" id="hbB" style="height:0;background:linear-gradient(#1a9be6,#0e6faa);"></div><div class="hc-label">Doremon</div></div>
+      <div class="hc-col"><div class="hc-icon">🚪</div><div class="hc-bar" id="hbBB" style="height:0;background:linear-gradient(#aaa,#666);"></div><div class="hc-label">Door<br>Handle</div></div>
+      <div class="hc-col"><div class="hc-icon">😂</div><div class="hc-bar" id="hbC" style="height:0;background:linear-gradient(#ff6b9d,#d6006b);"></div><div class="hc-label"><span class="user-name-here">Name</span><br>Laddu 💀</div></div>
+      <div class="hc-col"><div class="hc-icon">🍬</div><div class="hc-bar" id="hbD" style="height:0;background:linear-gradient(#FFD166,#e6a817);"></div><div class="hc-label">Actual<br>Laddu 😭</div></div>
     </div>
-    <div class="scroll-pill">
-      <div class="pill-dot"></div>
-      <span>neeche scroll kar bestie 👇</span>
+    <div class="hc-note">* Doremon ne khud measure kiya. Ro pada. Pocket mein chala gaya. 💀</div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="s-proof">
+  <div class="sec-title" style="color:#fff;text-shadow:0 0 40px rgba(26,155,230,0.8);">🔵 <span class="user-name-here">Name</span> = Doremon Laddu — PROOF 🔵</div>
+  <div class="sec-sub">(court mein submit ho chuka hai. Judge Doremon tha.)</div>
+  <div class="proof-grid" id="proofGrid">
+    <div class="proof-card"><span class="pc-icon">📏</span><div class="pc-title">HEIGHT THEORY</div><div class="pc-text">Doremon chhota hai. <span class="user-name-here">Name</span> chhhoti hai. Science kehta hai — "Bauni Twins Phenomena." Research published. Peer reviewed. 💀</div></div>
+    <div class="proof-card"><span class="pc-icon">🔵</span><div class="pc-title">NEEL RANG ENERGY</div><div class="pc-text">Doremon neela hai. <span class="user-name-here">Name</span> ki energy pure electric chaos hai. Neela + dhamaka = Doremon Laddu. QED. 🌀</div></div>
+    <div class="proof-card"><span class="pc-icon">🎩</span><div class="pc-title">POCKET THEORY</div><div class="pc-text">Doremon ki pocket mein sab kuch hai. <span class="user-name-here">Name</span> ke dimaag mein bhi — roasts, drama, aur ek random song. Exactly same. 😂</div></div>
+    <div class="proof-card"><span class="pc-icon">😍</span><div class="pc-title">CUTE BUT DANGEROUS</div><div class="pc-text">Doremon cute lagta hai magar shuru ho jaaye toh rukta nahi. <span class="user-name-here">Name</span> ka bhi yehi haal hai. Darr ke raho. 💀</div></div>
+    <div class="proof-card"><span class="pc-icon">🍩</span><div class="pc-title">DORAYAKI RULE</div><div class="pc-text">Doremon ko dorayaki se rokna namumkin hai. <span class="user-name-here">Name</span> ko bhi. Same soul. Different body. 😭</div></div>
+    <div class="proof-card"><span class="pc-icon">👑</span><div class="pc-title">FINAL VERDICT</div><div class="pc-text"><span class="user-name-here">Name</span> IS Doremon. Gol = Laddu. Chhhoti + Personality = Legend. Court dismissed. Judge chhup gaya. 👑</div></div>
+  </div>
+</section>
+
+<!-- ROAST -->
+<section id="s-roast">
+  <div class="sec-title" style="color:var(--gold);">🔥 Roast Files — Best Friend Edition 🔥</div>
+  <div class="sec-sub"><span class="user-name-here">Name</span> ne khud permission di — ab mat rona baad mein 🌚</div>
+  <div class="roast-stack" id="roastStack">
+    <div class="roast-item"><span class="ri-icon">📏</span><span>Itni pyaari chhhoti si hai ke seedhi khadi hoti hai toh bhi log poochhte hain "baith kya rahi ho?" — Clouds bhi usse respect se neeche dekhte hain. 😭</span></div>
+    <div class="roast-item"><span class="ri-icon">🪑</span><span>Chair pe baithe toh paon zameen tak nahi pohonchte. Jhoolti rehti hai. Doremon ne iske liye special step stool banaya — woh bhi chhota nikla. 💀</span></div>
+    <div class="roast-item"><span class="ri-icon">🌧️</span><span>Barish mein bina chhata ke nikal jaati hai — paani uske sar ke oopar se guzar jaata hai seedha. Clouds bhi izzat karte hain is queen ko. 😂</span></div>
+    <div class="roast-item"><span class="ri-icon">🔵</span><span>Doremon ne pehli baar <span class="user-name-here">Name</span> ko dekha toh socha "yaar yeh meri cousin hai kya?" — Itna resemblance tha ke woh abhi bhi deny kar raha hai. 😭</span></div>
+    <div class="roast-item"><span class="ri-icon">🎢</span><span>Roller coaster pe sign tha "itna lamba hona zaroori hai." Usne sign kheencha aur bola "Doremon! Pocket mein koi jugaar hai?" 😤</span></div>
+    <div class="roast-item"><span class="ri-icon">👀</span><span>Bheed mein ghoom jaati hai. Search party shuru hoti hai. Phir ek awaaz aati hai — woh wahan se hi bol rahi thi. Seedhe saamne se. Kissi ko dikhi nahi. 💀</span></div>
+    <div class="roast-item"><span class="ri-icon">🧠</span><span>IQ level zabardast hai. Magar 90% dimaag height defend karne mein jaata hai. Baaki 10% se poori personality chalti hai. Honestly — respect. 👑</span></div>
+    <div class="roast-item"><span class="ri-icon">🌀</span><span>Energy level Doremon ki pocket ki capacity se bhi zyada hai. Scientists abhi tak samajh nahi paaye. Physics ke laws apply nahi hote. Khauf khuda ka. 😱</span></div>
+    <div class="roast-item"><span class="ri-icon">🍬</span><span>Naam "Laddu" kyun? Kyunki Laddu bhi gol hota hai, meetha hota hai, aur andar se itna bhara hua hota hai ke andaza hi nahi hota. Perfect comparison. 😂</span></div>
+    <div class="roast-item"><span class="ri-icon">🌸</span><span>18 saal ki ho gayi — magar dil abhi bhi wahi chhhota sa, soft sa, caring sa hai. Yeh roast nahi tha — yeh sachchi baat thi. Seriously. 💕</span></div>
+  </div>
+</section>
+
+<!-- LIFE WISDOM -->
+<section id="s-wisdom">
+  <div class="sec-title" style="color:var(--lavender);">🌙 Zindagi Ki Sachchi Baatein 🌙</div>
+  <div class="sec-sub">Doremon ki pocket se — dost ke dil se</div>
+  <div class="wisdom-grid" id="wisdomGrid">
+    <div class="wisdom-card w1">
+      <span class="wc-icon">🌊</span>
+      <div class="wc-quote">"Zindagi aisee hi hoti hai yaar"</div>
+      <div class="wc-body">Kuch cheezein plan ke mutabiq nahi hoti. Kuch cheezein out of nowhere aati hain. Magar trust the process — Allah ka plan hamesha better hota hai. Frustrate mat ho. Flow karo. 🌸</div>
+      <span class="wc-dora">— Doremon ki pocket se 🔵</span>
     </div>
-  </section>
-
-  <!-- ═══ S1B: 16 vs 18 COINCIDENCE ═══ -->
-  <section id="s1b">
-    <div class="coinc-title" id="coinc-title">😱 Yeh Coincidence Hai Ya Conspiracy? 😱</div>
-    <div class="coinc-sub" id="coinc-sub">(scientific research ke baad yeh facts saamne aaye hain)</div>
-    <div class="coinc-cards" id="coincCards">
-      <div class="coinc-card mine">
-        <span class="cc-big">😎</span>
-        <div class="cc-name" style="color:var(--pink);">Chikoo / Secret<br><small
-            style="font-size:.75rem;opacity:.7;"></small></div>
-        <div class="cc-date">📅 16 January 2007</div>
-        <div class="cc-note">Normal insaan. Seedha seedha paida hua. Koi drama nahi. Bus 16 tarikh ko. Quietly.
-          Professionally. 😌</div>
-      </div>
-      <div class="coinc-vs">VS</div>
-      <!-- ★ Replace Name below ★ -->
-      <div class="coinc-card hers">
-        <span class="cc-big">🔵</span>
-        <div class="cc-name" style="color:var(--blue);">Name / Bauni<br><small
-            style="font-size:.75rem;opacity:.7;">(Doremon Laddu)</small></div>
-        <div class="cc-date">📅 18 January 2007</div>
-        <div class="cc-note">Duniya ko prepare karne ke liye 2 din ka time chahiye tha. Isliye 18 ko aayi. Kam se kam
-          dramatic entrance toh tha. 💀</div>
-      </div>
+    <div class="wisdom-card w2">
+      <span class="wc-icon">🛡️</span>
+      <div class="wc-quote">"Bure log? Ignore karna seekho"</div>
+      <div class="wc-body">Zindagi mein kuch log aate hain jo sirf energy drain karte hain. Unke liye apna mood kharab mat karo. <span class="user-name-here">Name</span> — teri energy gold hai. Ghataio pe mat barbaad karna. 💛</div>
+      <span class="wc-dora">— Best friend approved ✅</span>
     </div>
-    <div class="coinc-bottom" id="coincBottom">
-      <strong>USSSI SAAL. USSSI MAHEENE. 2 DIN KE FARQ SE.</strong><br><br>
-      Matlab? Hum dono January 2007 ke products hain 😂<br>
-      Main 16 ko launch hua — <strong>beta version.</strong><br>
-      <!-- ★ Replace Name below ★ -->
-      Woh 2 din baad aayi — <strong>full chaos edition with extra bugs. 🔵</strong><br><br>
-      <span style="color:var(--green);">Theory yeh hai ke Allah ne mujhe pehle banaya,<br>
-        phir socha "yeh toh boring hai" aur Name ko bheja. 💀😭</span><br><br>
-      <span style="font-size:.88rem;color:rgba(255,255,255,.55);">P.S. Doremon bhi January mein paida hua tha. Yeh sab
-        planned tha.</span>
+    <div class="wisdom-card w3">
+      <span class="wc-icon">🌻</span>
+      <div class="wc-quote">"Khud pe trust karo"</div>
+      <div class="wc-body">Bahar se chhoti lagti ho magar andar se itna bada honsla hai. Jo log underestimate karte hain — unhe apne kaam se jawab do. Sirf apne aap pe yakeen rakhna kaafi hai. 💪</div>
+      <span class="wc-dora">— Sach mein 💯</span>
     </div>
-  </section>
-
-  <!-- ═══ S2: DOREMON SCENE ═══ -->
-  <section id="s2">
-    <div class="cloud" style="width:175px;height:53px;top:8%;left:3%;animation:cf1 9s ease-in-out infinite;"></div>
-    <div class="cloud" style="width:135px;height:42px;top:13%;right:6%;animation:cf1 13s ease-in-out infinite reverse;">
+    <div class="wisdom-card w4">
+      <span class="wc-icon">🎭</span>
+      <div class="wc-quote">"Har rishta asli nahi hota"</div>
+      <div class="wc-body">Kuch log sirf apne kaam ke liye hote hain — close mat samajho unhe. Magar jo sachche dost hain, unhe pakad ke rakho. Woh rare hote hain. 🤍</div>
+      <span class="wc-dora">— Doremon ne bhi yehi kiya 🔵</span>
     </div>
-    <div class="cloud" style="width:105px;height:33px;top:4%;right:26%;animation:cf1 7s ease-in-out infinite;"></div>
-
-    <div class="s2-label" id="s2label">🔵 Teri Spirit Animal — Doremon 🔵</div>
-    <!-- ★ Replace Name below ★ -->
-    <div class="s2-slabel">(aur nickname — Doremon Laddu — because Name = Doremon + Gol = Laddu 💀)</div>
-
-    <div class="marquee-wrap">
-      <div class="marquee-inner">
-        <span>🔵 DOREMON KI POCKET SE KYA NIKLEGA?</span><span>📏 Height Gadget?</span><span>🎂 Birthday
-          Cake?</span><span>😂 Ek Aur Roast?</span><span>💀 Bauni Certificate?</span><span>🔵 ANYWHERE
-          DOOR?</span><span>🎉 Laddu ka Birthday?</span><span>🔵 DOREMON KI POCKET SE KYA NIKLEGA?</span><span>📏 Height
-          Gadget?</span><span>🎂 Birthday Cake?</span><span>😂 Ek Aur Roast?</span><span>💀 Bauni
-          Certificate?</span><span>🔵 ANYWHERE DOOR?</span><span>🎉 Laddu ka Birthday?</span>
-      </div>
+    <div class="wisdom-card w5">
+      <span class="wc-icon">✨</span>
+      <div class="wc-quote">"Khush rehna — choice hai"</div>
+      <div class="wc-body">Problems aayengi — life mein hamesha aati hain. Magar unhe apni khushi chheenney mat dena. <span class="user-name-here">Name</span> — teri muskaan toh Doremon ki dorayaki se bhi zyada valuable hai. 🍩</div>
+      <span class="wc-dora">— Sachchi baat 💕</span>
     </div>
-
-    <div class="scene">
-      <!-- DOREMON -->
-      <div class="dora-wrap" id="doraWrap">
-        <div class="bubble" id="bubble">Yaar phir badi ho gayi? 😩</div>
-        <svg class="dora-svg" id="doraSvg" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
-          <!-- party hat -->
-          <polygon points="150,0 110,70 190,70" fill="#FF6B9D" />
-          <ellipse cx="150" cy="70" rx="40" ry="13" fill="#FF4757" />
-          <circle cx="150" cy="0" r="9" fill="#FFE135" />
-          <line x1="127" y1="32" x2="136" y2="44" stroke="white" stroke-width="2.5" />
-          <line x1="170" y1="26" x2="174" y2="38" stroke="white" stroke-width="2.5" />
-          <line x1="152" y1="50" x2="147" y2="38" stroke="white" stroke-width="2.5" />
-          <!-- head -->
-          <circle cx="150" cy="148" r="108" fill="#1a9be6" />
-          <ellipse cx="150" cy="162" rx="82" ry="72" fill="white" />
-          <!-- eyes -->
-          <circle cx="118" cy="130" r="25" fill="white" />
-          <circle cx="182" cy="130" r="25" fill="white" />
-          <circle cx="122" cy="133" r="15" fill="#222" />
-          <circle cx="186" cy="133" r="15" fill="#222" />
-          <circle cx="127" cy="127" r="6" fill="white" />
-          <circle cx="191" cy="127" r="6" fill="white" />
-          <!-- nose -->
-          <circle cx="150" cy="154" r="13" fill="#FF4757" />
-          <!-- whiskers -->
-          <line x1="162" y1="161" x2="230" y2="148" stroke="#555" stroke-width="2.5" />
-          <line x1="162" y1="168" x2="232" y2="168" stroke="#555" stroke-width="2.5" />
-          <line x1="162" y1="175" x2="230" y2="188" stroke="#555" stroke-width="2.5" />
-          <line x1="138" y1="161" x2="70" y2="148" stroke="#555" stroke-width="2.5" />
-          <line x1="138" y1="168" x2="68" y2="168" stroke="#555" stroke-width="2.5" />
-          <line x1="138" y1="175" x2="70" y2="188" stroke="#555" stroke-width="2.5" />
-          <!-- smile -->
-          <path d="M 116 192 Q 150 222 184 192" stroke="#555" stroke-width="3" fill="none" stroke-linecap="round" />
-          <!-- birthday balloon held -->
-          <line x1="242" y1="244" x2="258" y2="182" stroke="#FF6B9D" stroke-width="2" />
-          <ellipse cx="258" cy="172" rx="14" ry="18" fill="#FF6B9D" />
-          <!-- collar -->
-          <rect x="87" y="225" width="126" height="20" rx="10" fill="#FF4757" />
-          <circle cx="150" cy="239" r="10" fill="#FFE135" />
-          <!-- body -->
-          <ellipse cx="150" cy="316" rx="100" ry="82" fill="#1a9be6" />
-          <ellipse cx="150" cy="324" rx="70" ry="60" fill="white" />
-          <!-- pocket with dorayaki -->
-          <ellipse cx="150" cy="336" rx="46" ry="27" fill="none" stroke="#ddd" stroke-width="2" />
-          <circle cx="140" cy="334" r="10" fill="#e6a817" opacity=".9" />
-          <circle cx="158" cy="332" r="8" fill="#e6a817" opacity=".75" />
-          <!-- arms -->
-          <ellipse cx="55" cy="300" rx="20" ry="54" fill="#1a9be6" transform="rotate(-16 55 300)" />
-          <ellipse cx="245" cy="300" rx="20" ry="54" fill="#1a9be6" transform="rotate(16 245 300)" />
-          <circle cx="46" cy="348" r="22" fill="white" />
-          <circle cx="254" cy="348" r="22" fill="white" />
-          <!-- feet -->
-          <ellipse cx="116" cy="396" rx="40" ry="17" fill="white" />
-          <ellipse cx="184" cy="396" rx="40" ry="17" fill="white" />
-          <!-- "18" birthday sign held by left hand -->
-          <rect x="10" y="330" width="52" height="30" rx="8" fill="white" opacity=".92" />
-          <text x="36" y="352" font-family="Arial" font-weight="bold" font-size="18" fill="#FF4757"
-            text-anchor="middle">18! 🎂</text>
-        </svg>
-        <!-- ★ Replace Name below ★ -->
-        <div class="dora-label">Doremon Laddu = Name 🔵</div>
-      </div>
+    <div class="wisdom-card w6">
+      <span class="wc-icon">🚀</span>
+      <div class="wc-quote">"18 saal = sirf shuruaat"</div>
+      <div class="wc-body">18 saal lagta hai sab pata chal jaana chahiye — nahi chahiye. Yeh toh bas chapter 1 hai. Sab kuch aage hai. Goals, sapne, adventures — sab pending hai. Excited raho! 🌈</div>
+      <span class="wc-dora">— Future bright hai yaar 🌟</span>
     </div>
+  </div>
+</section>
 
-    <!-- GADGET BAR -->
-    <!-- ★ Replace Name below ★ -->
-    <div class="gadget-bar" id="gadgetBar">
-      <div class="gadget-title">🎩 Doremon Ki Pocket — Name Ke Birthday Gifts</div>
-      <div class="gadget-row">
-        <div class="gadget-item"><span class="gadget-emoji">📏</span>
-          <div class="gadget-name">Height +15cm<br><small style="color:#999;">(urgent case hai 💀)</small></div>
-        </div>
-        <div class="gadget-item"><span class="gadget-emoji">🌀</span>
-          <div class="gadget-name">Anywhere Door<br><small style="color:#999;">(roast se bhaagna)</small></div>
-        </div>
-        <div class="gadget-item"><span class="gadget-emoji">🔔</span>
-          <div class="gadget-name">Small Light<br><small style="color:#999;">(woh bhi choti hai)</small></div>
-        </div>
-        <div class="gadget-item"><span class="gadget-emoji">🍩</span>
-          <div class="gadget-name">Dorayaki Infinite<br><small style="color:#999;">(khao, moti mati)</small></div>
-        </div>
-        <div class="gadget-item"><span class="gadget-emoji">💊</span>
-          <div class="gadget-name">Anti-Pagal Pill<br><small style="color:#999;">(nahi legi woh 😂)</small></div>
-        </div>
-      </div>
+<!-- MESSAGES -->
+<section id="s-msgs">
+  <div class="sec-title" style="color:var(--lavender);">🔵 Agar Doremon <span class="user-name-here">Name</span> Se Milta... 🔵</div>
+  <div class="sec-sub">Scroll karke dekho — sideways 👉</div>
+  <div class="msg-scroll" id="msgScroll">
+    <div class="msg-card m1"><span class="msg-icon">🔵</span>"<span class="user-name-here">Name</span>! Height gadget chahiye ya attitude gadget? Kyunki attitude toh already overflow ho raha hai meri pocket se." 😩</div>
+    <div class="msg-card m2"><span class="msg-icon">🎩</span>"Maine poori pocket khaali kar di. Height gadget ka stock khatam tha. Tujhe bina gadget ke hi jeena padhega. Strong raho Laddu." 😭</div>
+    <div class="msg-card m3"><span class="msg-icon">🍩</span>"Dorayaki khayegi? Teri height nahi badhegi lekin doono khush honge. DEAL PAKKI." 🤝</div>
+    <div class="msg-card m1"><span class="msg-icon">🌀</span>"Anywhere Door se kahan jaayegi? Woh jagah bhi teri height nahi badhayegi. Maine GPS check kiya. Trust me." 💀</div>
+    <div class="msg-card m2"><span class="msg-icon">😂</span>"Tu aur main dono chhote hain. Mera excuse hai — main robot hoon. Tera? 🤔"</div>
+    <div class="msg-card m3"><span class="msg-icon">💙</span>"Happy Birthday <span class="user-name-here">Name</span>! 18 saal ki ho gayi. Meri pocket mein saari duayein hain — sab poori hongi. Height wali bhi try karunga." 🎉</div>
+    <div class="msg-card m1"><span class="msg-icon">🎂</span>"10 layer ka cake order kiya — teri height se uncha. Iss saal ke liye kaam chal sakta hai." 😌</div>
+    <div class="msg-card m2"><span class="msg-icon">🌸</span>"Sachchi baat — tu height mein chhhoti hogi magar dil mein itni jagah hai ke meri poori pocket samaa jaaye. Love you Laddu. 💙"</div>
+  </div>
+  <p class="msg-scroll-hint">← scroll karo →</p>
+</section>
+
+<!-- WISHES -->
+<section id="s-wishes">
+  <div class="sec-title" style="color:#fff;">🌟 Dilo Ki Duayein — Sachchi Wali 🌟</div>
+  <div class="sec-sub">Dost ki taraf se — roast nahi hai... zyaadatar 😂</div>
+  <div class="wish-grid" id="wishGrid">
+    <div class="wish-card v1"><span class="ww-emoji">🌸</span><p class="ww-text">Teri zindagi mein itne phool aayein ke tera bageecha bhi hanse. Har subah naya khwaab, har shaam nayi muskaan.</p><div class="ww-from">— Chikoo Pathan 🤙</div></div>
+    <div class="wish-card v2"><span class="ww-emoji">🎂</span><p class="ww-text">Cake teri height se uncha ho. Candles itni hon ke doono saansein lo — tu bhi aur Doremon bhi. Kabhi na bujhe yeh roshni. 🕯️</p><div class="ww-from">— Best friends 😂</div></div>
+    <div class="wish-card v3"><span class="ww-emoji">🔵</span><p class="ww-text">Doremon ki pocket ki tarah — har mushkil mein koi na koi raasta mile. Teri problems chhhoti hon, khushiyan bari. 🎊</p><div class="ww-from">— Pathan 💙</div></div>
+    <div class="wish-card v4"><span class="ww-emoji">👑</span><p class="ww-text">Tu queen hai — teri taaj ki zaroorat nahi, tu hi taaj hai. Jahan bhi jaaye, jaise bhi rahe — sab se alag, sab se khaas. Hamesha. 💅</p><div class="ww-from">— Chikoo 💀</div></div>
+    <div class="wish-card v1"><span class="ww-emoji">💕</span><p class="ww-text">Height mein chhhoti, dil mein duniya bhar ki jagah — itni garam rooh kisi aur ke paas nahi jitni teri hai. Kabhi mat badalna. 🥺</p><div class="ww-from">— Sab dost 💙</div></div>
+    <div class="wish-card v2"><span class="ww-emoji">✨</span><p class="ww-text">18 saal mein aaj se legally badi ho — practically hamesha chhhoti rahogi. Dono haal mein — NEVER CHANGE. 🤙</p><div class="ww-from">— Gang 🥳</div></div>
+    <div class="wish-card v3"><span class="ww-emoji">🌟</span><p class="ww-text">Rizq aur rizz — dono aayein iss saal. Allah se sab mil ke maang rahe hain. Ameen toh boldo. 😌</p><div class="ww-from">— Sab mila ke 🎊</div></div>
+    <div class="wish-card v4"><span class="ww-emoji">🎊</span><p class="ww-text">Tujhse 2 din pehle paida hua aur abhi tak tujhse zyada cool nahi ban paya. Tu hi full HD update hai yaar. Pure respect. 💯</p><div class="ww-from">— Chikoo (the beta version) 😂</div></div>
+    <div class="wish-card v1"><span class="ww-emoji">🌺</span><p class="ww-text">Har rishta tera mazboot rahe. Har dua teri qabool ho. Har khwaab tera wahan jaaye jo tujhe deserve kare. 💫</p><div class="ww-from">— Pathan aur Secret 🌙</div></div>
+    <div class="wish-card v2"><span class="ww-emoji">🦋</span><p class="ww-text">Teri zindagi aisi ho — jaise garden mein subah ki roshni. Mushkilon mein bhi muskurana mat bhoolna. 🌙</p><div class="ww-from">— Sab dil se 💕</div></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="s-timeline">
+  <div class="sec-title" style="color:var(--gold);">📅 <span class="user-name-here">Name</span> Ki Epic Zindagi 📅</div>
+  <div class="sec-sub">Ek mukhtasar lekin dhamakhedaar safar</div>
+  <div class="timeline" id="timeline">
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#FFD166,#ff9800);">🍼</div>
+      <div class="tl-content"><div class="tl-year">18 January 2007 — Shuruaat</div><div class="tl-text">Paida hui. Doctor ne chart dekha. Nurse ne calendar dekha — "2 din pehle Chikoo aya tha." January 2007 duniya ke liye heavy month tha. Hum sab ready nahi the. 👶</div></div>
     </div>
-
-    <!-- HEIGHT CHART -->
-    <div class="height-chart" id="heightChart">
-      <div class="hc-title">📏 Aik Scientific Study — By Doremon Research Lab 2007</div>
-      <div class="hc-row">
-        <div class="hc-item">
-          <div class="hc-icon">🦒</div>
-          <div class="hc-bar" id="hbA" style="height:0;background:linear-gradient(180deg,#f5c842,#e6a817);"></div>
-          <div class="hc-name">Normal<br>Insaan</div>
-        </div>
-        <div class="hc-item">
-          <div class="hc-icon">🔵</div>
-          <div class="hc-bar" id="hbB" style="height:0;background:linear-gradient(180deg,#1a9be6,#0e6faa);"></div>
-          <div class="hc-name">Doremon<br>🤖</div>
-        </div>
-        <div class="hc-item">
-          <div class="hc-icon">📱</div>
-          <div class="hc-bar" id="hbBB" style="height:0;background:linear-gradient(180deg,#aaa,#666);"></div>
-          <div class="hc-name">Door ka<br>Handle</div>
-        </div>
-        <!-- ★ Replace Name below ★ -->
-        <div class="hc-item">
-          <div class="hc-icon">😂</div>
-          <div class="hc-bar" id="hbC" style="height:0;background:linear-gradient(180deg,#FF6B9D,#d6006b);"></div>
-          <div class="hc-name">Name<br>Laddu 💀</div>
-        </div>
-        <div class="hc-item">
-          <div class="hc-icon">🍬</div>
-          <div class="hc-bar" id="hbD" style="height:0;background:linear-gradient(180deg,#FFE135,#e6a817);"></div>
-          <div class="hc-name">Actual<br>Laddu 😭</div>
-        </div>
-      </div>
-      <div class="hc-note">* Doremon ne khud measure kiya. Phir pocket mein chala gaya. Woh bhi ro raha tha. 💀</div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#1a9be6,#0055ff);">🔵</div>
+      <div class="tl-content"><div class="tl-year">Bachpan — Doremon Discovery</div><div class="tl-text">TV pe Doremon dekha. Seedha bol diya "yeh main hoon." Kisi ne argue nahi kiya. Sab jaante the. Doremon Laddu era officially shuru. Pocket mein kya tha — abhi tak pata nahi. 🔵</div></div>
     </div>
-  </section>
-
-  <!-- ═══ S2B: DOREMON BAUNI THEORY ═══ -->
-  <section id="s2b">
-    <!-- ★ Replace Name below ★ -->
-    <div class="s2b-title" id="s2bt">🔵 Name = Doremon Laddu — Proof 🔵</div>
-    <div class="dora-facts-grid" id="doraFactsGrid">
-      <!-- ★ Replace Name in all cards below ★ -->
-      <div class="dora-fact-card"><span class="dfc-icon">📏</span>
-        <div class="dfc-title">HEIGHT THEORY</div>
-        <div class="dfc-text">Doremon chhota hai. Name chhhoti hai. Science kehta hai yeh "bauni twins phenomena"
-          hai. Journal mein chhap chuka hai. 💀</div>
-      </div>
-      <div class="dora-fact-card"><span class="dfc-icon">🔵</span>
-        <div class="dfc-title">NEEL RANG ENERGY</div>
-        <div class="dfc-text">Doremon neela hai. Name ki energy pure electric chaos hai. Dono same vibe — neela +
-          dhamaka = Doremon Laddu. 🌀</div>
-      </div>
-      <div class="dora-fact-card"><span class="dfc-icon">🎩</span>
-        <div class="dfc-title">POCKET THEORY</div>
-        <div class="dfc-text">Doremon ki pocket mein sab kuch hai. Name ke dimaag mein sab kuch hai — mostly
-          roasts aur drama. Same same. 😂</div>
-      </div>
-      <div class="dora-fact-card"><span class="dfc-icon">😍</span>
-        <div class="dfc-title">CUTE BUT KHATARNAK</div>
-        <div class="dfc-text">Doremon cute lagta hai magar ek baar shuru ho toh ruktaa nahi. Name bilkul wahi hai.
-          Darr ke raho. 💀</div>
-      </div>
-      <div class="dora-fact-card"><span class="dfc-icon">🍩</span>
-        <div class="dfc-title">DORAYAKI RULE</div>
-        <div class="dfc-text">Doremon ko dorayaki se rokna namumkin hai. Name ko khaane se rokna namumkin hai. Ek
-          hi cheez hai bas alag naam se. 😭</div>
-      </div>
-      <div class="dora-fact-card"><span class="dfc-icon">👑</span>
-        <div class="dfc-title">FINAL VERDICT</div>
-        <div class="dfc-text">Name IS Doremon. Gol hai toh Laddu bhi. Dono mein cheez wahi hai — choti size, badi
-          personality, aur zero height. 👑</div>
-      </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#ff6b9d,#FF4757);">📏</div>
+      <div class="tl-content"><div class="tl-year">School ke Din — Height Controversy</div><div class="tl-text">Height chart pe naam dekhna — pehla column hamesha iska hota tha. Physics teacher ne bola "gravity zyada lag rahi hai iss par." Woh agree kar gayi. Masla khatam. 😭</div></div>
     </div>
-  </section>
-
-  <!-- ═══ S3: ROAST ═══ -->
-  <section id="s3">
-    <div class="s3-title" id="s3t">🔥 Roast Files — Approved by Doremon 🔥</div>
-    <!-- ★ Replace Name below ★ -->
-    <div class="s3-sub" id="s3sub">(Doremon ne pocket se nikaala, Name ne permission di — so here we go 🌚)</div>
-    <div class="roast-list" id="roastList">
-      <div class="roast-card"><span class="ri">📏</span><span>Woh itni chhhoti hai ke seedhi khadi hoti hai toh bhi log
-          poochte hain "baith kya rahi ho?" 😭</span></div>
-      <div class="roast-card"><span class="ri">🪑</span><span>Chair pe baithe toh paon zameen tak nahi pohonchte.
-          Jhoolti rehti hai. Doremon ne iske liye step stool banaya — woh bhi chhota nikla. 💀</span></div>
-      <div class="roast-card"><span class="ri">🌧️</span><span>Barish mein bina chhata ke bhar jaati hai — paani uske
-          sar ke oopar se guzar jaata hai seedha. Clouds bhi respect karte hain is bauni ko. 😂</span></div>
-      <!-- ★ Replace Name below ★ -->
-      <div class="roast-card"><span class="ri">🔵</span><span>Doremon ne pehli baar Name ko dekha toh socha "yaar
-          yeh meri relative hai kya?" — itna resemblance tha. Woh ab bhi deny kar raha hai. 😭</span></div>
-      <div class="roast-card"><span class="ri">🎢</span><span>Roller coaster ride pe sign likha tha "is se lamba hona
-          zaroori hai." Usne sign khincha aur bola "Doremon! Koi gadget?" 😤</span></div>
-      <div class="roast-card"><span class="ri">👀</span><span>Bheed mein ghoom jaati hai. Search party banti hai. Teez
-          awaaz aati hai. Woh wahan se hi bol rahi thi. Sab ke saamne. Seedhe saamne. Kissi ko dikhi nahi. 💀</span>
-      </div>
-      <div class="roast-card"><span class="ri">🧠</span><span>IQ level zabardast hai. 90% dimaag height defend karne
-          mein lagta hai. Baaki 10% se poori personality chalti hai. Honestly impressive. 👑</span></div>
-      <div class="roast-card"><span class="ri">🌀</span><span>Iska pagal energy level Doremon ki pocket ki capacity se
-          bada hai. Scientists confuse hain. Physics ke laws nahi lagte. 😱</span></div>
-      <div class="roast-card"><span class="ri">🍬</span><span>Naam "Laddu" kyun? Kyunki Laddu bhi gol hota hai, meetha
-          hota hai, aur ek baar uthao toh chhhota lage magar andar se bhara hua hota hai. Ekdum sahi compare hai.
-          😂</span></div>
-      <div class="roast-card"><span class="ri">🎂</span><span>18 jan ko paida hui — 2 din baad Chikoo ke baad. Allah ne
-          socha "yaar beta version thora boring tha, full chaos edition laao." Toh Name aayi. 💀</span></div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#c77dff,#6f00ff);">🌀</div>
+      <div class="tl-content"><div class="tl-year">Pagal Era — Full Power Activated</div><div class="tl-text">Bauni + Pagal = Deadliest combo. Scientists abhi tak samajh nahi paaye. Doremon ne ek classified report likhi aur pocket mein chhupayi. Hum sab ko abhi tak darr hai. 😂</div></div>
     </div>
-  </section>
-
-  <!-- ═══ S3B: DOREMON KI BAATEIN ═══ -->
-  <section id="s3b">
-    <!-- ★ Replace Name below ★ -->
-    <div class="s3b-title" id="s3bt">🔵 Agar Doremon Name Se Milta... 🔵</div>
-    <div class="s3b-sub">(sideways scroll karo — haan waise hi jaise tum life mein karti ho 😂)</div>
-    <div class="dora-scroll" id="doraScroll">
-      <!-- ★ Replace Name in all cards ★ -->
-      <div class="drc"><span class="drc-icon">🔵</span>"Name! Tujhe height gadget chahiye ya attitude wala? Kyunki
-        attitude toh already record todne wala hai." 😩</div>
-      <div class="drc"><span class="drc-icon">🎩</span>"Maine poori pocket khaali kar di. Height gadget nahi mila.
-        Shayad tujhe bina gadget ke hi jeena hai. Be strong Laddu." 😭</div>
-      <div class="drc"><span class="drc-icon">🍩</span>"Dorayaki khayegi? Teri height nahi badhegi but doono khush
-        honge. Deal pakki. Deal PAKKI." 🤝</div>
-      <div class="drc"><span class="drc-icon">🌀</span>"Anywhere Door se kahan jaayegi? Woh jagah bhi teri height nahi
-        badhayegi. GPS check kiya. Trust me." 💀</div>
-      <div class="drc"><span class="drc-icon">😂</span>"Tu aur main dono chhote hain. But main robot hoon, mera excuse
-        hai. Tera? Kya excuse hai? Bata." 😤</div>
-      <div class="drc"><span class="drc-icon">💙</span>"Happy Birthday Laddu! 18 saal ki ho gayi. Pocket mein sari
-        duayein hain. Sab poori hongi. Height wali bhi try karunga." 🎉</div>
-      <div class="drc"><span class="drc-icon">🎂</span>"10 layer ka cake order kiya — teri height se lamba. Is saal ke
-        liye kaam chal sakta hai. Agli saal dekhenge." 😌</div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#06d6a0,#008050);">💕</div>
+      <div class="tl-content"><div class="tl-year">Dost Mile — Gang Bani</div><div class="tl-text">Chikoo, Pathan, Secret, aur baaki sab. Ek pagal family bani. Aur iss family ki sabse chhhoti magar sabse powerful member — hamesha <span class="user-name-here">Name</span> rahi. Magar sab jaante hain — iss gang ki jaan wahi hai. 👑</div></div>
     </div>
-  </section>
-
-  <!-- ═══ S4: BIRTHDAY WISHES ═══ -->
-  <section id="s4">
-    <div class="s4-title" id="s4t">🌟 Birthday Wishes — Dosto Ki Taraf Se 🌟</div>
-    <div class="s1-title mb-4" id="s4t">Sab me Hee ho hehe</div>
-    <div class="wish-grid" id="wishGrid">
-      <!-- ★ Replace Name throughout ★ -->
-      <div class="wish-card"><span class="wc-emoji">🎂</span>
-        <p class="wc-text">Teri cake utni lamba ho jitna tujhe apni height chahiye thi. 10 floor ka cake. Doremon ne
-          order kiya. Enjoy Laddu! 🎉</p>
-        <div class="wc-from">— Chikoo Pathan Pgl 🤙</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">🤑</span>
-        <p class="wc-text">Bank balance tumhari height se zyada bade — jo ke honestly mushkil nahi hai but hum dil se
-          dua kar rahe hain 💅</p>
-        <div class="wc-from">— Secret 😂</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">🔵</span>
-        <p class="wc-text">Doremon ki pocket se tujhe woh cheez mile jo tune sab se zyada maangi hai. Aur nahi toh
-          dorayaki toh milega hi. 🔮</p>
-        <div class="wc-from">— Pathan 😭</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">😂</span>
-        <p class="wc-text">Har saal utna hi pagal, utna hi loud, utna hi Laddu wali energy — yaar kabhi mat badalna.
-          Bilkul mat. Seriously. 🔥</p>
-        <div class="wc-from">— Chikoo 💀</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">💕</span>
-        <p class="wc-text">Height mein chhoti, dil mein ZABARDAST badi — kisi ke paas itni jagah nahi dil mein jitni
-          teri hai 🥺</p>
-        <div class="wc-from">— Secret & Pathan 💙</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">👑</span>
-        <p class="wc-text">Legend. Icon. Sab se gol. Sab se pagal. Sab se pyaari. Doremon Laddu Supreme. Eid Mubarak
-          nahi — BIRTHDAY MUBARAK! 👸</p>
-        <div class="wc-from">— Chikoo Pathan Pgl Secret 🎊</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">🎊</span>
-        <p class="wc-text">Tujhse 2 din pehle paida hua — aur abhi tak tujhse zyada sama nahi aya. Tu hi full update hai
-          yaar. Respect. 💯</p>
-        <div class="wc-from">— Chikoo (the beta version) 😂</div>
-      </div>
-      <div class="wish-card"><span class="wc-emoji">🌟</span>
-        <p class="wc-text">18 saal ki ho gayi Laddu! Ab legally badi ho. Practically... hum sab ki tarf se — NEVER
-          CHANGE. Never. 💙</p>
-        <div class="wc-from">— Sab dost mila ke 🥳</div>
-      </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:linear-gradient(135deg,#ff6b9d,#c77dff);">👑</div>
+      <div class="tl-content"><div class="tl-year">18 January 2025 — AAJKA DIN!</div><div class="tl-text">18 saal. Still bauni. Still pagal. Still Doremon Laddu. Still sab se khaas. Sab se chhhoti — magar room mein sabse badi presence. HAPPY BIRTHDAY <span class="user-name-here">Name</span>! 🎉🎉🎉</div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ═══ S4B: TIMELINE ═══ -->
-  <section id="s4b">
-    <!-- ★ Replace Name below ★ -->
-    <div class="s4b-title" id="s4bt">📅 Name Ki Epic Zindagi — Timeline 📅</div>
-    <div class="timeline" id="timeline">
-      <div class="tl-item">
-        <div class="tl-dot" style="background:linear-gradient(135deg,#FFE135,#ff9800);">🍼</div>
-        <div class="tl-content">
-          <div class="tl-year">18 January 2007 — Shuruaat</div>
-          <div class="tl-text">Paida hui. Chhoti thi. Docter ne chart dekha — "height thodi kam hai." Nurse ne calendar
-            dekha — "2 din pehle Chikoo aya tha. January 2007 hectic month tha." 👶</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:linear-gradient(135deg,#1a9be6,#0055ff);">🔵</div>
-        <div class="tl-content">
-          <div class="tl-year">Bachpan — Doremon Discovery</div>
-          <div class="tl-text">Doremon dekha TV pe. Seedha bol diya "yeh main hoon." Kisi ne argue nahi kiya. Sab jaante
-            the sach kya tha. Research confirms: Doremon Laddu era begin. 🔵</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:linear-gradient(135deg,#FF6B9D,#FF4757);">📏</div>
-        <div class="tl-content">
-          <div class="tl-year">School ke Din — Height Controversy</div>
-          <div class="tl-text">Height chart pe naam dekhna — pehle column hamesha uska hota tha. Physics teacher ne bola
-            "gravity zyada laga rahi hai tumpe." Woh agree kar gayi. 😭</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:linear-gradient(135deg,#a855f7,#6f00ff);">🌀</div>
-        <div class="tl-content">
-          <div class="tl-year">Pagal Era — Full Activated</div>
-          <div class="tl-text">Officially "Pagal" designation mili. Bauni + Pagal = deadliest combo. Scientists abhi tak
-            samajh nahi paaye. Doremon ne ek report likhi aur pocket mein chhupayi. 😂</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:linear-gradient(135deg,#00D084,#008050);">👑</div>
-        <div class="tl-content">
-          <div class="tl-year">18 January 2025 — AAJKA DIN!</div>
-          <div class="tl-text">18 saal. Still bauni. Still pagal. Still Doremon Laddu. Still the most iconic person in
-            the room — bhale hi woh room mein sab se chhhoti ho. HAPPY BIRTHDAY Name! 🎉🎉🎉</div>
-        </div>
-      </div>
+<!-- BLESSINGS -->
+<section id="s-bless">
+  <div class="sec-title" style="color:var(--mint);">🙏 Sachchi Duayein — Dil Se 🙏</div>
+  <div class="sec-sub">Thori serious, thori funny — dono zaroori hain 😌</div>
+  <div class="bless-grid" id="blessGrid">
+    <div class="bless-item"><span class="bi-icon">💰</span>Rizq aur rizz — dono ek hi saal mein aayein. Allah se maanga hai. AMEEN. 😌</div>
+    <div class="bless-item"><span class="bi-icon">❤️</span>Sachchi mohabbat milni chahiye — bilkul waise jaise Doremon ko Nobita milta hai. Unconditionally. Hamesha. 🔵</div>
+    <div class="bless-item"><span class="bi-icon">🛡️</span>Allah tumhein sehat, khushi aur lambi zindagi de. Aur height bhi — thori si kam se kam. Ameen. 🤲</div>
+    <div class="bless-item"><span class="bi-icon">✨</span>Teri chamak itni ho ke logon ko sunglasses chahiye — woh bhi tujhse lamba pehnne wala. ☀️</div>
+    <div class="bless-item"><span class="bi-icon">🌸</span>Har sapna seedha poora ho. Koi chakkar nahi, koi delay nahi. Doremon bhi guarantee kar raha hai. 🔮</div>
+    <div class="bless-item"><span class="bi-icon">🧠</span>Sab goals poore hon — career, life, sab kuch. Sirf height wala goal... uske liye extra dua lagegi. 😭</div>
+    <div class="bless-item"><span class="bi-icon">🔵</span>Doremon ki pocket ki tarah — har mushkil mein kuch na kuch mile. Gadget, dost, ya dorayaki. 💙</div>
+    <div class="bless-item"><span class="bi-icon">🚀</span>Yeh saal tera sab se unhinged, sab se successful, sab se legendary saal ho. Guarantee hai. 🔥</div>
+    <div class="bless-item"><span class="bi-icon">💙</span>Chikoo Pathan Secret ki taraf se — sachchi dua. Dil se. Hum sab tujhe chahte hain exactly jaise tu hai. 🤲</div>
+    <div class="bless-item"><span class="bi-icon">🌙</span>Jitni chhhoti ho, utni hi badi dua hai. Teri khushiyan itni hon ke Doremon ki pocket bhi chhhoti pad jaaye. 💙</div>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section id="s-letter">
+  <div class="sec-title" style="color:var(--gold);">💌 Dil Ki Baat — Sachchi Wali 💌</div>
+  <div class="sec-sub">Roast band — yeh wala serious hai</div>
+  <div class="letter-envelope" id="letterEnvelope">
+    <span class="letter-greeting">Pyaari <span class="user-name-here">Name</span>,</span>
+    Yeh roast wali website thi — lekin ek pal ke liye serious hona padhega.<br><br>
+    Tu chhhoti hai height mein — magar teri personality, teri caring, teri hasi, teri awaaz — yeh sab itna bada hai ke koi bhi us jagah ko nahi bhar sakta jo tujhse khali ho.<br><br>
+    <strong style="color:var(--gold);">18 saal</strong> mein tune jo seekha, jo mehsoos kiya, jo diya — woh sab tumhara hai. Koi chheena nahi ja sakta.<br><br>
+    Zindagi aisee hi hoti hai — kabhi achchi, kabhi muskil. Kuch bure log bhi milenge raaste mein — unhe ignore karo. Woh teri story mein extra characters hain, main characters nahi. Apni khushi khud likhna seekho.<br><br>
+    <span style="color:var(--mint);">Hum sab chahte hain ke tu hamesha aise hi rahe —<br>pagal, loud, caring, aur bilkul apni tarah.<br>Kabhi mat badalna. Yeh friendship ka order hai. 😌</span><br><br>
+    Doremon bhi agar sachchi hota, toh kehta:<br>
+    <em style="color:var(--lavender);">"Laddu — meri pocket mein sab gadgets hain, lekin teri jaisi koi aur nahi. You're irreplaceable."</em><br><br>
+    Saalgirah Mubarak ho — teri zindagi mein hamesha roshni rahe. 🌸
+    <span class="letter-sig">— Teri saari buri gang 💙<br><small style="font-size:0.85rem;">(Chikoo, Pathan, Secret, Pgl)</small></span>
+  </div>
+</section>
+
+<!-- INPUT -->
+<section id="s-input">
+  <div class="sec-title" style="color:#fff;text-shadow:3px 3px 0 rgba(0,0,0,0.3);">🎤 Chaos Unleash Karo!</div>
+  <div class="sec-sub" style="color:rgba(255,255,255,0.6);">Doremon ready hai. Confetti ready hai. Tu ready hai? 👀</div>
+  <div class="inp-box">
+    <input class="main-inp" id="chaosNameInp" type="text" placeholder="Dobara naam likhna zaroori hai..."/>
+    <button class="main-btn" id="chaosBtn">DOREMON CHAOS UNLEASH! 🔵🌀</button>
+    <p class="warn-txt">⚠️ Warning: hassi, aansoo, dorayaki craving aur poori chaos energy aa sakti hai</p>
+  </div>
+</section>
+
+<!-- CHAOS -->
+<section id="s-chaos">
+  <div class="spam-canvas" id="spamCanvas"></div>
+  <div class="finale-display" id="finaleDisplay">
+    <div class="finale-emojis">🎉🌸🥳🎈🎂💫🔵✨</div>
+    <div class="finale-hb">HAPPY<br>BIRTHDAY!</div>
+    <div class="finale-name" id="finaleName"><span class="user-name-here">Name</span> — Doremon Laddu Queen! 💙🔵</div>
+    <div class="finale-line">
+      Sab se chhhoti. Sab se loud. Sab se pyaari.<br>
+      Sab se legendary Doremon Laddu — Jan 18, 2007 🎂<br>
+      Hum sab tujhe chahte hain — exactly jaise tu hai. 💙<br>
+      <span style="color:var(--gold);">Khush raho. Ignore karo bure logo ko. Zindagi beautiful hai. 🌸</span>
     </div>
-  </section>
+    <div class="finale-emojis" style="margin-top:1rem;">🌟💥✨🔥👑😂🔵🎊💕🌸</div>
+  </div>
+</section>
 
-  <!-- ═══ S5: BLESSINGS ═══ -->
-  <section id="s5">
-    <!-- ★ Replace Name below ★ -->
-    <div class="s5-title" id="s5t">🙏 Sachchi Duayein — Thori Serious, Thori Nahi 🙏</div>
-    <div class="bless-list" id="blessList">
-      <div class="bless-row"><span class="bi">💰</span>Rizq aur rizz — dono aayein. Ek hi saal mein. Please Allah. Hum
-        sab mil ke maang rahe hain. 😌</div>
-      <div class="bless-row"><span class="bi">❤️</span>Mohabbat milni chahiye — bilkul waise jaise Doremon ko Nobita
-        milta hai. Unconditionally. Hamesha. 🔵</div>
-      <div class="bless-row"><span class="bi">🛡️</span>Allah tumhein sehat, khushi aur lambi zindagi de — aur height
-        bhi de thori. Ameen. Ameen. AMEEN. 🤲</div>
-      <div class="bless-row"><span class="bi">✨</span>Teri chamak itni ho ke logon ko sunglasses chahiye — including
-        Doremon. Woh already ready hai. ☀️</div>
-      <!-- ★ Replace Name below ★ -->
-      <div class="bless-row"><span class="bi">🧠</span>Sab goals poore hon is saal — career, life, sab. Sirf height wala
-        goal... thori extra dua lagegi. 😭</div>
-      <div class="bless-row"><span class="bi">🔵</span>Doremon ki pocket ki tarah tere liye hamesha kuch na kuch
-        available rahe. Mushkil mein gadget mile. 💙</div>
-      <div class="bless-row"><span class="bi">🚀</span>Yeh saal tera sab se unhinged, sab se successful, sab se pagal,
-        sab se legendary saal ho. Doremon guarantee kar raha hai. 🔥</div>
-      <div class="bless-row"><span class="bi">💙</span>Chikoo Pathan Secret😂 ki taraf se tujhe
-        sab se pyaari duayein. Dil se. Seriously. 🤲</div>
-      <div class="bless-row"><span class="bi">🤲</span>Jitni chhhoti ho, utni hi badi dua hai. Allah kare teri zindagi
-        mein khushiyan itni ho ke pocket mein na samayein. 💙</div>
-    </div>
-  </section>
+</div><!-- /main-site -->
 
-  <!-- ═══ S6: INPUT ═══ -->
-  <section id="s6">
-    <div class="s6-title" id="s6t">🎤 Apna Naam Daal!</div>
-    <div class="s6-sub" id="s6sub">Doremon ready hai. Chaos ready hai. Tu ready hai? 👀</div>
-    <div class="inp-box">
-      <input class="inp" id="nameInp" type="text" placeholder="Apna naam yahan likho..." />
-      <button class="btn" id="goBtn">DOREMON CHAOS UNLEASH KAR! 🔵🌀</button>
-      <p class="warn">⚠️ Warning: hassi, aansoo, dorayaki craving aur full birthday spam ho sakti hai</p>
-    </div>
-  </section>
+<script>
+gsap.registerPlugin(ScrollTrigger);
 
-  <!-- ═══ S7: CHAOS + BIRTHDAY ═══ -->
-  <section id="s7">
-    <div class="spam-field" id="spamField"></div>
-    <div class="bday-big" id="bdayBig">
-      <div class="bday-emjs">🎉🎊🥳🎈🎂💫🔵</div>
-      <div class="bday-hb">HAPPY<br>BIRTHDAY!</div>
-      <!-- ★ Replace Name below ★ -->
-      <div class="bday-nm" id="bdayNm">Name — DOREMON LADDU BAUNI! 💙🔵</div>
-      <div class="bday-line">
-        Sab se chhhoti. Sab se loud. Sab se pagal.<br>
-        Sab se pyaari Doremon Laddu — Jan 18, 2007 🎂<br>
-        Hum tujhe waise hi chahte hain jaise hai. 💙
-      </div>
-      <div class="bday-emjs" style="margin-top:1rem;">🌟💥✨🔥👑😂🔵🎊</div>
-    </div>
-  </section>
+/* ══ GLOBALS ══ */
+let userName = 'Name';
+let jumpscareCount = 0;
+const MAX_JUMPSCARES = 4;
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+/* ══ CURSOR ══ */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+const emjCur = document.getElementById('cursor-emoji');
+const CEMJ = ['🌸','💕','🎉','🎊','🥳','🎈','💫','✨','🔥','💀','😂','🔵','👑','🌀','🎂','😭','🌺','🦋'];
+let curEIdx = 0;
+document.addEventListener('mousemove', e => {
+  gsap.to(dot, {x: e.clientX, y: e.clientY, duration: 0.08, ease: 'power2.out'});
+  gsap.to(ring, {x: e.clientX, y: e.clientY, duration: 0.18, ease: 'power2.out'});
+  gsap.to(emjCur, {x: e.clientX + 18, y: e.clientY - 18, duration: 0.1, ease: 'power2.out'});
+});
+setInterval(() => {
+  curEIdx = (curEIdx + 1) % CEMJ.length;
+  emjCur.textContent = CEMJ[curEIdx];
+}, 800);
 
-    /* ═══════════ THREE.JS PARTICLES ═══════════ */
-    (function () {
-      const canvas = document.getElementById('three-canvas');
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-      const count = 1600;
-      const geo = new THREE.BufferGeometry();
-      const pos = new Float32Array(count * 3);
-      const cols = new Float32Array(count * 3);
-      const PCOLS = [[1, .42, .62], [.10, .61, .90], [1, .88, .21], [0, .82, .52], [.66, .33, .97]];
-      for (let i = 0; i < count; i++) {
-        pos[i * 3] = (Math.random() - .5) * 28;
-        pos[i * 3 + 1] = (Math.random() - .5) * 28;
-        pos[i * 3 + 2] = (Math.random() - .5) * 28;
-        const c = PCOLS[Math.floor(Math.random() * PCOLS.length)];
-        cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
-      }
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-      const mat = new THREE.PointsMaterial({ size: .06, vertexColors: true, transparent: true, opacity: .8 });
-      const points = new THREE.Points(geo, mat);
-      scene.add(points);
-      let scrollY = 0, mx = 0, my = 0;
-      window.addEventListener('scroll', () => { scrollY = window.scrollY; });
-      document.addEventListener('mousemove', e => { mx = (e.clientX / window.innerWidth - .5) * 2; my = -(e.clientY / window.innerHeight - .5) * 2; });
-      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-      (function animate() {
-        requestAnimationFrame(animate);
-        const t = Date.now() * .0004;
-        points.rotation.y = t * .18 + mx * .08;
-        points.rotation.x = t * .09 + my * .05;
-        points.position.y = -scrollY * .003;
-        renderer.render(scene, camera);
-      })();
-    })();
+/* ══ PETALS ══ */
+const petalLayer = document.getElementById('petalLayer');
+const PETALS = ['🌸','🌺','🌷','💐','🦋','✨','💕','🌹'];
+function spawnPetal() {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+  const spd = 7 + Math.random() * 10;
+  const dl = Math.random() * 3;
+  const px = (-80 + Math.random() * 160) + 'px';
+  p.style.cssText = `left:${Math.random()*100}%;--pd:${spd}s;--pdl:${dl}s;--px:${px};font-size:${0.9 + Math.random()*1.4}rem;`;
+  petalLayer.appendChild(p);
+  setTimeout(() => p.remove(), (spd + dl + 1) * 1000);
+}
+setInterval(spawnPetal, 300);
 
-    /* ═══════════ DOREMON JUMPSCARE ═══════════ */
-    /* Fires after 1.5s on page load — Doremon JUMPS at you! */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const js = document.getElementById('jumpscare');
-        js.classList.add('active');
-        // BIG entrance
-        gsap.to(js, {
-          opacity: 1, duration: .05, ease: 'none', onComplete: () => {
-            // shake screen
-            gsap.to('body', { x: 12, duration: .05, yoyo: true, repeat: 8, ease: 'none' });
-            // hold for 2.2s then fade out
-            setTimeout(() => {
-              gsap.to(js, {
-                opacity: 0, scale: 1.3, duration: .4, ease: 'power2.in', onComplete: () => {
-                  js.classList.remove('active');
-                  js.style.pointerEvents = 'none';
-                }
-              });
-            }, 2200);
-          }
-        });
-      }, 1500);
-    });
+/* ══ NAME ENTRY ══ */
+// Stars for name entry
+const neStars = document.getElementById('neStars');
+for(let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'ne-star';
+  const sz = 1 + Math.random() * 3.5;
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${1.2+Math.random()*3}s;animation-delay:${Math.random()*4}s;`;
+  neStars.appendChild(s);
+}
+// Floats for name entry
+const neFloats = document.getElementById('neFloats');
+const NE_EMJS = ['🌸','💕','🎉','🎂','✨','🔵','💀','🥳','👑','🌀'];
+function spawnNeFloat() {
+  const el = document.createElement('div');
+  el.className = 'ne-float';
+  el.textContent = NE_EMJS[Math.floor(Math.random() * NE_EMJS.length)];
+  el.style.cssText = `left:${Math.random()*100}%;--spd:${5+Math.random()*7}s;--dl:0s;--fs:${1+Math.random()*1.8}rem;`;
+  neFloats.appendChild(el);
+  setTimeout(() => el.remove(), 14000);
+}
+setInterval(spawnNeFloat, 350);
 
+/* ══ NAME SUBMISSION ══ */
+function setUserName(nm) {
+  userName = nm || 'Name';
+  document.querySelectorAll('.user-name-here').forEach(el => el.textContent = userName);
+  // Also update chaos input placeholder
+  const ci = document.getElementById('chaosNameInp');
+  if(ci) { ci.placeholder = userName + ' ka naam dobara...'; ci.value = userName; }
+}
 
+function startSite() {
+  const nm = document.getElementById('neInput').value.trim();
+  if(!nm) { document.getElementById('neInput').placeholder = 'Naam toh bata 🥺'; return; }
+  setUserName(nm);
+  // Hide name entry
+  gsap.to('#name-entry', {opacity: 0, scale: 1.05, duration: 0.5, ease: 'power2.in', onComplete: () => {
+    document.getElementById('name-entry').style.display = 'none';
+    document.getElementById('main-site').style.display = 'block';
+    // Play audio
+    const aud = document.getElementById('bgMusic');
+    if(aud) { aud.volume = 0.35; aud.play().catch(()=>{}); }
+    // Trigger jumpscare after slight delay
+    setTimeout(triggerJumpscare, 600);
+    // Init site animations
+    setTimeout(initSiteAnimations, 800);
+  }});
+}
 
-    //music
+document.getElementById('neBtn').addEventListener('click', startSite);
+document.getElementById('neInput').addEventListener('keypress', e => { if(e.key === 'Enter') startSite(); });
 
-let musicOn = false;
-const songs = [
-  "birthday_song.mp3",   // 1st song
-  "second_song.mp3",     // 2nd song
-  "third_song.mp3"       // 3rd song
+/* ══ JUMPSCARE ══ */
+const JS_TEXTS = [
+  'BOO!! 👻 DOREMON AAGAYA!!',
+  `HAAYE!! ${userName} — DARR GAYI?! 😂`,
+  'SURPRISE!! POCKET SE NIKLA!! 🎩',
+  'ARE YAAR! KAHIN JA RAHI THI?! 💀',
 ];
-let currentSong = 0;
-const audio = document.getElementById('bgMusic');
-const btn = document.getElementById('musicBtn');
+const JS_SUBS = [
+  `${userName} ko Saalgirah Mubarak! Darr gayi? Shayad height badhegi darr se! 😂`,
+  'Meri pocket mein height gadget tha — tere liye nahi mila. 💀',
+  `Happy Birthday ${userName} Laddu! Chhhoti ho magar dil bada hai! 💕`,
+  'Dorayaki laaya hoon — deal karo? Birthday treat! 🍩',
+];
 
-audio.addEventListener('ended', () => {
-  if (!musicOn) return; // if paused, do nothing
+let jsActive = false;
+let lastJsTime = 0;
 
-  if (currentSong < songs.length - 1) {
-    currentSong++;
-    audio.src = songs[currentSong];
-    audio.play();
-  } else {
-    // loop the last song only
-    audio.src = songs[currentSong];
-    audio.play();
+function triggerJumpscare() {
+  if(jsActive || jumpscareCount >= MAX_JUMPSCARES) return;
+  const now = Date.now();
+  if(now - lastJsTime < 8000) return;
+  lastJsTime = now;
+  jsActive = true;
+  jumpscareCount++;
+
+  const js = document.getElementById('jumpscare');
+  const bgFlash = document.getElementById('jsBgFlash');
+  const strobe = document.getElementById('jsStrobe');
+  const doraContainer = document.getElementById('jsDoraContainer');
+  const jsText = document.getElementById('jsText');
+  const jsSub = document.getElementById('jsSub');
+
+  const idx = (jumpscareCount - 1) % JS_TEXTS.length;
+  jsText.textContent = JS_TEXTS[idx].replace(/Name/g, userName);
+  jsSub.textContent = JS_SUBS[idx].replace(/Name/g, userName);
+
+  js.style.opacity = '0';
+  js.style.pointerEvents = 'all';
+  js.classList.add('active');
+  doraContainer.style.transform = 'scale(0)';
+
+  // STROBE effect
+  const strobeSeq = [0, 1, 0, 1, 0, 1, 0];
+  strobeSeq.forEach((v, i) => {
+    setTimeout(() => { strobe.style.opacity = v * 0.85; }, i * 60);
+  });
+
+  // BG flash
+  gsap.fromTo(bgFlash, {opacity: 0}, {opacity: 1, duration: 0.08, ease: 'none', onComplete: () => {
+    gsap.to(bgFlash, {opacity: 0.7, duration: 0.08});
+  }});
+
+  // Jumpscare appear
+  gsap.fromTo(js, {opacity: 0}, {opacity: 1, duration: 0.05, ease: 'none'});
+
+  // Doraemon SLAM in
+  setTimeout(() => {
+    gsap.fromTo(doraContainer, 
+      {scale: 0, rotation: -30},
+      {scale: 1.15, rotation: 5, duration: 0.15, ease: 'back.out(3)', onComplete: () => {
+        gsap.to(doraContainer, {scale: 1, rotation: 0, duration: 0.1});
+      }}
+    );
+    // Screen shake
+    gsap.to('body', {x: 18, duration: 0.05, yoyo: true, repeat: 14, ease: 'none'});
+  }, 80);
+
+  // Auto-close after 2.5s
+  setTimeout(() => {
+    if(js.classList.contains('active')) closeJumpscare();
+  }, 2600);
+}
+
+function closeJumpscare() {
+  const js = document.getElementById('jumpscare');
+  if(!jsActive) return;
+  gsap.to(js, {opacity: 0, scale: 1.3, duration: 0.4, ease: 'power2.in', onComplete: () => {
+    js.classList.remove('active');
+    js.style.pointerEvents = 'none';
+    jsActive = false;
+  }});
+  gsap.to('body', {x: 0, duration: 0.2, ease: 'elastic.out(1,0.3)'});
+}
+
+document.getElementById('jumpscare').addEventListener('click', closeJumpscare);
+
+// Scroll-based jumpscares
+const jsTriggerPcts = [0.2, 0.45, 0.65, 0.85];
+let jsTriggerIdx = 0;
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  if(jsTriggerIdx < jsTriggerPcts.length && pct > jsTriggerPcts[jsTriggerIdx]) {
+    jsTriggerIdx++;
+    triggerJumpscare();
   }
 });
 
-function toggleMusic() {
-  if (!audio) {
-    btn.textContent = '🎵 Pehle MP3 daalo!';
-    btn.style.background = '#FF4757';
-    setTimeout(() => { 
-      btn.textContent = '🎵 Gaana Chalao!'; 
-      btn.style.background = ''; 
-    }, 2500);
-    return;
-  }
-
-  if (musicOn) {
-    audio.pause();
-    btn.textContent = '🎵 Gaana Chalao!';
-    musicOn = false;
-  } else {
-    audio.src = songs[currentSong];
-    audio.play();
-    btn.textContent = '⏸ Rokna Hai?';
-    musicOn = true;
+/* ══ STARS ══ */
+const sf = document.getElementById('starField');
+function initStars() {
+  for(let i = 0; i < 200; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = 1 + Math.random() * 4;
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*3}s;animation-delay:${Math.random()*5}s;`;
+    sf.appendChild(s);
   }
 }
-    /* ═══════════ CURSOR ═══════════ */
-    const cur = document.getElementById('cursor');
-    const CEMJ = ['🎉', '🎊', '🥳', '🎈', '💫', '✨', '🔥', '💀', '😂', '🔵', '👑', '🌀', '🎂', '😭', '😤'];
-    document.addEventListener('mousemove', e => { gsap.to(cur, { x: e.clientX, y: e.clientY, duration: .12, ease: 'power2.out' }); });
-    setInterval(() => { cur.textContent = CEMJ[Math.floor(Math.random() * CEMJ.length)]; }, 750);
 
-    /* ═══════════ STARS ═══════════ */
-    const sf = document.getElementById('starField');
-    for (let i = 0; i < 160; i++) {
-      const s = document.createElement('div'); s.className = 'star';
-      s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${2 + Math.random() * 4}px;height:${2 + Math.random() * 4}px;--d:${1.5 + Math.random() * 3}s;animation-delay:${Math.random() * 4}s;`;
-      sf.appendChild(s);
-    }
+/* ══ SITE ANIMATIONS ══ */
+function initSiteAnimations() {
+  initStars();
 
-    /* ═══════════ FLOAT EMOJIS ═══════════ */
-    const EMJS = ['🎉', '🎈', '🎊', '✨', '🌟', '💫', '🥳', '🎂', '🎁', '💥', '🔥', '⭐', '💀', '😂', '🔵', '🌀', '😭'];
-    const fb = document.getElementById('floatBg');
-    function spawnFb() {
-      const el = document.createElement('div'); el.className = 'fbg-em';
-      el.textContent = EMJS[Math.floor(Math.random() * EMJS.length)];
-      el.style.cssText = `left:${Math.random() * 100}%;--spd:${5 + Math.random() * 7}s;--delay:0s;font-size:${1.4 + Math.random() * 2.2}rem;`;
-      fb.appendChild(el); setTimeout(() => el.remove(), 13000);
-    }
-    setInterval(spawnFb, 420);
+  // HERO
+  const htl = gsap.timeline({delay: 0.2});
+  htl.from('.hero-badge', {y: -60, opacity: 0, scale: 0.7, duration: 0.8, ease: 'back.out(2.5)'})
+     .from('#heroTitle', {y: 100, opacity: 0, duration: 1, ease: 'back.out(1.4)'}, '-=0.3')
+     .from('#heroNameDisplay', {scale: 0, opacity: 0, rotation: -15, duration: 0.9, ease: 'back.out(2.5)'}, '-=0.2')
+     .from('#heroTagline', {y: 50, opacity: 0, duration: 0.75, ease: 'power2.out'}, '-=0.4')
+     .from('.hero-date-pill', {y: 30, opacity: 0, scale: 0.8, duration: 0.65, ease: 'back.out(2)'}, '-=0.3')
+     .from('#heroEmj span', {y: 70, opacity: 0, scale: 0, duration: 0.55, stagger: 0.08, ease: 'back.out(2.5)'}, '-=0.3');
 
-    /* ═══════════ GSAP S1 ═══════════ */
-    const htl = gsap.timeline({ delay: .3 });
-    htl.from('#heroTag', { y: -60, opacity: 0, scale: .7, duration: .75, ease: 'back.out(2.5)' })
-      .from('#heroTitle', { y: 100, opacity: 0, duration: 1, ease: 'back.out(1.4)' }, '-=.3')
-      .from('#heroName', { scale: 0, opacity: 0, rotation: -15, duration: .85, ease: 'back.out(2.5)' }, '-=.2')
-      .from('#heroSub', { y: 50, opacity: 0, duration: .75, ease: 'power2.out' }, '-=.4')
-      .from('#heroDate', { y: 30, opacity: 0, scale: .8, duration: .65, ease: 'back.out(2)' }, '-=.3')
-      .from('#heroEmj span', { y: 70, opacity: 0, scale: 0, duration: .55, stagger: .08, ease: 'back.out(2.5)' }, '-=.3');
+  // Emoji floats
+  document.querySelectorAll('#heroEmj span').forEach((s, i) => {
+    gsap.to(s, {y: -18, rotation: i%2===0 ? 14 : -14, duration: 0.85 + i*0.12, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i*0.16});
+  });
 
-    document.querySelectorAll('#heroEmj span').forEach((s, i) => {
-      gsap.to(s, { y: -18, rotation: i % 2 === 0 ? 16 : -16, duration: .9 + i * .12, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * .18 });
-    });
-    gsap.to('#heroTitle', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1.2 }, y: -140, opacity: 0, scale: .85 });
-    gsap.to('#heroName', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1 }, y: -90, opacity: 0 });
-    gsap.to('#heroSub', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: 1 }, y: -70, opacity: 0 });
-    gsap.to('#heroTag', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: .8 }, y: -50, opacity: 0 });
-    gsap.to('#heroEmj', { scrollTrigger: { trigger: '#s1', start: 'top top', end: 'bottom top', scrub: .9 }, y: -40, opacity: 0 });
+  // Parallax (position only, no opacity kill)
+  gsap.to('#heroTitle', {scrollTrigger: {trigger: '#s-hero', start: 'top top', end: 'bottom top', scrub: 1.5}, y: -100, ease: 'none'});
+  gsap.to('#heroNameDisplay', {scrollTrigger: {trigger: '#s-hero', start: 'top top', end: 'bottom top', scrub: 1.2}, y: -70, ease: 'none'});
 
-    /* ═══════════ GSAP S1B COINCIDENCE ═══════════ */
-    gsap.from('#coinc-title', { scrollTrigger: { trigger: '#s1b', start: 'top 76%' }, y: 80, opacity: 0, duration: .9, ease: 'back.out(2)' });
-    gsap.from('.coinc-card.mine', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, x: -200, opacity: 0, rotation: -12, duration: 1, ease: 'back.out(1.5)' });
-    gsap.from('.coinc-vs', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, scale: 0, opacity: 0, duration: .8, delay: .3, ease: 'back.out(3)' });
-    gsap.from('.coinc-card.hers', { scrollTrigger: { trigger: '#coincCards', start: 'top 80%' }, x: 200, opacity: 0, rotation: 12, duration: 1, ease: 'back.out(1.5)' });
-    gsap.from('#coincBottom', { scrollTrigger: { trigger: '#coincBottom', start: 'top 85%' }, y: 60, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
+  // Coinc
+  gsap.from('#s-coinc .sec-title', {scrollTrigger: {trigger: '#s-coinc', start: 'top 80%'}, y: 80, opacity: 0, duration: 0.9, ease: 'back.out(2)'});
+  gsap.from('.coinc-card.pink', {scrollTrigger: {trigger: '#coincCards', start: 'top 82%'}, x: -180, opacity: 0, rotation: -10, duration: 1, ease: 'back.out(1.5)'});
+  gsap.from('.coinc-vs', {scrollTrigger: {trigger: '#coincCards', start: 'top 82%'}, scale: 0, opacity: 0, duration: 0.8, delay: 0.3, ease: 'back.out(3)'});
+  gsap.from('.coinc-card.blue', {scrollTrigger: {trigger: '#coincCards', start: 'top 82%'}, x: 180, opacity: 0, rotation: 10, duration: 1, ease: 'back.out(1.5)'});
+  gsap.from('#coincVerdict', {scrollTrigger: {trigger: '#coincVerdict', start: 'top 88%'}, y: 60, opacity: 0, duration: 0.85, ease: 'back.out(1.5)'});
 
-    /* ═══════════ GSAP S2 ═══════════ */
-    gsap.from('#s2label', { scrollTrigger: { trigger: '#s2', start: 'top 72%' }, y: 90, opacity: 0, duration: .9, ease: 'back.out(1.7)' });
-    gsap.from('#doraWrap', { scrollTrigger: { trigger: '#s2', start: 'top 62%' }, x: -350, opacity: 0, rotation: -30, duration: 1.2, ease: 'back.out(1.3)' });
-    gsap.from('#bubble', { scrollTrigger: { trigger: '#s2', start: 'top 58%' }, scale: 0, opacity: 0, duration: .65, delay: .9, ease: 'back.out(3)' });
-    gsap.from('#gadgetBar', { scrollTrigger: { trigger: '#gadgetBar', start: 'top 82%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
-    gsap.from('#heightChart', { scrollTrigger: { trigger: '#heightChart', start: 'top 82%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.5)' });
+  // Dora scene
+  gsap.from('.dora-section-title', {scrollTrigger: {trigger: '#s-dora', start: 'top 75%'}, y: 80, opacity: 0, duration: 0.9, ease: 'back.out(1.8)'});
+  gsap.from('#doraWrap', {scrollTrigger: {trigger: '#s-dora', start: 'top 65%'}, x: -300, opacity: 0, rotation: -20, duration: 1.2, ease: 'back.out(1.3)'});
+  gsap.from('#speechBubble', {scrollTrigger: {trigger: '#s-dora', start: 'top 60%'}, scale: 0, opacity: 0, duration: 0.6, delay: 0.9, ease: 'back.out(3)'});
+  gsap.from('.gadget-card', {scrollTrigger: {trigger: '#gadgetGrid', start: 'top 85%'}, y: 80, opacity: 0, scale: 0.7, stagger: 0.1, duration: 0.7, ease: 'back.out(2)'});
+  gsap.from('#heightChart', {scrollTrigger: {trigger: '#heightChart', start: 'top 85%'}, y: 80, opacity: 0, duration: 0.85, ease: 'back.out(1.5)'});
 
-    gsap.to('#doraSvg', { y: -22, rotation: -4, duration: 1.9, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  // Dora float animation
+  gsap.to('#doraSvgMain', {y: -20, rotation: -4, duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut'});
 
-    const BUBBLES = [
-      'Yaar phir badi ho gayi? 😩',
-      'Mujhe pata tha bauni rahogi 💀',
-      'Pocket khaali — height gadget nahi mila 😭',
-      'HAPPY BIRTHDAY LADDU!! 🎉',
-      '"Pagal" ek lifestyle hai — tujhe pata hai 🌀',
-      'Tujhse chhhota koi nahi — be proud 😂',
-      'Dorayaki share karein? 🍩',
-      'Jan 18 — Doremon bauni day! 🔵',
-      'Short + Pagal = Legend 👑',
-    ];
-    let bIdx = 0;
-    setInterval(() => {
-      bIdx = (bIdx + 1) % BUBBLES.length;
-      const b = document.getElementById('bubble');
-      gsap.to(b, {
-        scale: 0, duration: .18, onComplete: () => {
-          b.textContent = BUBBLES[bIdx];
-          gsap.to(b, { scale: 1, duration: .35, ease: 'back.out(2.8)' });
-        }
-      });
-    }, 2500);
+  // Bubble rotation
+  const BUBBLES = [
+    'Yaar phir badi ho gayi? 😩',
+    'Mujhe pata tha bauni rahogi 💀',
+    'Pocket khaali — height gadget nahi mila 😭',
+    'HAPPY BIRTHDAY LADDU!! 🎉',
+    '"Pagal" ek lifestyle hai 🌀',
+    'Tujhse chhhota koi nahi — be proud 😂',
+    'Dorayaki share karein? 🍩',
+    'Jan 18 — Legendary Day! 🔵',
+    'Short + Personality = LEGEND 👑',
+    'Zindagi beautiful hai yaar! 💙',
+  ];
+  let bIdx = 0;
+  setInterval(() => {
+    bIdx = (bIdx + 1) % BUBBLES.length;
+    const b = document.getElementById('speechBubble');
+    gsap.to(b, {scale: 0, duration: 0.18, onComplete: () => {
+      b.textContent = BUBBLES[bIdx];
+      gsap.to(b, {scale: 1, duration: 0.35, ease: 'back.out(2.8)'});
+    }});
+  }, 2800);
 
-    ScrollTrigger.create({
-      trigger: '#heightChart', start: 'top 70%', onEnter: () => {
-        gsap.to('#hbA', { height: 160, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .1 });
-        gsap.to('#hbB', { height: 138, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .2 });
-        gsap.to('#hbBB', { height: 110, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .3 });
-        gsap.to('#hbC', { height: 68, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .45 });
-        gsap.to('#hbD', { height: 22, duration: 1.2, ease: 'elastic.out(1,.7)', delay: .6 });
-      }
-    });
+  // Height chart
+  ScrollTrigger.create({trigger: '#heightChart', start: 'top 72%', onEnter: () => {
+    gsap.to('#hbA', {height: 160, duration: 1.2, ease: 'elastic.out(1,.7)', delay: 0.1});
+    gsap.to('#hbB', {height: 138, duration: 1.2, ease: 'elastic.out(1,.7)', delay: 0.2});
+    gsap.to('#hbBB', {height: 110, duration: 1.2, ease: 'elastic.out(1,.7)', delay: 0.3});
+    gsap.to('#hbC', {height: 62, duration: 1.2, ease: 'elastic.out(1,.7)', delay: 0.45});
+    gsap.to('#hbD', {height: 18, duration: 1.2, ease: 'elastic.out(1,.7)', delay: 0.6});
+  }});
 
-    /* ═══════════ GSAP S2B ═══════════ */
-    gsap.from('#s2bt', { scrollTrigger: { trigger: '#s2b', start: 'top 76%' }, y: 80, opacity: 0, duration: .9, ease: 'back.out(2)' });
-    document.querySelectorAll('.dora-fact-card').forEach((c, i) => {
-      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, y: 100, opacity: 0, scale: .7, rotation: i % 2 === 0 ? 10 : -10, duration: .7, delay: i * .07, ease: 'back.out(1.8)' });
-    });
+  // Proof grid
+  gsap.from('#s-proof .sec-title', {scrollTrigger: {trigger: '#s-proof', start: 'top 80%'}, y: 80, opacity: 0, duration: 0.9, ease: 'back.out(2)'});
+  document.querySelectorAll('.proof-card').forEach((c, i) => {
+    gsap.from(c, {scrollTrigger: {trigger: c, start: 'top 90%', toggleActions: 'play none none reverse'}, y: 100, opacity: 0, scale: 0.7, rotation: i%2===0 ? 10 : -10, duration: 0.7, delay: i*0.07, ease: 'back.out(1.8)'});
+  });
 
-    /* ═══════════ GSAP S3 ═══════════ */
-    gsap.from('#s3t', { scrollTrigger: { trigger: '#s3', start: 'top 76%' }, y: 80, opacity: 0, scale: .8, duration: .85, ease: 'back.out(2)' });
-    gsap.from('#s3sub', { scrollTrigger: { trigger: '#s3', start: 'top 72%' }, y: 40, opacity: 0, duration: .65, delay: .2 });
-    document.querySelectorAll('.roast-card').forEach((c, i) => {
-      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, x: i % 2 === 0 ? -160 : 160, opacity: 0, rotation: i % 2 === 0 ? -10 : 10, duration: .7, delay: i * .04, ease: 'back.out(1.7)' });
-    });
+  // Roast
+  gsap.from('#s-roast .sec-title', {scrollTrigger: {trigger: '#s-roast', start: 'top 78%'}, y: 80, opacity: 0, scale: 0.8, duration: 0.85, ease: 'back.out(2)'});
+  document.querySelectorAll('.roast-item').forEach((c, i) => {
+    gsap.from(c, {scrollTrigger: {trigger: c, start: 'top 92%', toggleActions: 'play none none reverse'}, x: i%2===0 ? -140 : 140, opacity: 0, rotation: i%2===0 ? -6 : 6, duration: 0.65, delay: i*0.04, ease: 'back.out(1.7)'});
+  });
 
-    /* ═══════════ GSAP S3B ═══════════ */
-    gsap.from('#s3bt', { scrollTrigger: { trigger: '#s3b', start: 'top 76%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.8)' });
-    document.querySelectorAll('.drc').forEach((c, i) => {
-      gsap.from(c, { scrollTrigger: { trigger: '#s3b', start: 'top 72%' }, x: 100 + i * 40, opacity: 0, duration: .6, delay: i * .1, ease: 'back.out(1.5)' });
-    });
+  // Wisdom
+  gsap.from('#s-wisdom .sec-title', {scrollTrigger: {trigger: '#s-wisdom', start: 'top 80%'}, y: 80, opacity: 0, duration: 0.9, ease: 'back.out(2)'});
+  document.querySelectorAll('.wisdom-card').forEach((c, i) => {
+    gsap.from(c, {scrollTrigger: {trigger: c, start: 'top 92%', toggleActions: 'play none none reverse'}, y: 100, opacity: 0, scale: 0.75, rotation: i%2===0 ? 8 : -8, duration: 0.75, delay: i*0.06, ease: 'back.out(1.8)'});
+  });
 
-    /* ═══════════ GSAP S4 ═══════════ */
-    gsap.from('#s4t', { scrollTrigger: { trigger: '#s4', start: 'top 76%' }, scale: 0, rotation: -18, opacity: 0, duration: .85, ease: 'back.out(2.2)' });
-    document.querySelectorAll('.wish-card').forEach((c, i) => {
-      gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%', toggleActions: 'play none none reverse' }, y: 110, opacity: 0, scale: .65, rotation: i % 2 === 0 ? 12 : -12, duration: .75, delay: i * .06, ease: 'back.out(1.8)' });
-    });
+  // Messages
+  gsap.from('#s-msgs .sec-title', {scrollTrigger: {trigger: '#s-msgs', start: 'top 78%'}, y: 80, opacity: 0, duration: 0.85, ease: 'back.out(1.8)'});
+  document.querySelectorAll('.msg-card').forEach((c, i) => {
+    gsap.from(c, {scrollTrigger: {trigger: '#s-msgs', start: 'top 75%'}, x: 100+i*30, opacity: 0, duration: 0.6, delay: i*0.1, ease: 'back.out(1.5)'});
+  });
 
-    /* ═══════════ GSAP S4B TIMELINE ═══════════ */
-    gsap.from('#s4bt', { scrollTrigger: { trigger: '#s4b', start: 'top 76%' }, y: 80, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
-    document.querySelectorAll('.tl-item').forEach((item, i) => {
-      gsap.from(item, { scrollTrigger: { trigger: item, start: 'top 88%', toggleActions: 'play none none reverse' }, x: -200, opacity: 0, duration: .75, delay: i * .1, ease: 'back.out(1.5)' });
-      gsap.from(item.querySelector('.tl-dot'), { scrollTrigger: { trigger: item, start: 'top 88%' }, scale: 0, rotation: -360, duration: .85, delay: i * .1 + .18, ease: 'back.out(2)' });
-    });
+  // Wishes
+  gsap.from('#s-wishes .sec-title', {scrollTrigger: {trigger: '#s-wishes', start: 'top 78%'}, scale: 0, rotation: -15, opacity: 0, duration: 0.85, ease: 'back.out(2.2)'});
+  document.querySelectorAll('.wish-card').forEach((c, i) => {
+    gsap.from(c, {scrollTrigger: {trigger: c, start: 'top 92%', toggleActions: 'play none none reverse'}, y: 100, opacity: 0, scale: 0.65, rotation: i%2===0 ? 10 : -10, duration: 0.75, delay: i*0.05, ease: 'back.out(1.8)'});
+  });
 
-    /* ═══════════ GSAP S5 ═══════════ */
-    gsap.from('#s5t', { scrollTrigger: { trigger: '#s5', start: 'top 76%' }, y: 90, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
-    document.querySelectorAll('.bless-row').forEach((r, i) => {
-      gsap.from(r, { scrollTrigger: { trigger: r, start: 'top 92%', toggleActions: 'play none none reverse' }, x: -180, opacity: 0, duration: .65, delay: i * .055, ease: 'power3.out' });
-    });
+  // Timeline
+  gsap.from('#s-timeline .sec-title', {scrollTrigger: {trigger: '#s-timeline', start: 'top 78%'}, y: 80, opacity: 0, duration: 0.85, ease: 'back.out(1.6)'});
+  document.querySelectorAll('.tl-item').forEach((item, i) => {
+    gsap.from(item, {scrollTrigger: {trigger: item, start: 'top 90%', toggleActions: 'play none none reverse'}, x: -180, opacity: 0, duration: 0.75, delay: i*0.1, ease: 'back.out(1.5)'});
+    gsap.from(item.querySelector('.tl-dot'), {scrollTrigger: {trigger: item, start: 'top 90%'}, scale: 0, rotation: -360, duration: 0.85, delay: i*0.1+0.2, ease: 'back.out(2)'});
+  });
 
-    /* ═══════════ GSAP S6 ═══════════ */
-    gsap.from('#s6t', { scrollTrigger: { trigger: '#s6', start: 'top 76%' }, y: 90, opacity: 0, duration: .85, ease: 'back.out(1.6)' });
-    gsap.from('#s6sub', { scrollTrigger: { trigger: '#s6', start: 'top 72%' }, y: 55, opacity: 0, duration: .65, delay: .2 });
-    gsap.from('.inp-box > *', { scrollTrigger: { trigger: '#s6', start: 'top 65%' }, y: 80, opacity: 0, stagger: .14, duration: .72, delay: .3, ease: 'back.out(1.8)' });
-    gsap.to('#goBtn', { rotation: 2.5, scale: 1.05, duration: .55, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8 });
+  // Blessings
+  gsap.from('#s-bless .sec-title', {scrollTrigger: {trigger: '#s-bless', start: 'top 78%'}, y: 90, opacity: 0, duration: 0.85, ease: 'back.out(1.6)'});
+  document.querySelectorAll('.bless-item').forEach((r, i) => {
+    gsap.from(r, {scrollTrigger: {trigger: r, start: 'top 94%', toggleActions: 'play none none reverse'}, x: -160, opacity: 0, duration: 0.6, delay: i*0.05, ease: 'power3.out'});
+  });
 
-    /* ═══════════ SUBMIT ═══════════ */
-    document.getElementById('goBtn').addEventListener('click', kickChaos);
-    document.getElementById('nameInp').addEventListener('keypress', e => { if (e.key === 'Enter') kickChaos(); });
+  // Letter
+  gsap.from('#s-letter .sec-title', {scrollTrigger: {trigger: '#s-letter', start: 'top 78%'}, y: 80, opacity: 0, duration: 0.85, ease: 'back.out(1.6)'});
+  gsap.from('#letterEnvelope', {scrollTrigger: {trigger: '#letterEnvelope', start: 'top 82%'}, y: 100, opacity: 0, scale: 0.9, duration: 1, ease: 'back.out(1.4)'});
 
-    function kickChaos() {
-      const nm = document.getElementById('nameInp').value.trim() || 'Mystery Pagal';
-      document.getElementById('s7').scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => runSpam(nm), 700);
-    }
+  // Input section
+  gsap.from('#s-input .sec-title', {scrollTrigger: {trigger: '#s-input', start: 'top 78%'}, y: 90, opacity: 0, duration: 0.85, ease: 'back.out(1.6)'});
+  gsap.from('.inp-box > *', {scrollTrigger: {trigger: '#s-input', start: 'top 68%'}, y: 80, opacity: 0, stagger: 0.14, duration: 0.72, delay: 0.3, ease: 'back.out(1.8)'});
+  gsap.to('#chaosBtn', {rotation: 2.5, scale: 1.05, duration: 0.55, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.8});
+}
 
-    const SPAM = ['Doremon!', 'Bauni!', 'Pagal!', '😂', '💀', '🌀', 'LADDU!', 'omg', 'PAGAL', 'Doremon~', 'haaye', 'chhoti!', '😭', 'DOREMON!!', 'LADDU 💀', 'yaar suno', '🔵', 'haha', '😤', 'ayyy', 'DORAYAKI!', 'Jan 18!', 'HEIGHT??', '😱', 'Bauni Queen', '🎉', '💀💀', 'HAAYE', 'Coincidence!', 'Jan 2007!'];
-    const COLS = ['#FF6B9D', '#FFE135', '#00D084', '#1a9be6', '#FF8C42', '#a855f7', '#FF4757', '#00CEC9', 'white', '#39ff14'];
-    let chaosLock = false;
+/* ══ CHAOS ══ */
+document.getElementById('chaosBtn').addEventListener('click', kickChaos);
+document.getElementById('chaosNameInp').addEventListener('keypress', e => { if(e.key === 'Enter') kickChaos(); });
 
-    function runSpam(nm) {
-      if (chaosLock) return; chaosLock = true;
-      const spf = document.getElementById('spamField'); spf.innerHTML = '';
-      const bb = document.getElementById('bdayBig'); bb.style.display = 'none'; bb.style.opacity = 0;
-      const pool = [nm, ...SPAM, nm.toUpperCase(), 'DOREMON LADDU!!', nm, ...SPAM, 'PAGAL QUEEN!', nm, '🔵', 'Jan 18!', 'BAUNI!'];
-      let cnt = 0, MAX = 92;
-      const iv = setInterval(() => {
-        if (cnt >= MAX) { clearInterval(iv); setTimeout(() => showBday(nm), 320); return; }
-        const el = document.createElement('div'); el.className = 'sw';
-        el.textContent = pool[Math.floor(Math.random() * pool.length)];
-        el.style.cssText = `left:${Math.random() * 88}%;top:${Math.random() * 88}%;color:${COLS[Math.floor(Math.random() * COLS.length)]};font-size:${1 + Math.random() * 3.6}rem;transform:rotate(${-38 + Math.random() * 76}deg);`;
-        spf.appendChild(el);
-        gsap.fromTo(el, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .26, ease: 'back.out(2.5)' });
-        cnt++;
-      }, 56);
-    }
+const SPAM_WORDS = [
+  'SAALGIRAH!','LADDU!!','DOREMON!','😂','💀','🌀','BAUNI!','omg','PAGAL','Doremon~',
+  'haaye','chhhoti!','😭','DOREMON!!','LADDU 💀','DORAYAKI!','Jan 18!','HEIGHT??',
+  '😱','Bauni Queen','🎉','💀💀','JANUARY!','QUEEN!','💕','🌸','18 SAAL!',
+  'HAPPY','BIRTHDAY!','💀LEGEND💀','ICONIC!','YAAR SUNOO','CHHHOTI!','😤','ayyy','CUTE!'
+];
+const CONFETTI_COLS = ['#ff6b9d','#f5c842','#06d6a0','#1a9be6','#c77dff','#FF4757','#FFD166','#3ddbd9','#ff8a80','#ea80fc'];
+let chaosLock = false;
 
-    function showBday(nm) {
-      const spf = document.getElementById('spamField');
-      spf.querySelectorAll('.sw').forEach((w, i) => {
-        gsap.to(w, { x: (Math.random() - .5) * 900, y: (Math.random() - .5) * 700, scale: 0, opacity: 0, rotation: (Math.random() - .5) * 720, duration: .9, ease: 'power3.in', delay: i * .01, onComplete: () => w.remove() });
-      });
-      const bb = document.getElementById('bdayBig');
-      document.getElementById('bdayNm').textContent = nm.toUpperCase() + ' — DOREMON LADDU BAUNI! 💙🔵';
-      bb.style.display = 'block';
-      gsap.fromTo(bb, { opacity: 0, scale: .15, rotation: -18 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.3, delay: .55, ease: 'elastic.out(1,.45)' });
-      for (let i = 0; i < 130; i++)setTimeout(dropCf, i * 17);
-      setTimeout(() => { chaosLock = false; }, 3500);
-    }
+function kickChaos() {
+  if(chaosLock) return;
+  const nm = document.getElementById('chaosNameInp').value.trim() || userName;
+  setUserName(nm);
+  document.getElementById('s-chaos').scrollIntoView({behavior: 'smooth'});
+  setTimeout(() => runSpam(nm), 600);
+}
 
-    function dropCf() {
-      const el = document.createElement('div'); el.className = 'cf';
-      const shapes = ['50%', '2px', '0'];
-      el.style.cssText = `left:${8 + Math.random() * 84}vw;top:-18px;width:${6 + Math.random() * 11}px;height:${6 + Math.random() * 11}px;background:${COLS[Math.floor(Math.random() * COLS.length)]};border-radius:${shapes[Math.floor(Math.random() * shapes.length)]};`;
-      document.body.appendChild(el);
-      gsap.to(el, { y: '106vh', x: (-130 + Math.random() * 260), rotation: Math.random() * 760, duration: 2.5 + Math.random() * 2.5, ease: 'power1.in', onComplete: () => el.remove() });
-    }
-  </script>
+function runSpam(nm) {
+  if(chaosLock) return;
+  chaosLock = true;
+  const canvas = document.getElementById('spamCanvas');
+  canvas.innerHTML = '';
+  const finale = document.getElementById('finaleDisplay');
+  finale.style.display = 'none';
+  finale.style.opacity = '0';
+
+  const pool = [nm, nm + '!!', ...SPAM_WORDS, nm.toUpperCase(), 'DOREMON LADDU!!', nm, 'QUEEN!', '🔵', 'Jan 18!', 'BIRTHDAY!!!', '💕', '🌸', nm + ' LEGEND', 'KHUSH RAHO!', 'IGNORE KARO BUROON KO!'];
+  let cnt = 0;
+  const MAX = 110;
+  const iv = setInterval(() => {
+    if(cnt >= MAX) { clearInterval(iv); setTimeout(() => showFinale(nm), 400); return; }
+    const el = document.createElement('div');
+    el.className = 'spam-word';
+    el.textContent = pool[Math.floor(Math.random() * pool.length)];
+    const col = CONFETTI_COLS[Math.floor(Math.random() * CONFETTI_COLS.length)];
+    const fs = 0.8 + Math.random() * 3.8;
+    el.style.cssText = `left:${Math.random()*88}%;top:${Math.random()*88}%;color:${col};font-size:${fs}rem;transform:rotate(${-45+Math.random()*90}deg);text-shadow:0 0 ${10+Math.random()*20}px ${col};`;
+    canvas.appendChild(el);
+    gsap.fromTo(el, {scale: 0, opacity: 0}, {scale: 1, opacity: 1, duration: 0.28, ease: 'back.out(2.5)'});
+    cnt++;
+  }, 45);
+}
+
+function showFinale(nm) {
+  const canvas = document.getElementById('spamCanvas');
+  canvas.querySelectorAll('.spam-word').forEach((w, i) => {
+    gsap.to(w, {x: (Math.random()-.5)*900, y: (Math.random()-.5)*700, scale: 0, opacity: 0, rotation: (Math.random()-.5)*720, duration: 0.85, ease: 'power3.in', delay: i*0.008, onComplete: () => w.remove()});
+  });
+  const finale = document.getElementById('finaleDisplay');
+  document.querySelectorAll('.user-name-here').forEach(el => el.textContent = nm);
+  finale.style.display = 'block';
+  gsap.fromTo(finale, {opacity: 0, scale: 0.1, rotation: -20}, {opacity: 1, scale: 1, rotation: 0, duration: 1.5, delay: 0.5, ease: 'elastic.out(1,.45)'});
+  for(let i = 0; i < 180; i++) setTimeout(dropConfetti, i * 15);
+  setTimeout(() => { chaosLock = false; }, 3500);
+}
+
+function dropConfetti() {
+  const el = document.createElement('div');
+  el.className = 'confetti-piece';
+  const shapes = ['50%', '2px', '0'];
+  const col = CONFETTI_COLS[Math.floor(Math.random() * CONFETTI_COLS.length)];
+  const sz = 5 + Math.random() * 13;
+  el.style.cssText = `left:${5+Math.random()*90}vw;top:-20px;width:${sz}px;height:${sz}px;background:${col};border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};box-shadow:0 0 6px ${col};`;
+  document.body.appendChild(el);
+  gsap.to(el, {y: '110vh', x: (-150+Math.random()*300), rotation: Math.random()*800, duration: 2.5+Math.random()*2.5, ease: 'power1.in', onComplete: () => el.remove()});
+}
+
+// Interactive hover on cursor for buttons
+document.addEventListener('mouseover', e => {
+  if(e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('button')) {
+    gsap.to(ring, {width: 60, height: 60, borderColor: 'rgba(245,200,66,0.7)', duration: 0.2});
+    gsap.to(dot, {scale: 1.8, duration: 0.2});
+  }
+});
+document.addEventListener('mouseout', e => {
+  if(e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('button')) {
+    gsap.to(ring, {width: 40, height: 40, borderColor: 'rgba(255,107,157,0.5)', duration: 0.2});
+    gsap.to(dot, {scale: 1, duration: 0.2});
+  }
+});
+</script>
 </body>
-
 </html>
